@@ -18,14 +18,14 @@ import stdio.kiteDream.module.helloMessage.service.HelloMessageService;
 import stdio.kiteDream.util.Constant;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/api/helloMessage")
 public class HelloMessageController {
 
 	@Autowired
 	private HelloMessageService messageService;
 
 	@ResponseBody
-	@RequestMapping(value = "/helloMessage/get", method = RequestMethod.GET)
+	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	public HelloMessage get(ModelMap model) {
 		try {
 			return messageService.getNowMessage();
@@ -36,7 +36,7 @@ public class HelloMessageController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/helloMessage/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public List<HelloMessage> list(ModelMap model) {
 		try {
 			return messageService.getMessages();
@@ -47,7 +47,7 @@ public class HelloMessageController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/helloMessage/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public boolean add(ModelMap model, @RequestParam("msg") String msg,
 			@RequestParam("startTime") String startTime,
 			@RequestParam("endTime") String endTime,
@@ -66,7 +66,7 @@ public class HelloMessageController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/helloMessage/del/{msgId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/del/{msgId}", method = RequestMethod.GET)
 	public boolean sendCmd(ModelMap model, @PathVariable("msgId") String msgId) {
 		try {
 			return messageService.deleteMessage(msgId);
