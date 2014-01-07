@@ -32,4 +32,9 @@ public class HelloMessageServiceImpl implements HelloMessageService {
 		return helloMessageDao.getNowMessage();
 	}
 
+	@Override
+	public HelloMessage getMessage(String id) {
+		return helloMessageDao.getMessage(id);
+	}
+
 }

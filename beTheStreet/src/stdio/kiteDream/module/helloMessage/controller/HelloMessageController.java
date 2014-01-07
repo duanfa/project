@@ -64,6 +64,25 @@ public class HelloMessageController {
 			return false;
 		}
 	}
+	@ResponseBody
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public boolean update(ModelMap model, @RequestParam("msg") String msg,
+			@RequestParam("id") String id,
+			@RequestParam("startTime") String startTime,
+			@RequestParam("endTime") String endTime,
+			@RequestParam("title") String title) {
+		try {
+			HelloMessage message = messageService.getMessage(id);
+			message.setTitle(title);
+			message.setInfo(msg);
+			message.setStartTime(Constant.DAY.parse(startTime));
+			message.setEndTime(Constant.DAY.parse(endTime));
+			return messageService.saveMessage(message);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 	@ResponseBody
 	@RequestMapping(value = "/del/{msgId}", method = RequestMethod.GET)

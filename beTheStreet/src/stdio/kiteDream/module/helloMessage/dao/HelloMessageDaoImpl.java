@@ -29,15 +29,14 @@ public class HelloMessageDaoImpl implements HelloMessageDao {
 	@Override
 	public List<HelloMessage> getMessage() {
 		@SuppressWarnings("unchecked")
-		List<HelloMessage> list = getSessionFactory().getCurrentSession()
-				.createCriteria(HelloMessage.class).list();
+		List<HelloMessage> list = getSessionFactory().getCurrentSession().createCriteria(HelloMessage.class).list();
 		return list;
 	}
 
 	@Override
 	public boolean saveMessage(HelloMessage message) {
 		try {
-			getSessionFactory().getCurrentSession().save(message);
+			getSessionFactory().getCurrentSession().saveOrUpdate(message);
 			return true;
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -48,9 +47,7 @@ public class HelloMessageDaoImpl implements HelloMessageDao {
 	@Override
 	public boolean delMessage(String msgId) {
 		try {
-			HelloMessage message = (HelloMessage) getSessionFactory()
-					.getCurrentSession().get(HelloMessage.class,
-							Integer.parseInt(msgId.trim()));
+			HelloMessage message = (HelloMessage) getSessionFactory().getCurrentSession().get(HelloMessage.class, Integer.parseInt(msgId.trim()));
 			getSessionFactory().getCurrentSession().delete(message);
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -63,12 +60,17 @@ public class HelloMessageDaoImpl implements HelloMessageDao {
 	public HelloMessage getNowMessage() {
 		Date now = new Date();
 		@SuppressWarnings("unchecked")
-		List<HelloMessage> list = getSessionFactory().getCurrentSession()
-				.createCriteria(HelloMessage.class).add(Restrictions.le("startTime", now)).add(Restrictions.ge("endTime", now)).list();
-		if(list!=null&&list.size()>0){
+		List<HelloMessage> list = getSessionFactory().getCurrentSession().createCriteria(HelloMessage.class).add(Restrictions.le("startTime", now))
+				.add(Restrictions.ge("endTime", now)).list();
+		if (list != null && list.size() > 0) {
 			return list.get(0);
 		}
 		return null;
+	}
+
+	@Override
+	public HelloMessage getMessage(String id) {
+		return (HelloMessage) getSessionFactory().getCurrentSession().get(HelloMessage.class, Integer.parseInt(id.trim()));
 	}
 
 }

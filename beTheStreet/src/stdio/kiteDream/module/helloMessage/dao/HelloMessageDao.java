@@ -9,6 +9,8 @@ public interface HelloMessageDao {
 	public List<HelloMessage> getMessage();
 
 	public HelloMessage getNowMessage();
+	
+	public HelloMessage getMessage(String id);
 
 	public boolean saveMessage(HelloMessage message);
 
