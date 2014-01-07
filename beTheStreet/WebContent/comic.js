@@ -2,7 +2,7 @@ var jsonData ;
 $(function() {
 	$("#dialog-form").dialog({
 		autoOpen : false,
-		height : 300,
+		height : 420,
 		width : 350,
 		modal : true,
 		buttons : {
@@ -15,7 +15,7 @@ $(function() {
 		}
 	});
 	$("#create-comic").click(function() {
-		$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" src="comic_upload.html" frameborder="0"></iframe>');
+		$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" src="comic_upload.html" frameborder="0" style="height: 320px;"></iframe>');
 		$("#dialog-form").dialog("open");
 	});
 	addItems();
