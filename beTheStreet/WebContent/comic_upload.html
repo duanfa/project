@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<p class="validateTips">All form fields are required.</p>
+		<form id="addComicForm" action="api/comic/add" method="post" enctype="multipart/form-data">
+			<fieldset>
+				<label for="name">name</label>
+					<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all">
+				<label for="level">level</label>
+					<input type="text" name="level" id="level" value="" class="text ui-widget-content ui-corner-all">
+				<label for="order">order</label>
+					<input type="text" name="order" id="order" value="" class="text ui-widget-content ui-corner-all">
+				<label for="info">info</label>
+					<input type="text" name="info" id="info" value="" class="text ui-widget-content ui-corner-all">
+				<label for="comic">comic</label>
+					<input type="file" name="comic" id="comic" value="" class="text ui-widget-content ui-corner-all">
+			</fieldset>
+		</form>
+</body>
+</html>
