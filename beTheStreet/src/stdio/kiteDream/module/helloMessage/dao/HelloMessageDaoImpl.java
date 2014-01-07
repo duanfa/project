@@ -59,9 +59,10 @@ public class HelloMessageDaoImpl implements HelloMessageDao {
 	@Override
 	public HelloMessage getNowMessage() {
 		Date now = new Date();
+		/*List<HelloMessage> list = getSessionFactory().getCurrentSession().createCriteria(HelloMessage.class).add(Restrictions.le("startTime", now))
+				.add(Restrictions.ge("endTime", now)).list();*/
 		@SuppressWarnings("unchecked")
-		List<HelloMessage> list = getSessionFactory().getCurrentSession().createCriteria(HelloMessage.class).add(Restrictions.le("startTime", now))
-				.add(Restrictions.ge("endTime", now)).list();
+		List<HelloMessage> list = getSessionFactory().getCurrentSession().createCriteria(HelloMessage.class).list();
 		if (list != null && list.size() > 0) {
 			return list.get(0);
 		}

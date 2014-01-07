@@ -23,9 +23,9 @@ public class HelloMessage implements Serializable {
 
 	private String info;
 
-	private Date startTime;
+	/*private Date startTime;
 
-	private Date endTime;
+	private Date endTime;*/
 
 	public int getId() {
 		return id;
@@ -41,22 +41,6 @@ public class HelloMessage implements Serializable {
 
 	public void setInfo(String info) {
 		this.info = info;
-	}
-
-	public Date getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
-
-	public Date getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
 	}
 
 	public String getTitle() {
