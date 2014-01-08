@@ -1,3 +1,4 @@
+var iii ;
 function comicAfter(){
 	//themes, change CSS with JS
 	//default theme(CSS) is cerulean, change it if needed
@@ -193,7 +194,11 @@ function docReady(){
 		e.preventDefault();
 		//get image id
 		//alert($(this).parents('.thumbnail').attr('id'));
-		$(this).parents('.thumbnail').fadeOut();
+		var imgDom = $(this).parents('.thumbnail');
+		var imgId = imgDom.attr("id");
+		$.get("api/comic/delete/"+imgId, function( data ) {}).done(function(data) {
+			imgDom.fadeOut();
+		});
 	});
 	//gallery edit
 	$('.thumbnails').on('click','.gallery-edit',function(e){

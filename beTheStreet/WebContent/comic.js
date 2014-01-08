@@ -51,7 +51,7 @@ function addItems(){
 			result = result+levelhead;
 			$(value).each(function(i, v) {
 				 
-				var comic = '<li id="image-1" class="thumbnail">'+
+				var comic = '<li id="'+v.id+'" class="thumbnail">'+
 									'<a style="background:url('+v.path+')" title="'+v.name+'" href="'+v.path+'"><img class="grayscale" src="'+v.path+'" alt="'+v.info+'"></a>'+
 								'</li>';
 				result = result+comic;				
@@ -66,7 +66,7 @@ function addItems(){
 		comicAfter();
 	});
 }
-function deleteMsg(msgId){
+function deleteImg(msgId){
 	$.get("api/helloMessage/del/"+msgId, function( data ) {}).done(function(data) {
 		addItems();
 	});

@@ -29,7 +29,7 @@ public class ComicServiceImpl implements ComicService {
 	}
 
 	@Override
-	public boolean delComic(String comicId) {
+	public boolean deleteComic(String comicId) {
 		return comicDao.delComic(comicId);
 	}
 

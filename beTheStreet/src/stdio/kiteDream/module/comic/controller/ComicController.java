@@ -129,7 +129,7 @@ public class ComicController {
 	@RequestMapping(value = "/delete/{comicId}", method = RequestMethod.GET)
 	public String del(ModelMap model, @PathVariable("comicId") String comicId) {
 		try {
-			if (comicService.delComic(comicId)) {
+			if (comicService.deleteComic(comicId)) {
 				return "{\"result\":\"success\",\"info\":\"none\"}";
 			} else {
 				return "{\"result\":\"fail\",\"info\":\"none\"}";

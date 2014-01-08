@@ -14,6 +14,6 @@ public interface ComicService {
 
 	public boolean saveComic(Comic comic);
 
-	public boolean delComic(String comicId);
+	public boolean deleteComic(String comicId);
 
 }
