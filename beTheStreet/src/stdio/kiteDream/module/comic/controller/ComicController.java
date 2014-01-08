@@ -23,8 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
-
 import stdio.kiteDream.module.comic.bean.Comic;
 import stdio.kiteDream.module.comic.service.ComicService;
 import stdio.kiteDream.util.Constant;
@@ -79,10 +77,10 @@ public class ComicController {
 				comic.setPath(path);
 				comicService.saveComic(comic);
 			}
-			return "{result:'success',info:'none'}";
+			return "{\"result\":\"success\",\"info\":\"none\"}";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "{result:'fail',info:'" + e.getMessage() + "'}";
+			return "{\"result\":\"fail\",\"info\":\"" + e.getMessage() + "\"}";
 		}
 	}
 
@@ -132,13 +130,13 @@ public class ComicController {
 	public String del(ModelMap model, @PathVariable("comicId") String comicId) {
 		try {
 			if (comicService.delComic(comicId)) {
-				return "{result:'success',info:'none'}";
+				return "{\"result\":\"success\",\"info\":\"none\"}";
 			} else {
-				return "{result:'fail',info:'none'}";
+				return "{\"result\":\"fail\",\"info\":\"none\"}";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "{result:'fail',info:'" + e.getMessage() + "'}";
+			return "{\"result\":\"fail\",\"info\":\"" + e.getMessage() + "\"}";
 		}
 	}
 }

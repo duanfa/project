@@ -9,6 +9,16 @@ $(function() {
 			"add" : function() {
 				$("#dialog-form").dialog("close");
 				$("#coreIframe").contents().find("#addComicForm").submit();
+				$('#coreIframe').load(function(){  
+					try{
+						var uploadResult = JSON.parse($('#coreIframe').contents().find('body').html());
+						if('success'==uploadResult.result.toLowerCase()){
+							addItems();
+						}
+					}catch(e){
+						console.log(e);
+					}
+				   });
 			},
 		},
 		close : function() {
@@ -26,7 +36,7 @@ function addItems(){
 		jsonData = data;
 		var result = "";
 		$(data).each(function(index, value) {
-			var levelhead = '<div class="row-fluid sortable">'+
+			var levelhead = '<div id="level-comic-content" class="row-fluid sortable">'+
 			'<div class="box span12">'+
 				'<div class="box-header well" data-original-title>'+
 					'<h2><i class="icon-picture"></i> level '+value[0].level+'</h2>'+
@@ -53,9 +63,9 @@ function addItems(){
 	'</div>';
 			result = result+leveltail;	
 		});
-		$("#level-comic-content").html(result);
+		$("#level-comic-content").replaceWith(result);
 	});
-
+	comicAfter();
 }
 function deleteMsg(msgId){
 	$.get("api/helloMessage/del/"+msgId, function( data ) {}).done(function(data) {
