@@ -1,4 +1,3 @@
-var jsonData ;
 $(function() {
 	$("#dialog-form").dialog({
 		autoOpen : false,
@@ -36,7 +35,7 @@ function addItems(){
 		jsonData = data;
 		var result = "";
 		$(data).each(function(index, value) {
-			var levelhead = '<div id="level-comic-content" class="row-fluid sortable">'+
+			var levelhead = '<div class="row-fluid sortable">'+
 			'<div class="box span12">'+
 				'<div class="box-header well" data-original-title>'+
 					'<h2><i class="icon-picture"></i> level '+value[0].level+'</h2>'+
@@ -63,7 +62,7 @@ function addItems(){
 	'</div>';
 			result = result+leveltail;	
 		});
-		$("#level-comic-content").replaceWith(result);
+		$("#level-comic-content").html(result);
 	});
 	comicAfter();
 }
