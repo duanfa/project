@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 @Entity
 @Table(name = "comic")
 public class Comic implements Serializable {
@@ -60,7 +62,8 @@ public class Comic implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
+	@JsonSerialize(using = ComicJsonPathParser.class)
 	public String getPath() {
 		return path;
 	}

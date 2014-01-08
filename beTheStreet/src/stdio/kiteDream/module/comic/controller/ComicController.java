@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import stdio.kiteDream.module.comic.bean.Comic;
+import stdio.kiteDream.module.comic.bean.ComicJsonPathParser;
 import stdio.kiteDream.module.comic.service.ComicService;
 import stdio.kiteDream.util.Constant;
 
@@ -86,9 +87,14 @@ public class ComicController {
 
 	@ResponseBody
 	@RequestMapping(value = "/list/{level}", method = RequestMethod.GET)
-	public List<Comic> listLevel(ModelMap model,
+	public List<Comic> listLevel(HttpServletRequest request,
 			@PathVariable("level") int level) {
 		try {
+			if(ComicJsonPathParser.basePath==null){
+				String path = request.getContextPath();  
+				String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/"; 
+				ComicJsonPathParser.basePath = basePath;
+			}
 			return comicService.getComics(level);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -98,7 +104,12 @@ public class ComicController {
 
 	@ResponseBody
 	@RequestMapping(value = "/list/all", method = RequestMethod.GET)
-	public List<List<Comic>> listAll(ModelMap model) {
+	public List<List<Comic>> listAll(HttpServletRequest request) {
+		if(ComicJsonPathParser.basePath==null){
+			String path = request.getContextPath();  
+			String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/"; 
+			ComicJsonPathParser.basePath = basePath;
+		}
 		List<List<Comic>> result = new ArrayList<List<Comic>>();
 		List<Integer> levels = new ArrayList<Integer>();
 		try {
