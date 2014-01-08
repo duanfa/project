@@ -63,8 +63,8 @@ function addItems(){
 			result = result+leveltail;	
 		});
 		$("#level-comic-content").html(result);
+		comicAfter();
 	});
-	comicAfter();
 }
 function deleteMsg(msgId){
 	$.get("api/helloMessage/del/"+msgId, function( data ) {}).done(function(data) {
