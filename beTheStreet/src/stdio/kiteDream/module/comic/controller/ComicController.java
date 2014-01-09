@@ -26,6 +26,8 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import stdio.kiteDream.module.comic.bean.Comic;
 import stdio.kiteDream.module.comic.bean.ComicJsonPathParser;
 import stdio.kiteDream.module.comic.service.ComicService;
+import stdio.kiteDream.module.vo.JsonVO;
+import stdio.kiteDream.module.vo.UserEvent;
 import stdio.kiteDream.util.Constant;
 
 @Controller
@@ -87,19 +89,24 @@ public class ComicController {
 
 	@ResponseBody
 	@RequestMapping(value = "/list/{level}", method = RequestMethod.GET)
-	public List<Comic> listLevel(HttpServletRequest request,
+	public JsonVO listLevel(HttpServletRequest request,
 			@PathVariable("level") int level) {
-		try {
+		JsonVO jsonVO = new JsonVO();
+		if(level>1) {
+//			try {
 			if(ComicJsonPathParser.basePath==null){
 				String path = request.getContextPath();  
 				String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/"; 
 				ComicJsonPathParser.basePath = basePath;
 			}
-			return comicService.getComics(level);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ArrayList<Comic>();
+			jsonVO.setUser_events(new UserEvent());
+			jsonVO.setResult(comicService.getComics(level));
+			jsonVO.setErrorcode("ok");
+		}else {
+//		} catch (Exception e) {
+			jsonVO.setErrorcode("fail");
 		}
+		return jsonVO;
 	}
 
 	@ResponseBody
