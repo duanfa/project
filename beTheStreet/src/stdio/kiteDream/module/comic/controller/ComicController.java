@@ -29,6 +29,7 @@ import stdio.kiteDream.module.comic.service.ComicService;
 import stdio.kiteDream.module.vo.JsonVO;
 import stdio.kiteDream.module.vo.UserEvent;
 import stdio.kiteDream.util.Constant;
+import stdio.kiteDream.util.ImageUtil;
 
 @Controller
 @RequestMapping("/api/comic")
@@ -50,7 +51,8 @@ public class ComicController {
 			ServletContext context = session.getServletContext();
 			String realContextPath = context.getRealPath("/");
 
-			String path = "";
+			String imgPre = "";
+			String fileName = "";
 			if (multipartResolver.isMultipart(request)) {
 				MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
 
@@ -59,16 +61,19 @@ public class ComicController {
 
 					MultipartFile file = multiRequest.getFile(iter.next());
 					if (file != null) {
-						String fileName = file.getOriginalFilename();
-						path = Constant.COMIC_PATH_PRE + fileName;
-						File localFile = new File(realContextPath + "/" + path);
-						if (localFile.exists()) {
-							path = Constant.COMIC_PATH_PRE
-									+ new Date().getTime() + "_" + fileName;
-							localFile = new File(realContextPath + "/" + path);
+						fileName = file.getOriginalFilename();
+						imgPre = Constant.COMIC_PATH_PRE ;
+						File localFile = new File(realContextPath + "/" + imgPre+ fileName);
+						while (localFile.exists()) {
+							imgPre = Constant.COMIC_PATH_PRE
+									+ new Date().getTime() + "_";
+							localFile = new File(realContextPath + "/" + imgPre+ fileName);
 						}
 						file.transferTo(localFile);
+						
+						ImageUtil.createThumbnail(localFile,realContextPath + "/" + imgPre+"thumbnail_"+ fileName);
 						System.out.println(localFile.getAbsolutePath());
+						
 					}
 
 				}
@@ -77,7 +82,8 @@ public class ComicController {
 				comic.setInfo(info);
 				comic.setLevel(level);
 				comic.setOrderNum(order);
-				comic.setPath(path);
+				comic.setPath(imgPre+fileName);
+				comic.setThumbnail_path(imgPre+"thumbnail_"+ fileName);
 				comicService.saveComic(comic);
 			}
 			return "{\"result\":\"success\",\"info\":\"none\"}";
@@ -87,13 +93,13 @@ public class ComicController {
 		}
 	}
 
+
 	@ResponseBody
 	@RequestMapping(value = "/list/{level}", method = RequestMethod.GET)
 	public JsonVO listLevel(HttpServletRequest request,
 			@PathVariable("level") int level) {
 		JsonVO jsonVO = new JsonVO();
-		if(level>1) {
-//			try {
+			try {
 			if(ComicJsonPathParser.basePath==null){
 				String path = request.getContextPath();  
 				String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/"; 
@@ -102,8 +108,7 @@ public class ComicController {
 			jsonVO.setUser_events(new UserEvent());
 			jsonVO.setResult(comicService.getComics(level));
 			jsonVO.setErrorcode("ok");
-		}else {
-//		} catch (Exception e) {
+		} catch (Exception e) {
 			jsonVO.setErrorcode("fail");
 		}
 		return jsonVO;

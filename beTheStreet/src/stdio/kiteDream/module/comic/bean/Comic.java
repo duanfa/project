@@ -28,6 +28,17 @@ public class Comic implements Serializable {
 
 	private String path;
 	
+	@JsonSerialize(using = ComicJsonPathParser.class)
+	public String getThumbnail_path() {
+		return thumbnail_path;
+	}
+
+	public void setThumbnail_path(String thumbnail_path) {
+		this.thumbnail_path = thumbnail_path;
+	}
+
+	private String thumbnail_path;
+	
 	private String info;
 
 	public int getId() {
