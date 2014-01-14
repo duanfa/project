@@ -52,7 +52,7 @@ function addItems(){
 			$(value).each(function(i, v) {
 				 
 				var comic = '<li id="'+v.id+'" class="thumbnail">'+
-									'<a style="background:url('+v.thumbnail_path+')" title="'+v.name+'" href="'+v.path+'"><img class="grayscale" src="'+v.thumbnail_path+'" alt="'+v.info+'"></a>'+
+									'<a style="background:url('+v.thumbnail_path+')" title="'+v.name+'" href="'+v.path+'"><img src="'+v.thumbnail_path+'" alt="'+v.info+'"></a>'+
 								'</li>';
 				result = result+comic;				
 			});
