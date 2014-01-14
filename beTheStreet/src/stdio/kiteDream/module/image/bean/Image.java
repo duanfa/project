@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
@@ -36,7 +38,7 @@ public class Image implements Serializable {
 
 	private int level;
 
-	private Date create;
+	private Date create_time;
 
 	private String path;
 
@@ -80,14 +82,6 @@ public class Image implements Serializable {
 		this.level = level;
 	}
 
-	public Date getCreate() {
-		return create;
-	}
-
-	public void setCreate(Date create) {
-		this.create = create;
-	}
-
 	public User getUser() {
 		return user;
 	}
@@ -120,6 +114,14 @@ public class Image implements Serializable {
 
 	public void setThumbnail_path(String thumbnail_path) {
 		this.thumbnail_path = thumbnail_path;
+	}
+
+	public Date getCreate_time() {
+		return create_time;
+	}
+
+	public void setCreate_time(Date create_time) {
+		this.create_time = create_time;
 	}
 
 }
