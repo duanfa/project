@@ -31,7 +31,7 @@ public class UserController {
 	UserService userService;
 
 	@ResponseBody
-	@RequestMapping(value = "/add", method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value = "/register", method = {RequestMethod.POST,RequestMethod.GET})
 	public JsonVO addComic(HttpServletRequest request, HttpSession session,
 			@RequestParam("name") String name,
 			@RequestParam("password") String password,
@@ -51,6 +51,7 @@ public class UserController {
 			if(userService.saveUser(user)){
 				json.setErrorcode(Constant.OK);
 			}
+			json.setResult(userService.getUserByParam("name", name));
 		} catch (Exception e) {
 			e.printStackTrace();
 			json.setErrorcode(Constant.FAIL);
@@ -69,6 +70,11 @@ public class UserController {
 			User user = userService.manageLogin(name, password);
 			if(user!=null){
 				json.setErrorcode(Constant.OK);
+				List<User> users = new ArrayList<User>();
+				users.add(user);
+				json.setResult(users);
+			}else{
+				json.setErrorcode(Constant.FAIL);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

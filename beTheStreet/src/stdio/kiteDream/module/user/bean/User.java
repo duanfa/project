@@ -1,14 +1,20 @@
 package stdio.kiteDream.module.user.bean;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import stdio.kiteDream.module.image.bean.Image;
 
 @Entity
 @Table(name = "user")
@@ -29,6 +35,13 @@ public class User implements Serializable {
 	private String address;
 	
 	private String cellPhone;
+	
+	private boolean active;
+	
+	@OneToMany(targetEntity=Image.class)
+	@Fetch(FetchMode.JOIN)
+	@JoinColumn
+	private List<Image> images;
 
 	public int getId() {
 		return id;
@@ -77,6 +90,21 @@ public class User implements Serializable {
 	public void setCellPhone(String cellPhone) {
 		this.cellPhone = cellPhone;
 	}
-	
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
+	}
 	
 }
