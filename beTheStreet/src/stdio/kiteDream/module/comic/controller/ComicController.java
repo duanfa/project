@@ -97,7 +97,8 @@ public class ComicController {
 	@ResponseBody
 	@RequestMapping(value = "/list/{level}", method = RequestMethod.GET)
 	public JsonVO listLevel(HttpServletRequest request,
-			@PathVariable("level") int level) {
+			@PathVariable("level") int level
+			,@RequestParam(value="userid",required=false)String userid) {
 		JsonVO jsonVO = new JsonVO();
 			try {
 			if(ComicJsonPathParser.basePath==null){
@@ -109,6 +110,7 @@ public class ComicController {
 			jsonVO.setResult(comicService.getComics(level));
 			jsonVO.setErrorcode("ok");
 		} catch (Exception e) {
+			e.printStackTrace();
 			jsonVO.setErrorcode("fail");
 		}
 		return jsonVO;
