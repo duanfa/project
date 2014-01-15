@@ -228,20 +228,18 @@ function docReady() {
 	// gallery delete
 	$('.thumbnails').on('click', '.gallery-delete', function(e) {
 		e.preventDefault();
-		// get image id
-		// alert($(this).parents('.thumbnail').attr('id'));
+		console.log("pass")
 		var imgDom = $(this).parents('.thumbnail');
 		var imgId = imgDom.attr("id");
-		$.get("api/comic/delete/" + imgId, function(data) {
+		/*$.get("api/comic/delete/" + imgId, function(data) {
 		}).done(function(data) {
 			imgDom.fadeOut();
-		});
+		});*/
 	});
 	// gallery edit
 	$('.thumbnails').on('click', '.gallery-edit', function(e) {
 		e.preventDefault();
-		// get image id
-		// alert($(this).parents('.thumbnail').attr('id'));
+		console.log("forbid")
 	});
 
 	// gallery colorbox

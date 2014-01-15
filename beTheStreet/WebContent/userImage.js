@@ -1,34 +1,6 @@
 var userid;
 $(function() {
 	userid = $.getUrlParam('userid');
-	$("#dialog-form").dialog({
-		autoOpen : false,
-		height : 420,
-		width : 330,
-		modal : true,
-		buttons : {
-			"add" : function() {
-				$("#dialog-form").dialog("close");
-				$("#coreIframe").contents().find("#addComicForm").submit();
-				$('#coreIframe').load(function(){  
-					try{
-						var uploadResult = JSON.parse($('#coreIframe').contents().find('body').html());
-						if('success'==uploadResult.result.toLowerCase()){
-							addItems();
-						}
-					}catch(e){
-						console.log(e);
-					}
-				   });
-			},
-		},
-		close : function() {
-		}
-	});
-	$("#create-comic").click(function() {
-		$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="comic_upload.html" frameborder="0" style="height: 310px;"></iframe>');
-		$("#dialog-form").dialog("open");
-	});
 	addItems();
 });
 
@@ -64,7 +36,7 @@ function addItems(){
 	'</div>';
 			result = result+leveltail;	
 		});
-		$("#level-comic-content").html(result);
+		$("#user-image-content").html(result);
 		userImageAfter();
 	});
 }
