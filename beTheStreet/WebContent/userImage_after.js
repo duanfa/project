@@ -232,7 +232,9 @@ function docReady() {
 		var imgId = imgDom.attr("id");
 		$.get("api/image/delete/" + imgId, function(data) {
 		}).done(function(data) {
-			imgDom.fadeOut();
+			if(data.errorcode=='ok'){
+				imgDom.fadeOut();
+			}
 		});
 	});
 	// gallery edit
@@ -242,8 +244,9 @@ function docReady() {
 		var imgId = imgDom.attr("id");
 		$.get("api/image/check/" + imgId+'?statu=FAIL', function(data) {
 		}).done(function(data) {
-			imgDom.find('a').find("span").replaceWith('<span class="icon32 icon-red icon-cross"></span>');
-			//'<span class="icon32 icon-red icon-cross"></span>'
+			if(data.errorcode=='ok'){
+				imgDom.find('a').find("span").replaceWith('<span class="icon32 icon-red icon-cross"></span>');
+			}
 		});
 	});
 	
@@ -253,7 +256,9 @@ function docReady() {
 		var imgId = imgDom.attr("id");
 		$.get("api/image/check/" + imgId+'?statu=PASS', function(data) {
 		}).done(function(data) {
-			imgDom.find('a').find("span").replaceWith('<span class="icon32 icon-green icon-check"></span>');
+			if(data.errorcode=='ok'){
+				imgDom.find('a').find("span").replaceWith('<span class="icon32 icon-green icon-check"></span>');
+			}
 		});
 	});
 
