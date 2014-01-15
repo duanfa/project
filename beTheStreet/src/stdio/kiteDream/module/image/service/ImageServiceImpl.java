@@ -1,5 +1,6 @@
 package stdio.kiteDream.module.image.service;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class ImageServiceImpl implements ImageService {
 
 	@Override
 	public Image getImages(String id) {
-		return imageDao.getImages(id);
+		return imageDao.getImage(id);
 	}
 
 	@Override
@@ -30,8 +31,28 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public boolean delImage(String imageId) {
-		return imageDao.delImage(imageId);
+	public boolean deleteImage(String imageId) {
+		Image image = imageDao.getImage(imageId);
+		if(imageDao.delImage(imageId)){
+			String dir = this.getClass().getClassLoader().getResource("../../").getPath();
+			File img = new File(dir+image.getPath());
+			if(img.exists()){
+				img.delete();
+			}
+			img = new File(dir+image.getThumbnail_path());
+			if(img.exists()){
+				img.delete();
+			}
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean updateImageStatu(String imageId, String statu) {
+		Image image = imageDao.getImage(imageId);
+		image.setStatu(statu);
+		return imageDao.saveImage(image);
 	}
 
 }

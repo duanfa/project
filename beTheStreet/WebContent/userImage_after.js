@@ -209,8 +209,8 @@ function docReady() {
 						$(this).find('.gallery-controls').remove();
 						$(this) 
 								.append(
-										'<div class="well gallery-controls">'
-												+ '<p><a href="#" class="gallery-edit btn"><i class="icon icon-red icon-close"></i></a> <a href="#" class="gallery-delete btn"><i class="icon icon-green icon-check"></i></a></p>'
+										'<div class="well gallery-controls" style="width: 125px;margin-left:-20px;">'
+												+ '<p><a href="#" class="gallery-delete btn"><i class="icon icon-red icon-trash"></i></a> <a href="#" class="gallery-edit btn"><i class="icon icon-red icon-close"></i></a> <a href="#" class="gallery-pass btn"><i class="icon icon-green icon-check"></i></a></p>'
 												+ '</div>');
 						$(this).find('.gallery-controls').stop().animate({
 							'margin-top' : '-1'
@@ -228,18 +228,33 @@ function docReady() {
 	// gallery delete
 	$('.thumbnails').on('click', '.gallery-delete', function(e) {
 		e.preventDefault();
-		console.log("pass")
 		var imgDom = $(this).parents('.thumbnail');
 		var imgId = imgDom.attr("id");
-		/*$.get("api/comic/delete/" + imgId, function(data) {
+		$.get("api/image/delete/" + imgId, function(data) {
 		}).done(function(data) {
 			imgDom.fadeOut();
-		});*/
+		});
 	});
 	// gallery edit
 	$('.thumbnails').on('click', '.gallery-edit', function(e) {
 		e.preventDefault();
-		console.log("forbid")
+		var imgDom = $(this).parents('.thumbnail');
+		var imgId = imgDom.attr("id");
+		$.get("api/image/check/" + imgId+'?statu=FAIL', function(data) {
+		}).done(function(data) {
+			imgDom.find('a').find("span").replaceWith('<span class="icon32 icon-red icon-cross"></span>');
+			//'<span class="icon32 icon-red icon-cross"></span>'
+		});
+	});
+	
+	$('.thumbnails').on('click', '.gallery-pass', function(e) {
+		e.preventDefault();
+		var imgDom = $(this).parents('.thumbnail');
+		var imgId = imgDom.attr("id");
+		$.get("api/image/check/" + imgId+'?statu=PASS', function(data) {
+		}).done(function(data) {
+			imgDom.find('a').find("span").replaceWith('<span class="icon32 icon-green icon-check"></span>');
+		});
 	});
 
 	// gallery colorbox

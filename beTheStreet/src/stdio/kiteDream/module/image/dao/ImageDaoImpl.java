@@ -30,7 +30,7 @@ public class ImageDaoImpl implements ImageDao {
 	@Override
 	public List<Image> getImages(int userId) {
 		@SuppressWarnings("unchecked")
-		List<Image> list = getSessionFactory().getCurrentSession().createCriteria(Image.class).createCriteria("user", "user").add(Restrictions.eq("user.id", userId)).addOrder(Order.asc("create")).list();
+		List<Image> list = getSessionFactory().getCurrentSession().createCriteria(Image.class).createAlias("user", "user").add(Restrictions.eq("user.id", userId)).addOrder(Order.asc("level")).addOrder(Order.asc("create_time")).list();
 		if (list == null) {
 			return new ArrayList<Image>();
 		}
@@ -38,7 +38,7 @@ public class ImageDaoImpl implements ImageDao {
 	}
 
 	@Override
-	public Image getImages(String id) {
+	public Image getImage(String id) {
 		return (Image) getSessionFactory().getCurrentSession().get(Image.class, Integer.parseInt(id.trim()));
 	}
 

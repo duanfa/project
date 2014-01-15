@@ -8,7 +8,7 @@ public interface ImageDao {
 
 	public List<Image> getImages(int userId);
 
-	public Image getImages(String id);
+	public Image getImage(String id);
 	
 	public boolean saveImage(Image image);
 

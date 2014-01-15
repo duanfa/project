@@ -11,9 +11,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,10 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import stdio.kiteDream.module.comic.bean.Comic;
 import stdio.kiteDream.module.comic.bean.ComicJsonPathParser;
-import stdio.kiteDream.module.comic.service.ComicService;
 import stdio.kiteDream.module.image.bean.Image;
+import stdio.kiteDream.module.image.service.ImageService;
+import stdio.kiteDream.module.user.bean.User;
+import stdio.kiteDream.module.user.service.UserService;
 import stdio.kiteDream.module.userEvent.bean.UserEvent;
 import stdio.kiteDream.module.vo.JsonVO;
 import stdio.kiteDream.util.Constant;
@@ -36,17 +37,19 @@ import stdio.kiteDream.util.ImageUtil;
 @RequestMapping("/api/image")
 public class ImageController {
 	@Autowired
-	ComicService comicService;
+	ImageService imageService;
+	@Autowired
+	UserService userService;
 
 	@ResponseBody
-	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public String addComic(HttpServletRequest request, HttpSession session,
+	@RequestMapping(value = "/user/upload", method = RequestMethod.POST)
+	public JsonVO uploadImage(HttpServletRequest request, HttpSession session,
 			@RequestParam("userid") String userid,
-			@RequestParam(value="imgname",required=false) String imgname, 
-			@RequestParam(value="desc",required=false) String desc, 
-			@RequestParam(value="level",required=false) int level
-			) throws IllegalStateException,
-			IOException {
+			@RequestParam(value = "imgname", required = false) String imgname,
+			@RequestParam(value = "desc", required = false) String desc,
+			@RequestParam(value = "level", required = false) int level)
+			throws IllegalStateException, IOException {
+		JsonVO json = new JsonVO();
 		// 设置上下方文
 		try {
 			CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
@@ -61,103 +64,126 @@ public class ImageController {
 
 				Iterator<String> iter = multiRequest.getFileNames();
 				while (iter.hasNext()) {
-
 					MultipartFile file = multiRequest.getFile(iter.next());
 					if (file != null) {
 						fileName = file.getOriginalFilename();
-						imgPre = Constant.COMIC_PATH_PRE ;
-						File localFile = new File(realContextPath + "/" + imgPre+ fileName);
+						if (StringUtils.isBlank(fileName)) {
+							json.setErrorcode(Constant.FAIL);
+							return json;
+						}
+						imgPre = Constant.COMIC_PATH_PRE;
+						File localFile = new File(realContextPath + "/"
+								+ imgPre + fileName);
 						while (localFile.exists()) {
 							imgPre = Constant.COMIC_PATH_PRE
 									+ new Date().getTime() + "_";
-							localFile = new File(realContextPath + "/" + imgPre+ fileName);
+							localFile = new File(realContextPath + "/" + imgPre
+									+ fileName);
 						}
 						file.transferTo(localFile);
-						
-						ImageUtil.createThumbnail(localFile,realContextPath + "/" + imgPre+"thumbnail_"+ fileName);
-						System.out.println(localFile.getAbsolutePath());
-						
+
+						ImageUtil.createThumbnail(localFile, realContextPath
+								+ "/" + imgPre + "thumbnail_" + fileName);
+
 					}
 
 				}
 				Image image = new Image();
+				image.setPath(imgPre + fileName);
+				image.setThumbnail_path(imgPre + "thumbnail_" + fileName);
+				image.setCreate_time(new Date());
+				image.setDesc(desc);
+				image.setLevel(level);
+				image.setName(fileName);
+				image.setStatu(Image.Check.UNREAD.toString());
+				User user = userService.getUser(userid);
+				image.setUser(user);
+				imageService.saveImage(image);
+				user.getImages().add(image);
+				userService.saveUser(user);
 			}
-			return "{\"result\":\"success\",\"info\":\"none\"}";
+			json.setErrorcode(Constant.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "{\"result\":\"fail\",\"info\":\"" + e.getMessage() + "\"}";
+			json.setErrorcode(Constant.FAIL);
 		}
+		return json;
 	}
 
-
 	@ResponseBody
-	@RequestMapping(value = "/list/{level}", method = RequestMethod.GET)
+	@RequestMapping(value = "/list/user/{userid}", method = RequestMethod.GET)
 	public JsonVO listLevel(HttpServletRequest request,
-			@PathVariable("level") int level
-			,@RequestParam(value="userid",required=false)String userid) {
+			@PathVariable("userid") int userid) {
+		if(ComicJsonPathParser.basePath==null){
+			String path = request.getContextPath();  
+			String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/"; 
+			ComicJsonPathParser.basePath = basePath;
+		}
 		JsonVO jsonVO = new JsonVO();
-			try {
-			if(ComicJsonPathParser.basePath==null){
-				String path = request.getContextPath();  
-				String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/"; 
-				ComicJsonPathParser.basePath = basePath;
+		try {
+			List<List<Image>> result = new ArrayList<List<Image>>();
+			List<Integer> levels = new ArrayList<Integer>();
+			List<Image> comics = imageService.getImages(userid);
+			List<Image> currentComics = null;
+			for (Image comic : comics) {
+				if (levels.contains(comic.getLevel())) {
+					currentComics.add(comic);
+				} else {
+					if (currentComics != null) {
+						result.add(currentComics);
+					}
+					currentComics = new ArrayList<Image>();
+					currentComics.add(comic);
+					levels.add(comic.getLevel());
+				}
 			}
+			result.add(currentComics);
 			jsonVO.setUser_events(new UserEvent());
-			jsonVO.setResult(comicService.getComics(level));
+			jsonVO.setResult(result);
 			jsonVO.setErrorcode("ok");
 		} catch (Exception e) {
 			e.printStackTrace();
 			jsonVO.setErrorcode("fail");
 		}
 		return jsonVO;
-	}
 
-	@ResponseBody
-	@RequestMapping(value = "/list/all", method = RequestMethod.GET)
-	public List<List<Comic>> listAll(HttpServletRequest request) {
-		if(ComicJsonPathParser.basePath==null){
-			String path = request.getContextPath();  
-			String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/"; 
-			ComicJsonPathParser.basePath = basePath;
-		}
-		List<List<Comic>> result = new ArrayList<List<Comic>>();
-		List<Integer> levels = new ArrayList<Integer>();
-		try {
-			List<Comic> comics = comicService.getComics();
-			List<Comic> currentComics = null;
-			for (Comic comic : comics) {
-				if (levels.contains(comic.getLevel())) {
-					currentComics.add(comic);
-				} else {
-					if(currentComics!=null){
-						/*List<Comic> tmp = new ArrayList<Comic>();
-						tmp.addAll(currentComics);*/
-						result.add(currentComics);
-					}
-					currentComics = new ArrayList<Comic>();
-					currentComics.add(comic);
-					levels.add(comic.getLevel());
-				}
-			}
-			result.add(currentComics);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
 	}
-
+	
 	@ResponseBody
-	@RequestMapping(value = "/delete/{comicId}", method = RequestMethod.GET)
-	public String del(ModelMap model, @PathVariable("comicId") String comicId) {
+	@RequestMapping(value = "/check/{imageid}", method = RequestMethod.GET)
+	public JsonVO check(HttpServletRequest request,
+			@PathVariable("imageid") String imageid,
+			@RequestParam("statu") String statu) {
+		JsonVO json = new JsonVO();
 		try {
-			if (comicService.deleteComic(comicId)) {
-				return "{\"result\":\"success\",\"info\":\"none\"}";
-			} else {
-				return "{\"result\":\"fail\",\"info\":\"none\"}";
+			if(imageService.updateImageStatu(imageid, statu)){
+				json.setErrorcode(Constant.OK);
+			}else{
+				json.setErrorcode(Constant.FAIL);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "{\"result\":\"fail\",\"info\":\"" + e.getMessage() + "\"}";
+			json.setErrorcode(Constant.FAIL);
 		}
+		return json;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/delete/{imageid}", method = RequestMethod.GET)
+	public JsonVO del(HttpServletRequest request,
+			@PathVariable("imageid") String imageid) {
+		JsonVO json = new JsonVO();
+		try {
+			if(imageService.deleteImage(imageid)){
+				json.setErrorcode(Constant.OK);
+			}else{
+				json.setErrorcode(Constant.FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
+
 }
