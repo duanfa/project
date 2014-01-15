@@ -42,11 +42,12 @@ public class UserController {
 			user.setAddress(address);
 			user.setCellPhone(cellphone);
 			user.setActive(true);
-			json.setErrorcode("");
 			if(userService.saveUser(user)){
 				json.setErrorcode(Constant.OK);
+				json.setResult(userService.getUserByParam("name", name));
+			}else{
+				json.setErrorcode(Constant.FAIL);
 			}
-			json.setResult(userService.getUserByParam("name", name));
 		} catch (Exception e) {
 			e.printStackTrace();
 			json.setErrorcode(Constant.FAIL);
