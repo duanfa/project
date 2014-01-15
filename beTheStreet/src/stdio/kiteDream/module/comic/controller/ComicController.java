@@ -26,14 +26,17 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import stdio.kiteDream.module.comic.bean.Comic;
 import stdio.kiteDream.module.comic.bean.ComicJsonPathParser;
 import stdio.kiteDream.module.comic.service.ComicService;
+import stdio.kiteDream.module.userEvent.bean.UserEvent;
+import stdio.kiteDream.module.userEvent.service.UserEventService;
 import stdio.kiteDream.module.vo.JsonVO;
-import stdio.kiteDream.module.vo.UserEvent;
 import stdio.kiteDream.util.Constant;
 import stdio.kiteDream.util.ImageUtil;
 
 @Controller
 @RequestMapping("/api/comic")
 public class ComicController {
+	@Autowired
+	UserEventService userEventService;
 	@Autowired
 	ComicService comicService;
 
@@ -98,7 +101,7 @@ public class ComicController {
 	@RequestMapping(value = "/list/{level}", method = RequestMethod.GET)
 	public JsonVO listLevel(HttpServletRequest request,
 			@PathVariable("level") int level
-			,@RequestParam(value="userid",required=false)String userid) {
+			,@RequestParam(value="userid",required=false)int userid) {
 		JsonVO jsonVO = new JsonVO();
 			try {
 			if(ComicJsonPathParser.basePath==null){
@@ -106,7 +109,7 @@ public class ComicController {
 				String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/"; 
 				ComicJsonPathParser.basePath = basePath;
 			}
-			jsonVO.setUser_events(new UserEvent());
+			jsonVO.setUser_events(userEventService.checkEvent(userid));
 			jsonVO.setResult(comicService.getComics(level));
 			jsonVO.setErrorcode("ok");
 		} catch (Exception e) {

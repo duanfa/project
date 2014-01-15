@@ -14,7 +14,7 @@ public interface UserService {
 
 	public List<User> getUserByParam(String param, String value);
 
-	public boolean saveUser(User user);
+	public String saveUser(User user);
 	
 	public User manageLogin(String name,String password);
 	

@@ -2,6 +2,8 @@ package stdio.kiteDream.module.vo;
 
 import java.util.List;
 
+import stdio.kiteDream.module.userEvent.bean.UserEvent;
+
 public class JsonVO {
 
 	private List<?> result;

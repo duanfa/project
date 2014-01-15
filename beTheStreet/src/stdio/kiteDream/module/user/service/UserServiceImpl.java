@@ -1,15 +1,22 @@
 package stdio.kiteDream.module.user.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.user.dao.UserDao;
+import stdio.kiteDream.module.userEvent.service.UserEventService;
+import stdio.kiteDream.module.userEvent.service.UserEventServiceImpl;
+import stdio.kiteDream.util.Constant;
 
 @Service
 public class UserServiceImpl implements UserService {
+	@Autowired
+	UserEventService userEventService;
 	@Autowired
 	UserDao userDao;
 
@@ -34,8 +41,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean saveUser(User user) {
-		return userDao.saveUser(user);
+	public String saveUser(User user) {
+		try {
+			List<User> users = userDao.getUserByParam("name", user.getName());
+			if(users.size()>0){
+				return Constant.EXIST;
+			}
+			if(userDao.saveUser(user)){
+				userEventService.updateUserEvent(user.getId(), "new_level_comic", 31);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Constant.FAIL;
+		}
+		return Constant.OK;
 	}
 
 	@Override
@@ -47,7 +66,7 @@ public class UserServiceImpl implements UserService {
 	public User manageLogin(String name, String password) {
 		List<User> users = userDao.getUserByParam("name", name);
 		if (users.size() > 0) {
-			if( password.equals(users.get(0).getPassword())){
+			if (password.equals(users.get(0).getPassword())) {
 				return users.get(0);
 			}
 		}

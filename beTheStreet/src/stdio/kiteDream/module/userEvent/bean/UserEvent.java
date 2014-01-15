@@ -1,4 +1,4 @@
-package stdio.kiteDream.module.vo;
+package stdio.kiteDream.module.userEvent.bean;
 
 public class UserEvent {
 
@@ -11,6 +11,8 @@ public class UserEvent {
 	private int new_product_num;
 
 	private int new_pass_image_num;
+
+	private int new_level_comic;
 
 	public int getNew_message_num() {
 		return new_message_num;
@@ -50,6 +52,14 @@ public class UserEvent {
 
 	public void setNew_pass_image_num(int new_pass_image_num) {
 		this.new_pass_image_num = new_pass_image_num;
+	}
+
+	public int getNew_level_comic() {
+		return new_level_comic;
+	}
+
+	public void setNew_level_comic(int new_level_comic) {
+		this.new_level_comic = new_level_comic;
 	}
 
 }

@@ -12,4 +12,5 @@ public class Constant {
 	
 	public static String OK = "ok";
 	public static String FAIL = "fail";
+	public static String EXIST = "exist";
 }

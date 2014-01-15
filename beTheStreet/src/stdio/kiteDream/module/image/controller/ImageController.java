@@ -27,8 +27,8 @@ import stdio.kiteDream.module.comic.bean.Comic;
 import stdio.kiteDream.module.comic.bean.ComicJsonPathParser;
 import stdio.kiteDream.module.comic.service.ComicService;
 import stdio.kiteDream.module.image.bean.Image;
+import stdio.kiteDream.module.userEvent.bean.UserEvent;
 import stdio.kiteDream.module.vo.JsonVO;
-import stdio.kiteDream.module.vo.UserEvent;
 import stdio.kiteDream.util.Constant;
 import stdio.kiteDream.util.ImageUtil;
 

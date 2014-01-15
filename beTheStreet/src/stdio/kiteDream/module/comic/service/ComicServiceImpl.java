@@ -7,12 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import stdio.kiteDream.module.comic.bean.Comic;
-import stdio.kiteDream.module.comic.bean.ComicJsonPathParser;
 import stdio.kiteDream.module.comic.dao.ComicDao;
-import stdio.kiteDream.util.Constant;
+import stdio.kiteDream.module.userEvent.service.UserEventService;
 
 @Service
 public class ComicServiceImpl implements ComicService {
+	@Autowired
+	UserEventService userEventService;
 	@Autowired
 	ComicDao comicDao;
 
@@ -28,7 +29,10 @@ public class ComicServiceImpl implements ComicService {
 
 	@Override
 	public boolean saveComic(Comic comic) {
-		return comicDao.saveComic(comic);
+		if(comicDao.saveComic(comic)){
+			userEventService.updateAllUserEvent("new_level_comic", Math.pow(2, comic.getLevel()-1));
+		}
+		return true;
 	}
 
 	@Override
@@ -57,5 +61,4 @@ public class ComicServiceImpl implements ComicService {
 	public List<Comic> getComics() {
 		return comicDao.getComics();
 	}
-
 }
