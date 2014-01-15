@@ -22,7 +22,6 @@ public class UserEventRecord implements Serializable{
 
 	private Date createTime;
 	
-	@Lob
 	private byte[] mem;
 
 	public int getId() {

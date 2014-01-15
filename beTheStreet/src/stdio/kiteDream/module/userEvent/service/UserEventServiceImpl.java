@@ -109,6 +109,7 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 			oos = new ObjectOutputStream(baos);
 			oos.writeObject(events);
 			record.setMem(baos.toByteArray());
+			userEventRecordDao.saveUserEventRecord(record);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return Constant.FAIL;
