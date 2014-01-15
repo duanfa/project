@@ -3,6 +3,7 @@ package stdio.kiteDream.module.user.service;
 import java.util.List;
 
 import stdio.kiteDream.module.user.bean.User;
+import stdio.kiteDream.module.userEvent.bean.UserEventRecord;
 
 public interface UserService {
 
@@ -21,5 +22,7 @@ public interface UserService {
 	public boolean manageIsExist(String name);
 
 	public boolean deleteUser(String userId);
+	
+	public UserEventRecord getUserEventRecord();
 
 }

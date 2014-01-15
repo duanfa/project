@@ -14,6 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.stereotype.Service;
 
 import stdio.kiteDream.module.user.bean.User;
@@ -40,10 +42,12 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 	public UserEvent checkEvent(int userId) {
 		UserEvent userEvetn = new UserEvent();
 		Map<String, Object> record = events.get(userId);
-		Integer new_level_comic = (Integer) record.get("new_level_comic");
-		if (new_level_comic != null) {
-			userEvetn.setNew_level_comic(new_level_comic);
-			record.put("new_level_comic", 0);
+		if(record!=null){
+			Integer new_level_comic = (Integer) record.get("new_level_comic");
+			if (new_level_comic != null) {
+				userEvetn.setNew_level_comic(new_level_comic);
+				record.put("new_level_comic", 0);
+			}
 		}
 		return userEvetn;
 	}
@@ -119,24 +123,28 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 	}
 
 	@Override
-	public void onApplicationEvent(ApplicationEvent arg0) {
-		UserEventRecord record = userEventRecordDao.getUserEventRecord();
-		if(record!=null){
-			try {
-				ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(record.getMem()));
-				events = (Map<Integer, Map<String, Object>>) ois.readObject();
-			} catch (Exception e) {
-				e.printStackTrace();
+	public void onApplicationEvent(ApplicationEvent event) {
+		if(event instanceof ContextRefreshedEvent ){ 
+			UserEventRecord record = userService.getUserEventRecord();
+			if(record!=null){
+				try {
+					ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(record.getMem()));
+					events = (Map<Integer, Map<String, Object>>) ois.readObject();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
-		}
-		if (events.size() < 1) {
-			List<User> users = userService.getUsers();
-			for (User user : users) {
-				Map<String, Object> newRecord = new HashMap<String, Object>();
-				events.put(user.getId(), newRecord);
+			if (events.size() < 1) {
+				List<User> users = userService.getUsers();
+				for (User user : users) {
+					Map<String, Object> newRecord = new HashMap<String, Object>();
+					events.put(user.getId(), newRecord);
+				}
+				System.out.println("init userEventService.events complet");
 			}
-			System.out.println("init userEventService.events complet");
 		}
 	}
+
+	
 
 }

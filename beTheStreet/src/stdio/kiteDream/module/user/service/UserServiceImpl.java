@@ -1,22 +1,23 @@
 package stdio.kiteDream.module.user.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.user.dao.UserDao;
+import stdio.kiteDream.module.userEvent.bean.UserEventRecord;
+import stdio.kiteDream.module.userEvent.dao.UserEventRecordDao;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
-import stdio.kiteDream.module.userEvent.service.UserEventServiceImpl;
 import stdio.kiteDream.util.Constant;
 
 @Service
 public class UserServiceImpl implements UserService {
 	@Autowired
 	UserEventService userEventService;
+	@Autowired
+	UserEventRecordDao userEventRecordDao;
 	@Autowired
 	UserDao userDao;
 
@@ -78,5 +79,9 @@ public class UserServiceImpl implements UserService {
 		List<User> users = userDao.getUserByParam("name", name);
 		return users.size() > 0;
 	}
-
+	
+	@Override
+	public UserEventRecord getUserEventRecord() {
+		return userEventRecordDao.getUserEventRecord();
+	}
 }

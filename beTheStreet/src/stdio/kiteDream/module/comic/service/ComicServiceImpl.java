@@ -30,7 +30,7 @@ public class ComicServiceImpl implements ComicService {
 	@Override
 	public boolean saveComic(Comic comic) {
 		if(comicDao.saveComic(comic)){
-			userEventService.updateAllUserEvent("new_level_comic", Math.pow(2, comic.getLevel()-1));
+			userEventService.updateAllUserEvent("new_level_comic", new Double(Math.pow(2, comic.getLevel()-1)).intValue());
 		}
 		return true;
 	}

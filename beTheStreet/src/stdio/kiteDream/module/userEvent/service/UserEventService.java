@@ -1,6 +1,7 @@
 package stdio.kiteDream.module.userEvent.service;
 
 import stdio.kiteDream.module.userEvent.bean.UserEvent;
+import stdio.kiteDream.module.userEvent.bean.UserEventRecord;
 
 public interface UserEventService {
 
