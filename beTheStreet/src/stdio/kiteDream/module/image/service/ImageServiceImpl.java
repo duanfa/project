@@ -34,14 +34,45 @@ public class ImageServiceImpl implements ImageService {
 	public boolean deleteImage(String imageId) {
 		Image image = imageDao.getImage(imageId);
 		if(imageDao.delImage(imageId)){
-			String dir = this.getClass().getClassLoader().getResource("../../").getPath();
-			File img = new File(dir+image.getPath());
-			if(img.exists()){
-				img.delete();
-			}
-			img = new File(dir+image.getThumbnail_path());
-			if(img.exists()){
-				img.delete();
+			try {
+				try {
+					System.out.println("this.getClass().getClassLoader().getResource(/../../)"+this.getClass().getClassLoader().getResource("/../../"));
+					System.out.println(this.getClass().getClassLoader().getResource("/../../").getPath());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				try {
+					System.out.println("this.getClass().getClassLoader().getResource(../..)"+this.getClass().getClassLoader().getResource("../.."));
+					System.out.println(this.getClass().getClassLoader().getResource("../..").getPath());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					System.out.println("this.getClass().getClassLoader().getResource(/../..)"+this.getClass().getClassLoader().getResource("/../.."));
+					System.out.println(this.getClass().getClassLoader().getResource("/../..").getPath());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					System.out.println("this.getClass().getClassLoader().getResource(../)"+this.getClass().getClassLoader().getResource("../"));
+					System.out.println(this.getClass().getClassLoader().getResource("../").getPath());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				String dir = this.getClass().getClassLoader().getResource("/../../").getPath();
+				File img = new File(dir+image.getPath());
+				if(img.exists()){
+					img.delete();
+				}
+				img = new File(dir+image.getThumbnail_path());
+				if(img.exists()){
+					img.delete();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			return true;
 		}
