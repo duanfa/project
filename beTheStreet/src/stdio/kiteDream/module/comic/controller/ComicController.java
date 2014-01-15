@@ -11,6 +11,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,7 +27,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import stdio.kiteDream.module.comic.bean.Comic;
 import stdio.kiteDream.module.comic.bean.ComicJsonPathParser;
 import stdio.kiteDream.module.comic.service.ComicService;
-import stdio.kiteDream.module.userEvent.bean.UserEvent;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
 import stdio.kiteDream.module.vo.JsonVO;
 import stdio.kiteDream.util.Constant;
@@ -65,6 +65,9 @@ public class ComicController {
 					MultipartFile file = multiRequest.getFile(iter.next());
 					if (file != null) {
 						fileName = file.getOriginalFilename();
+						if(StringUtils.isBlank(fileName)){
+							return "{\"result\":\"fail\",\"info\":\"must need upload the image\"}";
+						}
 						imgPre = Constant.COMIC_PATH_PRE ;
 						File localFile = new File(realContextPath + "/" + imgPre+ fileName);
 						while (localFile.exists()) {
