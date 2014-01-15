@@ -94,7 +94,7 @@ public class UserController {
 	public JsonVO saveRecord(HttpServletRequest request) {
 		JsonVO json = new JsonVO();
 		try {
-			json.setErrorcode(userEventService.saveUserEventRecord());
+			json.setErrorcode(userService.saveUserEventRecord());
 		} catch (Exception e) {
 			e.printStackTrace();
 			json.setErrorcode(Constant.FAIL);

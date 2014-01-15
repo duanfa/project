@@ -1,7 +1,8 @@
 package stdio.kiteDream.module.userEvent.service;
 
+import java.util.Map;
+
 import stdio.kiteDream.module.userEvent.bean.UserEvent;
-import stdio.kiteDream.module.userEvent.bean.UserEventRecord;
 
 public interface UserEventService {
 
@@ -13,6 +14,6 @@ public interface UserEventService {
 	
 	public boolean addUserId(int userId);
 	
-	public String saveUserEventRecord();
+	public Map getEvents();
 	
 }

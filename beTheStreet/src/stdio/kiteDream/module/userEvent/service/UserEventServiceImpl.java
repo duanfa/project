@@ -1,11 +1,7 @@
 package stdio.kiteDream.module.userEvent.service;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,8 +10,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.stereotype.Service;
 
 import stdio.kiteDream.module.user.bean.User;
@@ -24,7 +20,6 @@ import stdio.kiteDream.module.user.service.UserService;
 import stdio.kiteDream.module.userEvent.bean.UserEvent;
 import stdio.kiteDream.module.userEvent.bean.UserEventRecord;
 import stdio.kiteDream.module.userEvent.dao.UserEventRecordDao;
-import stdio.kiteDream.util.Constant;
 
 @Service
 public class UserEventServiceImpl implements UserEventService ,ApplicationListener{
@@ -96,32 +91,7 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 		return true;
 	}
 
-	@Override
-	public String saveUserEventRecord() {
-		ObjectOutputStream oos = null;
-		try {
-			UserEventRecord record = userEventRecordDao.getUserEventRecord();
-			if(record==null){
-				record = new UserEventRecord();
-			}
-			record.setCreateTime(new Date());
-			ByteArrayOutputStream baos =new ByteArrayOutputStream();
-			oos = new ObjectOutputStream(baos);
-			oos.writeObject(events);
-			record.setMem(baos.toByteArray());
-			userEventRecordDao.saveUserEventRecord(record);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return Constant.FAIL;
-		}finally{
-			try {
-				oos.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return Constant.OK;
-	}
+	
 
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
@@ -144,6 +114,15 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 				System.out.println("init userEventService.events complet");
 			}
 		}
+		if(event instanceof ContextClosedEvent ){
+			userService.saveUserEventRecord();
+		}
+	}
+
+
+	@Override
+	public Map getEvents() {
+		return events;
 	}
 
 	

@@ -1,9 +1,14 @@
 package stdio.kiteDream.module.user.service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.Date;
 import java.util.List;
 
 import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.userEvent.bean.UserEventRecord;
+import stdio.kiteDream.util.Constant;
 
 public interface UserService {
 
@@ -24,5 +29,7 @@ public interface UserService {
 	public boolean deleteUser(String userId);
 	
 	public UserEventRecord getUserEventRecord();
+	
+	public String saveUserEventRecord();
 
 }

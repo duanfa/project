@@ -1,5 +1,9 @@
 package stdio.kiteDream.module.user.service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,5 +87,32 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserEventRecord getUserEventRecord() {
 		return userEventRecordDao.getUserEventRecord();
+	}
+	
+	@Override
+	public String saveUserEventRecord() {
+		ObjectOutputStream oos = null;
+		try {
+			UserEventRecord record = userEventRecordDao.getUserEventRecord();
+			if(record==null){
+				record = new UserEventRecord();
+			}
+			record.setCreateTime(new Date());
+			ByteArrayOutputStream baos =new ByteArrayOutputStream();
+			oos = new ObjectOutputStream(baos);
+			oos.writeObject(userEventService.getEvents());
+			record.setMem(baos.toByteArray());
+			userEventRecordDao.saveUserEventRecord(record);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return Constant.FAIL;
+		}finally{
+			try {
+				oos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return Constant.OK;
 	}
 }
