@@ -3,7 +3,7 @@ $(function() {
 });
 
 function addItems(){
-	$.get("http://localhost:8080/BeTheStreet/api/user/list/page?page=1&size=10", function( data ) {}).done(function(data) {
+	$.get("api/user/list/page?page=1&size=10", function( data ) {}).done(function(data) {
 		var result = "";
 		$(data.result).each(function(index, value) {
 			var content = '<tr>'+
