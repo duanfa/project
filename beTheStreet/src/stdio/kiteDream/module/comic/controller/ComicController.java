@@ -69,15 +69,15 @@ public class ComicController {
 							return "{\"result\":\"fail\",\"info\":\"must need upload the image\"}";
 						}
 						imgPre = Constant.COMIC_PATH_PRE ;
-						File localFile = new File(realContextPath + "/" + imgPre+ fileName);
+						File localFile = new File(realContextPath + imgPre+ fileName);
 						while (localFile.exists()) {
 							imgPre = Constant.COMIC_PATH_PRE
 									+ new Date().getTime() + "_";
-							localFile = new File(realContextPath + "/" + imgPre+ fileName);
+							localFile = new File(realContextPath + imgPre+ fileName);
 						}
 						file.transferTo(localFile);
 						
-						ImageUtil.createThumbnail(localFile,realContextPath + "/" + imgPre+"thumbnail_"+ fileName);
+						ImageUtil.createThumbnail(localFile,realContextPath + imgPre+"thumbnail_"+ fileName);
 						System.out.println(localFile.getAbsolutePath());
 						
 					}

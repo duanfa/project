@@ -72,18 +72,18 @@ public class ImageController {
 							return json;
 						}
 						imgPre = Constant.COMIC_PATH_PRE;
-						File localFile = new File(realContextPath + "/"
+						File localFile = new File(realContextPath
 								+ imgPre + fileName);
 						while (localFile.exists()) {
 							imgPre = Constant.COMIC_PATH_PRE
 									+ new Date().getTime() + "_";
-							localFile = new File(realContextPath + "/" + imgPre
+							localFile = new File(realContextPath + imgPre
 									+ fileName);
 						}
 						file.transferTo(localFile);
 
 						ImageUtil.createThumbnail(localFile, realContextPath
-								+ "/" + imgPre + "thumbnail_" + fileName);
+								+ imgPre + "thumbnail_" + fileName);
 
 					}
 
@@ -102,6 +102,7 @@ public class ImageController {
 				user.getImages().add(image);
 				userService.saveUser(user);
 			}
+			System.out.println(realContextPath+ "/" + imgPre + "thumbnail_" + fileName); 
 			json.setErrorcode(Constant.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
