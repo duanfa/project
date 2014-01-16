@@ -47,7 +47,6 @@ public class ImageController {
 			@RequestParam(value = "imgname", required = false) String imgname, @RequestParam(value = "desc", required = false) String desc,
 			@RequestParam(value = "level", required = false) int level,
 			@RequestParam(value = "gps", required = false) String gps,
-			@RequestParam(value = "ip", required = false) String ip,
 			@RequestParam(value = "address", required = false) String address,
 			@RequestParam(value = "type", required = false) String type
 			) throws IllegalStateException, IOException {
@@ -95,7 +94,7 @@ public class ImageController {
 				image.setName(fileName);
 				image.setStatu(Image.Check.UNREAD.toString());
 				image.setGps(gps);
-				image.setIp(ip);
+				image.setIp(request.getRemoteAddr());
 				image.setAddress(address);
 				image.setType(type);
 				User user = userService.getUser(userid);
