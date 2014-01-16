@@ -43,17 +43,13 @@ public class ImageController {
 
 	@ResponseBody
 	@RequestMapping(value = "/user/upload", method = RequestMethod.POST)
-	public JsonVO uploadImage(HttpServletRequest request, HttpSession session,
-			@RequestParam("userid") String userid,
-			@RequestParam(value = "imgname", required = false) String imgname,
-			@RequestParam(value = "desc", required = false) String desc,
-			@RequestParam(value = "level", required = false) int level)
-			throws IllegalStateException, IOException {
+	public JsonVO uploadImage(HttpServletRequest request, HttpSession session, @RequestParam("userid") String userid,
+			@RequestParam(value = "imgname", required = false) String imgname, @RequestParam(value = "desc", required = false) String desc,
+			@RequestParam(value = "level", required = false) int level) throws IllegalStateException, IOException {
 		JsonVO json = new JsonVO();
 		// 设置上下方文
 		try {
-			CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
-					request.getSession().getServletContext());
+			CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
 			ServletContext context = session.getServletContext();
 			String realContextPath = context.getRealPath("/");
 
@@ -72,19 +68,16 @@ public class ImageController {
 							return json;
 						}
 						imgPre = Constant.COMIC_PATH_PRE;
-						File localFile = new File(realContextPath
-								+ imgPre + fileName);
+						File localFile = new File(realContextPath + "/" + imgPre + fileName);
 						while (localFile.exists()) {
-							imgPre = Constant.COMIC_PATH_PRE
-									+ new Date().getTime() + "_";
-							localFile = new File(realContextPath + imgPre
-									+ fileName);
+							imgPre = Constant.COMIC_PATH_PRE + new Date().getTime() + "_";
+							localFile = new File(realContextPath + "/" + imgPre + fileName);
 						}
 						file.transferTo(localFile);
 
-						ImageUtil.createThumbnail(localFile, realContextPath
-								+ imgPre + "thumbnail_" + fileName);
+						ImageUtil.createThumbnail(localFile, realContextPath + "/" + imgPre + "thumbnail_" + fileName);
 
+						System.out.println(localFile.getAbsolutePath());
 					}
 
 				}
@@ -102,7 +95,6 @@ public class ImageController {
 				user.getImages().add(image);
 				userService.saveUser(user);
 			}
-			System.out.println(realContextPath+ "/" + imgPre + "thumbnail_" + fileName); 
 			json.setErrorcode(Constant.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -113,11 +105,10 @@ public class ImageController {
 
 	@ResponseBody
 	@RequestMapping(value = "/list/user/{userid}", method = RequestMethod.GET)
-	public JsonVO listLevel(HttpServletRequest request,
-			@PathVariable("userid") int userid) {
-		if(ComicJsonPathParser.basePath==null){
-			String path = request.getContextPath();  
-			String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/"; 
+	public JsonVO listLevel(HttpServletRequest request, @PathVariable("userid") int userid) {
+		if (ComicJsonPathParser.basePath == null) {
+			String path = request.getContextPath();
+			String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 			ComicJsonPathParser.basePath = basePath;
 		}
 		JsonVO jsonVO = new JsonVO();
@@ -149,17 +140,15 @@ public class ImageController {
 		return jsonVO;
 
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/check/{imageid}", method = RequestMethod.GET)
-	public JsonVO check(HttpServletRequest request,
-			@PathVariable("imageid") String imageid,
-			@RequestParam("statu") String statu) {
+	public JsonVO check(HttpServletRequest request, @PathVariable("imageid") String imageid, @RequestParam("statu") String statu) {
 		JsonVO json = new JsonVO();
 		try {
-			if(imageService.updateImageStatu(imageid, statu)){
+			if (imageService.updateImageStatu(imageid, statu)) {
 				json.setErrorcode(Constant.OK);
-			}else{
+			} else {
 				json.setErrorcode(Constant.FAIL);
 			}
 		} catch (Exception e) {
@@ -168,16 +157,15 @@ public class ImageController {
 		}
 		return json;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/delete/{imageid}", method = RequestMethod.GET)
-	public JsonVO del(HttpServletRequest request,
-			@PathVariable("imageid") String imageid) {
+	public JsonVO del(HttpServletRequest request, @PathVariable("imageid") String imageid) {
 		JsonVO json = new JsonVO();
 		try {
-			if(imageService.deleteImage(imageid)){
+			if (imageService.deleteImage(imageid)) {
 				json.setErrorcode(Constant.OK);
-			}else{
+			} else {
 				json.setErrorcode(Constant.FAIL);
 			}
 		} catch (Exception e) {

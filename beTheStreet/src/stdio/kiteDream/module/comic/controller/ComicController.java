@@ -42,15 +42,11 @@ public class ComicController {
 
 	@ResponseBody
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addComic(HttpServletRequest request, HttpSession session,
-			@RequestParam("name") String name,
-			@RequestParam("level") int level, @RequestParam("order") int order,
-			@RequestParam("info") String info) throws IllegalStateException,
-			IOException {
+	public String addComic(HttpServletRequest request, HttpSession session, @RequestParam("name") String name, @RequestParam("level") int level, @RequestParam("order") int order,
+			@RequestParam("info") String info) throws IllegalStateException, IOException {
 		// 设置上下方文
 		try {
-			CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
-					request.getSession().getServletContext());
+			CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
 			ServletContext context = session.getServletContext();
 			String realContextPath = context.getRealPath("/");
 
@@ -65,21 +61,20 @@ public class ComicController {
 					MultipartFile file = multiRequest.getFile(iter.next());
 					if (file != null) {
 						fileName = file.getOriginalFilename();
-						if(StringUtils.isBlank(fileName)){
+						if (StringUtils.isBlank(fileName)) {
 							return "{\"result\":\"fail\",\"info\":\"must need upload the image\"}";
 						}
-						imgPre = Constant.COMIC_PATH_PRE ;
-						File localFile = new File(realContextPath + imgPre+ fileName);
+						imgPre = Constant.COMIC_PATH_PRE;
+						File localFile = new File(realContextPath + "/" + imgPre + fileName);
 						while (localFile.exists()) {
-							imgPre = Constant.COMIC_PATH_PRE
-									+ new Date().getTime() + "_";
-							localFile = new File(realContextPath + imgPre+ fileName);
+							imgPre = Constant.COMIC_PATH_PRE + new Date().getTime() + "_";
+							localFile = new File(realContextPath + "/" + imgPre + fileName);
 						}
 						file.transferTo(localFile);
-						
-						ImageUtil.createThumbnail(localFile,realContextPath + imgPre+"thumbnail_"+ fileName);
+
+						ImageUtil.createThumbnail(localFile, realContextPath + "/" + imgPre + "thumbnail_" + fileName);
 						System.out.println(localFile.getAbsolutePath());
-						
+
 					}
 
 				}
@@ -88,8 +83,8 @@ public class ComicController {
 				comic.setInfo(info);
 				comic.setLevel(level);
 				comic.setOrderNum(order);
-				comic.setPath(imgPre+fileName);
-				comic.setThumbnail_path(imgPre+"thumbnail_"+ fileName);
+				comic.setPath(imgPre + fileName);
+				comic.setThumbnail_path(imgPre + "thumbnail_" + fileName);
 				comicService.saveComic(comic);
 			}
 			return "{\"result\":\"success\",\"info\":\"none\"}";
@@ -99,17 +94,14 @@ public class ComicController {
 		}
 	}
 
-
 	@ResponseBody
 	@RequestMapping(value = "/list/{level}", method = RequestMethod.GET)
-	public JsonVO listLevel(HttpServletRequest request,
-			@PathVariable("level") int level
-			,@RequestParam(value="userid",required=false)int userid) {
+	public JsonVO listLevel(HttpServletRequest request, @PathVariable("level") int level, @RequestParam(value = "userid", required = false) int userid) {
 		JsonVO jsonVO = new JsonVO();
-			try {
-			if(ComicJsonPathParser.basePath==null){
-				String path = request.getContextPath();  
-				String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/"; 
+		try {
+			if (ComicJsonPathParser.basePath == null) {
+				String path = request.getContextPath();
+				String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 				ComicJsonPathParser.basePath = basePath;
 			}
 			jsonVO.setUser_events(userEventService.checkEvent(userid));
@@ -125,9 +117,9 @@ public class ComicController {
 	@ResponseBody
 	@RequestMapping(value = "/list/all", method = RequestMethod.GET)
 	public List<List<Comic>> listAll(HttpServletRequest request) {
-		if(ComicJsonPathParser.basePath==null){
-			String path = request.getContextPath();  
-			String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/"; 
+		if (ComicJsonPathParser.basePath == null) {
+			String path = request.getContextPath();
+			String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 			ComicJsonPathParser.basePath = basePath;
 		}
 		List<List<Comic>> result = new ArrayList<List<Comic>>();
@@ -139,9 +131,11 @@ public class ComicController {
 				if (levels.contains(comic.getLevel())) {
 					currentComics.add(comic);
 				} else {
-					if(currentComics!=null){
-						/*List<Comic> tmp = new ArrayList<Comic>();
-						tmp.addAll(currentComics);*/
+					if (currentComics != null) {
+						/*
+						 * List<Comic> tmp = new ArrayList<Comic>();
+						 * tmp.addAll(currentComics);
+						 */
 						result.add(currentComics);
 					}
 					currentComics = new ArrayList<Comic>();

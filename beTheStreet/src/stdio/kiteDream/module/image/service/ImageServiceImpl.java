@@ -35,16 +35,11 @@ public class ImageServiceImpl implements ImageService {
 		Image image = imageDao.getImage(imageId);
 		if(imageDao.delImage(imageId)){
 			try {
-				try {
-					System.out.println("this.getClass().getClassLoader().getResource(/../../)"+this.getClass().getClassLoader().getResource("/../../"));
-					System.out.println(this.getClass().getClassLoader().getResource("/../../").getPath());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				String dir = this.getClass().getClassLoader().getResource("../../").getPath();
+				String dir = this.getClass().getClassLoader().getResource("/").getPath()+"../../";
 				File img = new File(dir+image.getPath());
 				if(img.exists()){
 					img.delete();
+					System.out.println("file:"+dir +image.getPath()+"   deleted!!!");
 				}
 				img = new File(dir+image.getThumbnail_path());
 				if(img.exists()){
