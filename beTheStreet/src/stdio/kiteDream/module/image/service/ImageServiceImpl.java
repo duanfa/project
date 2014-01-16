@@ -8,12 +8,16 @@ import org.springframework.stereotype.Service;
 
 import stdio.kiteDream.module.image.bean.Image;
 import stdio.kiteDream.module.image.dao.ImageDao;
+import stdio.kiteDream.module.userEvent.service.UserEventService;
 
 @Service
 public class ImageServiceImpl implements ImageService {
 	
 	@Autowired
 	private ImageDao imageDao;
+	
+	@Autowired
+	UserEventService userEventService;
 	
 	@Override
 	public List<Image> getImages(int userId) {
@@ -55,9 +59,21 @@ public class ImageServiceImpl implements ImageService {
 
 	@Override
 	public boolean updateImageStatu(String imageId, String statu) {
-		Image image = imageDao.getImage(imageId);
-		image.setStatu(statu);
-		return imageDao.saveImage(image);
+		try {
+			Image image = imageDao.getImage(imageId);
+			image.setStatu(statu);
+			if(imageDao.saveImage(image)){
+				if(Image.Check.PASS.toString().equals(statu)){
+					userEventService.updateUserEvent(image.getUser().getId(), "new_pass_image", 1);
+				}else if(Image.Check.FAIL.toString().equals(statu)){
+					userEventService.updateUserEvent(image.getUser().getId(), "new_deny_image", 1);
+				}
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

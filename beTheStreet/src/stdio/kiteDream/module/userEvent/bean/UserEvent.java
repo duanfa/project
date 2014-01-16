@@ -11,6 +11,8 @@ public class UserEvent {
 	private int new_product_num;
 
 	private int new_pass_image_num;
+	
+	private int new_deny_image_num;
 
 	private int new_level_comic;
 
@@ -62,4 +64,12 @@ public class UserEvent {
 		this.new_level_comic = new_level_comic;
 	}
 
+	public int getNew_deny_image_num() {
+		return new_deny_image_num;
+	}
+
+	public void setNew_deny_image_num(int new_deny_image_num) {
+		this.new_deny_image_num = new_deny_image_num;
+	}
+	
 }

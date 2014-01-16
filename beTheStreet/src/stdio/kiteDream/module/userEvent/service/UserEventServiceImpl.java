@@ -38,10 +38,21 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 		UserEvent userEvetn = new UserEvent();
 		Map<String, Object> record = events.get(userId);
 		if(record!=null){
+			//
 			Integer new_level_comic = (Integer) record.get("new_level_comic");
 			if (new_level_comic != null) {
 				userEvetn.setNew_level_comic(new_level_comic);
 				record.put("new_level_comic", 0);
+			}
+			Integer new_pass_image = (Integer) record.get("new_pass_image");
+			if (new_pass_image != null) {
+				userEvetn.setNew_pass_image_num(new_pass_image);
+				record.put("new_pass_image", 0);
+			}
+			Integer new_deny_image = (Integer) record.get("new_deny_image");
+			if (new_level_comic != null) {
+				userEvetn.setNew_deny_image_num(new_deny_image);
+				record.put("new_deny_image", 0);
 			}
 		}
 		return userEvetn;
@@ -55,6 +66,18 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 				if ("new_level_comic".equals(key)) {
 					if (v != null) {
 						event.getValue().put(key, (Integer) v | (Integer) value);
+					} else {
+						event.getValue().put(key, value);
+					}
+				}else if("new_pass_image".equals(key)){
+					if (v != null) {
+						event.getValue().put(key, (Integer) v + (Integer) value);
+					} else {
+						event.getValue().put(key, value);
+					}
+				}else if("new_deny_image".equals(key)){
+					if (v != null) {
+						event.getValue().put(key, (Integer) v + (Integer) value);
 					} else {
 						event.getValue().put(key, value);
 					}
@@ -74,6 +97,18 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 			if ("new_level_comic".equals(key)) {
 				if (v != null) {
 					record.put(key, (Integer) v | (Integer) value);
+				} else {
+					record.put(key, value);
+				}
+			}else if("new_pass_image".equals(key)){
+				if (v != null) {
+					record.put(key, (Integer) v + (Integer) value);
+				} else {
+					record.put(key, value);
+				}
+			}else if("new_deny_image".equals(key)){
+				if (v != null) {
+					record.put(key,(Integer) v + (Integer) value);
 				} else {
 					record.put(key, value);
 				}
