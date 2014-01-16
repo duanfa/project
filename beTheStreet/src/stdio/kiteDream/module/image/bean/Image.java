@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
@@ -25,6 +23,9 @@ public class Image implements Serializable {
 	public enum Check {
 		PASS, UNREAD, FAIL
 	}
+	public enum Tpye {
+		BONUS, STREET, CHALLENGE
+	}
 
 	private static final long serialVersionUID = 787921280747262572L;
 
@@ -35,12 +36,20 @@ public class Image implements Serializable {
 	private String name;
 
 	private String desc;
+	
+	private String gps;
+	
+	private String ip;
+	
+	private String address;
 
 	private int level;
 
 	private Date create_time;
 
 	private String path;
+	
+	private String type;
 
 	private String thumbnail_path;
 
@@ -122,6 +131,38 @@ public class Image implements Serializable {
 
 	public void setCreate_time(Date create_time) {
 		this.create_time = create_time;
+	}
+
+	public String getGps() {
+		return gps;
+	}
+
+	public void setGps(String gps) {
+		this.gps = gps;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

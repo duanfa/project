@@ -40,14 +40,18 @@ public class ComicServiceImpl implements ComicService {
 		try {
 			Comic comic = comicDao.getComic(comicId);
 			if(comicDao.delComic(comicId)){
-				String dir = this.getClass().getClassLoader().getResource("/").getPath()+"../../";
-				File img = new File(dir+comic.getPath());
-				if(img.exists()){
-					img.delete();
-				}
-				img = new File(dir+comic.getThumbnail_path());
-				if(img.exists()){
-					img.delete();
+				try {
+					String dir = this.getClass().getClassLoader().getResource("/").getPath()+"../../";
+					File img = new File(dir+comic.getPath());
+					if(img.exists()){
+						img.delete();
+					}
+					img = new File(dir+comic.getThumbnail_path());
+					if(img.exists()){
+						img.delete();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 				return true;
 			}
