@@ -6,7 +6,7 @@ import stdio.kiteDream.module.image.bean.Image;
 
 public interface ImageDao {
 
-	public List<Image> getImages(int userId);
+	public List<Image> getImageByUserid(int userId);
 
 	public Image getImage(String id);
 	

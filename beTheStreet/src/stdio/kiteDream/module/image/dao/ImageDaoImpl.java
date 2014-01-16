@@ -28,9 +28,9 @@ public class ImageDaoImpl implements ImageDao {
 	}
 
 	@Override
-	public List<Image> getImages(int userId) {
+	public List<Image> getImageByUserid(int userId) {
 		@SuppressWarnings("unchecked")
-		List<Image> list = getSessionFactory().getCurrentSession().createCriteria(Image.class).createAlias("user", "user").add(Restrictions.eq("user.id", userId)).addOrder(Order.asc("level")).addOrder(Order.asc("create_time")).list();
+		List<Image> list = getSessionFactory().getCurrentSession().createCriteria(Image.class).createAlias("user", "user").add(Restrictions.eq("user.id", userId)).addOrder(Order.asc("level")).addOrder(Order.asc("type")).addOrder(Order.asc("create_time")).list();
 		if (list == null) {
 			return new ArrayList<Image>();
 		}
