@@ -54,6 +54,7 @@ function addItems(){
 									'</a>'+
 								'</li>';
 				if(v.type!=type){
+					type=v.type;
 					if(v.type=="BONUS"){
 						divColor = '</div><div class="alert alert-success" style="float:left;"><div>BONUS</div>';
 					}else if(v.type=="STREET"){
