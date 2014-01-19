@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!--
-		Charisma v1.0.0
-
-		Copyright 2012 Muhammad Usman
-		Licensed under the Apache License v2.0
-		http://www.apache.org/licenses/LICENSE-2.0
-
-		http://usman.it
-		http://twitter.com/halalit_usman
-	-->
 	<meta charset="utf-8">
 	<title>Free HTML5 Bootstrap Admin Template</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,6 +40,7 @@
 <p class="validateTips">All form fields are required.</p>
 		<form id="addComicForm" action="api/comic/add" method="post" enctype="multipart/form-data">
 			<fieldset>
+					<input type="hidden" name="id" id="id" class="text ui-widget-content ui-corner-all">
 				<label for="name">name</label>
 					<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all">
 				<label for="level">level</label>

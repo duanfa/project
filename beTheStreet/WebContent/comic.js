@@ -5,7 +5,7 @@ $(function() {
 		width : 330,
 		modal : true,
 		buttons : {
-			"add" : function() {
+			"submit" : function() {
 				$("#dialog-form").dialog("close");
 				$("#coreIframe").contents().find("#addComicForm").submit();
 				$('#coreIframe').load(function(){  
@@ -51,7 +51,7 @@ function addItems(){
 			result = result+levelhead;
 			$(value).each(function(i, v) {
 				 
-				var comic = '<li id="'+v.id+'" class="thumbnail">'+
+				var comic = '<li id="'+v.id+'" class="thumbnail"><input type="hidden" value="'+v.level+'" name="'+v.orderNum+'" />'+
 									'<a style="background:url('+v.thumbnail_path+')" title="'+v.name+'" href="'+v.path+'"><img src="'+v.thumbnail_path+'" alt="'+v.info+'"></a>'+
 								'</li>';
 				result = result+comic;				
@@ -70,4 +70,20 @@ function deleteImg(msgId){
 	$.get("api/helloMessage/del/"+msgId, function( data ) {}).done(function(data) {
 		addItems();
 	});
+}
+
+function editComic(imgDom){
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="comic_upload.html" frameborder="0" style="height: 310px;"></iframe>');
+	$("#dialog-form").dialog("open");
+	$('#coreIframe').load(function(){  
+		try{
+			$("#coreIframe").contents().find("#id").val(imgDom.attr("id"));
+			$("#coreIframe").contents().find("#name").val(imgDom.find("a").attr("title"));
+			$("#coreIframe").contents().find("#level").val(imgDom.find("input").val());
+			$("#coreIframe").contents().find("#order").val(imgDom.find("input").attr("name"));
+			$("#coreIframe").contents().find("#info").val(imgDom.find("img").attr("alt"));
+		}catch(e){
+			console.log(e);
+		}
+	   });
 }

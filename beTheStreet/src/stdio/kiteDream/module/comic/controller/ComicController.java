@@ -43,7 +43,7 @@ public class ComicController {
 	@ResponseBody
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addComic(HttpServletRequest request, HttpSession session, @RequestParam("name") String name, @RequestParam("level") int level, @RequestParam("order") int order,
-			@RequestParam("info") String info) throws IllegalStateException, IOException {
+			@RequestParam("info") String info,@RequestParam(value="id",required=false) String id) throws IllegalStateException, IOException {
 		// 设置上下方文
 		try {
 			CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
@@ -62,7 +62,10 @@ public class ComicController {
 					if (file != null) {
 						fileName = file.getOriginalFilename();
 						if (StringUtils.isBlank(fileName)) {
-							return "{\"result\":\"fail\",\"info\":\"must need upload the image\"}";
+							if(StringUtils.isBlank(id)){
+								return "{\"result\":\"fail\",\"info\":\"must need upload the image\"}";
+							}
+							break;
 						}
 						imgPre = Constant.COMIC_PATH_PRE;
 						File localFile = new File(realContextPath + "/" + imgPre + fileName);
@@ -78,13 +81,22 @@ public class ComicController {
 					}
 
 				}
-				Comic comic = new Comic();
+				Comic comic = null;
+				if(StringUtils.isNotBlank(id)){
+					comic = comicService.getComic(id);
+					if(StringUtils.isNotBlank(fileName)){
+						comic.setPath(imgPre + fileName);
+						comic.setThumbnail_path(imgPre + "thumbnail_" + fileName);
+					}
+				}else{
+					comic = new Comic();
+					comic.setPath(imgPre + fileName);
+					comic.setThumbnail_path(imgPre + "thumbnail_" + fileName);
+				}
 				comic.setName(name);
 				comic.setInfo(info);
 				comic.setLevel(level);
 				comic.setOrderNum(order);
-				comic.setPath(imgPre + fileName);
-				comic.setThumbnail_path(imgPre + "thumbnail_" + fileName);
 				comicService.saveComic(comic);
 			}
 			return "{\"result\":\"success\",\"info\":\"none\"}";
