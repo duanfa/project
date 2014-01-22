@@ -9,6 +9,7 @@ function addItems(){
 			$(data.result).each(function(index, value) {
 				var content = '<tr>'+
 					'<td class="center">'+validate(value.title)+'</td>'+
+					'<td class="center">'+validate(value.email)+'</td>'+
 					'<td class="center">'+validate(value.info)+'</td>'+
 					'<td class="center">'+
 						/*'<a class="btn btn-info" href="userImage.html?userid='+value.id+'"><i class="icon-picture icon-white"></i>Image</a>&nbsp;'+

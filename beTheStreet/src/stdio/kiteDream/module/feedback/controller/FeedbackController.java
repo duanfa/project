@@ -39,12 +39,13 @@ public class FeedbackController {
 
 	@ResponseBody
 	@RequestMapping(value = "/add",  method = { RequestMethod.GET, RequestMethod.POST })
-	public JsonVO add(ModelMap model, @RequestParam("title") String title,
-			@RequestParam("info") String info) {
+	public JsonVO add(ModelMap model, @RequestParam(value="title") String title, @RequestParam(value="email",required=false) String email,
+			@RequestParam(value="info",required=false) String info) {
 		JsonVO json = new JsonVO();
 		try {
 			Feedback feedback = new Feedback();
 			feedback.setInfo(info);
+			feedback.setEmail(email);
 			feedback.setTitle(title);
 			if(feedbackService.saveFeedback(feedback)){
 				json.setErrorcode(Constant.OK);

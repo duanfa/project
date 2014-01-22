@@ -19,6 +19,8 @@ public class Feedback implements Serializable {
 	private int id;
 
 	private String title;
+	
+	private String email;
 
 	private String info;
 
@@ -44,6 +46,14 @@ public class Feedback implements Serializable {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }
