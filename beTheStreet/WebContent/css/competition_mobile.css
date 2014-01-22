@@ -1,0 +1,44 @@
+html{background:#FBF8F3;overflow-x: hidden;}
+.wrongtips {color:#ea6131;background-color:#ffffcc;border: 1px solid #fce587;padding:5px;width:300px;margin:0 auto;margin-top:20px}
+body{margin:0 auto;}
+img {border-width: 0px 0px 0px 0px}
+p{font-size: 12px;color:#666666;}
+.p_1{margin: 8px 10px;}
+.p_2{margin: 16px 10px 10px 10px;}
+.sub_title,.sub_title1{ background-color:#f4efe9;align:left;font-size: 14px; color:#333333;border-bottom:1px solid #ebdfd7;border-top:1px solid white;}
+.sub_title{float:left;width:50%;line-height: 40px;}
+.sub_title1{width:100%;line-height: 24px;}
+.clear{clear:both;}
+.ct{float:left;}
+.num{margin-top:25px;}
+.pl{padding-left:12px;}
+.p2{text-align: center;}
+.pitem,.citem{padding: 6px;list-style-type: none;height: 60px; display: block;background-color:#fbf8f3;border-bottom:1px solid #ebdfd7;border-top:1px solid #ffffff;}
+.head{width:60px;}
+.head img{width: 100%;-webkit-border-radius: 5px; border-radius: 5px;}
+.content{width:60%;height: 50px;}
+.like{width:25%}
+.numhold ,.numup,.numdown{color:#666666;padding-left: 24px;font-size: 18px;zoom: 0.8;margin-top: 16px;}
+.numhold{background: url(http://img.changba.com/images/hold.png) no-repeat;}
+.numup{background: url(http://img.changba.com/images/up.png) no-repeat;}
+.numdown{background: url(http://img.changba.com/images/down.png) no-repeat;}
+.tt{padding-left:8px;font-size: 14px;}
+.nickname{margin-top:6px;height: 45%;color:#a36b57}
+.songname{font-size:12px;color:#666666}
+.customfield{font-size:12px;margin-top:1px;color:#666666}
+.time{color:#666666}
+.rt{float:right;padding-right:20px;line-height: 38px;padding-top: 5px;}
+.intro {font-size:12px;color:#333333;border-bottom:1px solid #ebdfd7;}
+#formerchampion{background-color:#F4EFE9;}
+#pkstate{background-color:#F3E0C8;}
+.titleinfo {text-shadow: 0 -2px 1px #a23e26; box-shadow: inset 0 1px 0 #C4471C,0 1px 7px rgba(0, 0, 0, .8);position: relative;
+ -moz-box-shadow: inset 0 1px 0 #c4471c,0 1px 7px rgba(0,0,0,.8);
+ -webkit-box-shadow: inset 0 1px 0 #C4471C,0 1px 7px rgba(0, 0, 0, .8);
+ background: url(../img/add/nav_bg.jpg);
+height: 44px;font-size: 16px;text-align: center;line-height: 43px;color:white;font-weight: bold;width:100%;}
+.pt {margin-left:10px;}
+.endtitle{background-color: #F4EFE9; align: left; font-size: 14px; color: #333333; border-bottom: 1px solid #ebdfd7; border-top: 1px solid #f5f1ee; width: 100%;}
+.leftbtn{position: absolute; color: #A46C58; font-size: 14px; text-decoration: none; top: 7px; left: 5px;}
+.rightbtn{float: right; text-decoration: none; color: #A46C58; position: absolute; right: 5px; top: 7px;}
+.introtitle{float: right; text-decoration: none; color: #A46C58;}
+.emptytip{text-align: center; margin-top: 50px;font-size: 12px;color: #666666;}
