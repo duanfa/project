@@ -134,8 +134,8 @@ public class ComicController {
 			ComicVO comicvo = new ComicVO();
 			List<Comic> bonusComic = comicService.getComics(level,Image.Type.BONUS);
 			bonusComic.add(goComic);
-			List<Comic> streetComic = comicService.getComics(level,Image.Type.STREET);
 			comicvo.setBonusComic(bonusComic);
+			List<Comic> streetComic = comicService.getComics(level,Image.Type.STREET);
 			streetComic.add(goComic);
 			comicvo.setStreetComic(streetComic);
 			List<ComicVO> comicvos = new ArrayList<ComicVO>();

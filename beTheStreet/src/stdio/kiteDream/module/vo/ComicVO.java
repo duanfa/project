@@ -5,8 +5,9 @@ import java.util.List;
 import stdio.kiteDream.module.comic.bean.Comic;
 
 public class ComicVO {
+
 	public List<Comic> streetComic;
-	public List<Comic> BonusComic;
+	public List<Comic> bonusComic;
 
 	public List<Comic> getStreetComic() {
 		return streetComic;
@@ -17,11 +18,11 @@ public class ComicVO {
 	}
 
 	public List<Comic> getBonusComic() {
-		return BonusComic;
+		return bonusComic;
 	}
 
 	public void setBonusComic(List<Comic> bonusComic) {
-		BonusComic = bonusComic;
+		this.bonusComic = bonusComic;
 	}
 
 }
