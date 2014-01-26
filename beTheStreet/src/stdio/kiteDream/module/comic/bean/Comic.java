@@ -10,6 +10,8 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+import stdio.kiteDream.module.image.bean.Image;
+
 @Entity
 @Table(name = "comic")
 public class Comic implements Serializable {
@@ -25,6 +27,8 @@ public class Comic implements Serializable {
 	private int orderNum;
 
 	private String name;
+	
+	private Image.Type type;
 
 	private String path;
 	
@@ -89,6 +93,14 @@ public class Comic implements Serializable {
 
 	public void setInfo(String info) {
 		this.info = info;
+	}
+
+	public Image.Type getType() {
+		return type;
+	}
+
+	public void setType(Image.Type type) {
+		this.type = type;
 	}
 
 }

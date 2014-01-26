@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import stdio.kiteDream.module.comic.bean.Comic;
+import stdio.kiteDream.module.image.bean.Image.Type;
 
 @Component
 public class ComicDaoImpl implements ComicDao {
@@ -76,6 +77,20 @@ public class ComicDaoImpl implements ComicDao {
 		List<Comic> list = getSessionFactory().getCurrentSession()
 				.createCriteria(Comic.class)
 				.addOrder(Order.asc("level"))
+				.addOrder(Order.asc("orderNum")).list();
+		if(list==null){
+			return new ArrayList<Comic>();
+		}
+		return list;
+	}
+
+	@Override
+	public List<Comic> getComics(int level, Type type) {
+		@SuppressWarnings("unchecked")
+		List<Comic> list = getSessionFactory().getCurrentSession()
+				.createCriteria(Comic.class)
+				.add(Restrictions.eq("type", type))
+				.add(Restrictions.eq("level", level))
 				.addOrder(Order.asc("orderNum")).list();
 		if(list==null){
 			return new ArrayList<Comic>();

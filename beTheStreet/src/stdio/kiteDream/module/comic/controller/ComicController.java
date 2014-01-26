@@ -27,7 +27,9 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import stdio.kiteDream.module.comic.bean.Comic;
 import stdio.kiteDream.module.comic.bean.ComicJsonPathParser;
 import stdio.kiteDream.module.comic.service.ComicService;
+import stdio.kiteDream.module.image.bean.Image;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
+import stdio.kiteDream.module.vo.ComicVO;
 import stdio.kiteDream.module.vo.JsonVO;
 import stdio.kiteDream.util.Constant;
 import stdio.kiteDream.util.ImageUtil;
@@ -43,7 +45,7 @@ public class ComicController {
 	@ResponseBody
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addComic(HttpServletRequest request, HttpSession session, @RequestParam("name") String name, @RequestParam("level") int level, @RequestParam("order") int order,
-			@RequestParam("info") String info,@RequestParam(value="id",required=false) String id) throws IllegalStateException, IOException {
+			@RequestParam("info") String info,@RequestParam("type") String type,@RequestParam(value="id",required=false) String id) throws IllegalStateException, IOException {
 		// 设置上下方文
 		try {
 			CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
@@ -93,6 +95,13 @@ public class ComicController {
 					comic.setPath(imgPre + fileName);
 					comic.setThumbnail_path(imgPre + "thumbnail_" + fileName);
 				}
+				if(type!=null&&Image.Type.BONUS.toString().equals(type.toUpperCase())){
+					comic.setType(Image.Type.BONUS);
+				}else if(type!=null&&Image.Type.STREET.toString().equals(type.toUpperCase())){
+					comic.setType(Image.Type.STREET);
+				}else if(type!=null&&Image.Type.CHALLENGE.toString().equals(type.toUpperCase())){
+					comic.setType(Image.Type.CHALLENGE);
+				}
 				comic.setName(name);
 				comic.setInfo(info);
 				comic.setLevel(level);
@@ -117,11 +126,18 @@ public class ComicController {
 				ComicJsonPathParser.basePath = basePath;
 			}
 			jsonVO.setUser_events(userEventService.checkEvent(userid));
-			jsonVO.setResult(comicService.getComics(level));
-			jsonVO.setErrorcode("ok");
+			ComicVO comicvo = new ComicVO();
+			List<Comic> bonusComic = comicService.getComics(level,Image.Type.BONUS);
+			List<Comic> streetComic = comicService.getComics(level,Image.Type.STREET);
+			comicvo.setBonusComic(bonusComic);
+			comicvo.setStreetComic(streetComic);
+			List<ComicVO> comicvos = new ArrayList<ComicVO>();
+			comicvos.add(comicvo);
+			jsonVO.setResult(comicvos);
+			jsonVO.setErrorcode(Constant.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			jsonVO.setErrorcode("fail");
+			jsonVO.setErrorcode(Constant.FAIL);
 		}
 		return jsonVO;
 	}

@@ -6,8 +6,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,21 +31,80 @@ public class UserController {
 
 	@ResponseBody
 	@RequestMapping(value = "/register", method = { RequestMethod.POST, RequestMethod.GET })
-	public JsonVO register(HttpServletRequest request, HttpSession session, @RequestParam("name") String name, @RequestParam("password") String password,
-			@RequestParam(value = "email", required = false) String email, @RequestParam(value = "address", required = false) String address,
+	public JsonVO register(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "name", required = false) String name, 
+			@RequestParam(value = "nickname", required = false) String nickname, 
+			@RequestParam(value = "password", required = false) String password,
+			@RequestParam(value = "mac", required = false) String mac,
+			@RequestParam(value = "gender", required = false) String gender,
+			@RequestParam(value = "birthday", required = false) String birthday,
+			@RequestParam(value = "email", required = false) String email, 
+			@RequestParam(value = "address", required = false) String address,
 			@RequestParam(value = "cellphone", required = false) String cellphone) {
 		// 设置上下方文
 		JsonVO json = new JsonVO();
 		try {
 			User user = new User();
 			user.setName(name);
+			user.setNickname(nickname);
 			user.setPassword(password);
+			user.setMac(mac);
+			user.setGender(gender);
 			user.setEmail(email);
 			user.setAddress(address);
 			user.setCellPhone(cellphone);
 			user.setActive(true);
 			json.setErrorcode(userService.saveUser(user));
 			json.setResult(userService.getUserByParam("name", name));
+			json.setUser_events(userEventService.checkEvent(user.getId()));
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/addinfo/{userid}", method = { RequestMethod.POST, RequestMethod.GET })
+	public JsonVO addInfo(HttpServletRequest request, HttpSession session,
+			@PathVariable("userid") String userid,
+			@RequestParam(value = "name", required = false) String name, 
+			@RequestParam(value = "nickname", required = false) String nickname, 
+			@RequestParam(value = "password", required = false) String password,
+			@RequestParam(value = "mac", required = false) String mac,
+			@RequestParam(value = "gender", required = false) String gender,
+			@RequestParam(value = "birthday", required = false) String birthday,
+			@RequestParam(value = "email", required = false) String email, 
+			@RequestParam(value = "address", required = false) String address,
+			@RequestParam(value = "cellphone", required = false) String cellphone) {
+		// 设置上下方文
+		JsonVO json = new JsonVO();
+		try {
+			User user = userService.getUser(userid);
+			if(StringUtils.isNotBlank(name)){
+				user.setName(name);
+			}
+			if(StringUtils.isNotBlank(nickname)){
+				user.setNickname(nickname);
+			}
+			if(StringUtils.isNotBlank(password)){
+				user.setPassword(password);
+			}
+			if(StringUtils.isNotBlank(mac)){
+				user.setMac(mac);
+			}
+			if(StringUtils.isNotBlank(gender)){
+				user.setGender(gender);
+			}
+			if(StringUtils.isNotBlank(email)){
+				user.setEmail(email);
+			}
+			if(StringUtils.isNotBlank(address)){
+				user.setAddress(address);
+			}
+			if(StringUtils.isNotBlank(cellphone)){
+				user.setCellPhone(cellphone);
+			}
+			json.setErrorcode(userService.saveUser(user));
 			json.setUser_events(userEventService.checkEvent(user.getId()));
 		} catch (Exception e) {
 			e.printStackTrace();

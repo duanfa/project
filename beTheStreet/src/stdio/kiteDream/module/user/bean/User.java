@@ -29,16 +29,32 @@ public class User implements Serializable {
 	private String name;
 
 	private String password;
-	
+
+	private String mac;
+
+	private String nickname;
+
+	private String gender;
+
+	private String birthday;
+
+	private int blueCoinsNum;
+
+	private int redCoinsNum;
+
+	private int yellowCoinsNum;
+
+	private String headPhoto;
+
 	private String email;
-	
+
 	private String address;
-	
+
 	private String cellPhone;
-	
+
 	private boolean active;
-	
-	@OneToMany(targetEntity=Image.class)
+
+	@OneToMany(targetEntity = Image.class)
 	@Fetch(FetchMode.JOIN)
 	@JoinColumn
 	private List<Image> images;
@@ -106,5 +122,69 @@ public class User implements Serializable {
 	public void setImages(List<Image> images) {
 		this.images = images;
 	}
-	
+
+	public String getMac() {
+		return mac;
+	}
+
+	public void setMac(String mac) {
+		this.mac = mac;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+
+	public int getBlueCoinsNum() {
+		return blueCoinsNum;
+	}
+
+	public void setBlueCoinsNum(int blueCoinsNum) {
+		this.blueCoinsNum = blueCoinsNum;
+	}
+
+	public int getRedCoinsNum() {
+		return redCoinsNum;
+	}
+
+	public void setRedCoinsNum(int redCoinsNum) {
+		this.redCoinsNum = redCoinsNum;
+	}
+
+	public int getYellowCoinsNum() {
+		return yellowCoinsNum;
+	}
+
+	public void setYellowCoinsNum(int yellowCoinsNum) {
+		this.yellowCoinsNum = yellowCoinsNum;
+	}
+
+	public String getHeadPhoto() {
+		return headPhoto;
+	}
+
+	public void setHeadPhoto(String headPhoto) {
+		this.headPhoto = headPhoto;
+	}
+
 }

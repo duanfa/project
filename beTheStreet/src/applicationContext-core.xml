@@ -45,7 +45,7 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="org.sqlite.JDBC"></property>
-		<property name="url" value="jdbc:sqlite:cc.db"></property>
+		<property name="url" value="jdbc:sqlite:bets.db"></property>
 		<property name="username" value=""></property>
 		<property name="password" value=""></property>
 	</bean>

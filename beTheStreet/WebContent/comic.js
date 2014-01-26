@@ -1,7 +1,7 @@
 $(function() {
 	$("#dialog-form").dialog({
 		autoOpen : false,
-		height : 420,
+		height : 500,
 		width : 330,
 		modal : true,
 		buttons : {
@@ -24,7 +24,7 @@ $(function() {
 		}
 	});
 	$("#create-comic").click(function() {
-		$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="comic_upload.html" frameborder="0" style="height: 310px;"></iframe>');
+		$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="comic_upload.html" frameborder="0" style="height: 350px;"></iframe>');
 		$("#dialog-form").dialog("open");
 	});
 	addItems();

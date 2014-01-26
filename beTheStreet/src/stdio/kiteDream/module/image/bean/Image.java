@@ -23,7 +23,7 @@ public class Image implements Serializable {
 	public enum Check {
 		PASS, UNREAD, FAIL
 	}
-	public enum Tpye {
+	public enum Type {
 		BONUS, STREET, CHALLENGE
 	}
 

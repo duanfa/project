@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import stdio.kiteDream.module.comic.bean.Comic;
 import stdio.kiteDream.module.comic.dao.ComicDao;
+import stdio.kiteDream.module.image.bean.Image.Type;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
 
 @Service
@@ -64,5 +65,10 @@ public class ComicServiceImpl implements ComicService {
 	@Override
 	public List<Comic> getComics() {
 		return comicDao.getComics();
+	}
+
+	@Override
+	public List<Comic> getComics(int level, Type type) {
+		return comicDao.getComics(level,type);
 	}
 }
