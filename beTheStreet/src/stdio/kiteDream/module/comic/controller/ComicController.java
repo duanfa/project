@@ -42,7 +42,7 @@ public class ComicController {
 	@Autowired
 	ComicService comicService;
 	
-	Comic goComic = new Comic("go comic", "", "");
+	Comic goComic ;
 
 	@ResponseBody
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -126,13 +126,17 @@ public class ComicController {
 				String path = request.getContextPath();
 				String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 				ComicJsonPathParser.basePath = basePath;
+				if(goComic==null){
+					goComic = new Comic("go comic","comicDir/bethestreet_go.jpg","comicDir/thumbnail_bethestreet_go.jpg");	
+				}
 			}
 			jsonVO.setUser_events(userEventService.checkEvent(userid));
 			ComicVO comicvo = new ComicVO();
 			List<Comic> bonusComic = comicService.getComics(level,Image.Type.BONUS);
-			bonusComic.add(e)
+			bonusComic.add(goComic);
 			List<Comic> streetComic = comicService.getComics(level,Image.Type.STREET);
 			comicvo.setBonusComic(bonusComic);
+			streetComic.add(goComic);
 			comicvo.setStreetComic(streetComic);
 			List<ComicVO> comicvos = new ArrayList<ComicVO>();
 			comicvos.add(comicvo);

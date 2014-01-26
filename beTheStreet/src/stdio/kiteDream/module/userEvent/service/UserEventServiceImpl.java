@@ -36,7 +36,7 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 	@Override
 	public UserEvent checkEvent(int userId) {
 		UserEvent userEvetn = new UserEvent();
-		Map<String, Object> record = events.get(userId);
+		/*Map<String, Object> record = events.get(userId);
 		if(record!=null){
 			//
 			Integer new_level_comic = (Integer) record.get("new_level_comic");
@@ -54,13 +54,13 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 				userEvetn.setNew_deny_image_num(new_deny_image);
 				record.put("new_deny_image", 0);
 			}
-		}
+		}*/
 		return userEvetn;
 	}
 
 	@Override
 	public boolean updateAllUserEvent(String key, Object value) {
-		for (Map.Entry<Integer, Map<String, Object>> event : events.entrySet()) {
+		/*for (Map.Entry<Integer, Map<String, Object>> event : events.entrySet()) {
 			try {
 				Object v = event.getValue().get(key);
 				if ("new_level_comic".equals(key)) {
@@ -85,13 +85,13 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 		return true;
 	}
 
 	@Override
 	public boolean updateUserEvent(int userId, String key, Object value) {
-		Map<String, Object> record = events.get(userId);
+	/*	Map<String, Object> record = events.get(userId);
 		try {
 			Object v = record.get(key);
 			if ("new_level_comic".equals(key)) {
@@ -115,7 +115,7 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 		return true;
 	}
 
