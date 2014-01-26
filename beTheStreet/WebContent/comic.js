@@ -73,7 +73,7 @@ function deleteImg(msgId){
 }
 
 function editComic(imgDom){
-	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="comic_upload.html" frameborder="0" style="height: 310px;"></iframe>');
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="comic_upload.html" frameborder="0" style="height: 350px;"></iframe>');
 	$("#dialog-form").dialog("open");
 	$('#coreIframe').load(function(){  
 		try{
