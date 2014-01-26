@@ -41,6 +41,8 @@ public class ComicController {
 	UserEventService userEventService;
 	@Autowired
 	ComicService comicService;
+	
+	Comic goComic = new Comic("go comic", "", "");
 
 	@ResponseBody
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -128,6 +130,7 @@ public class ComicController {
 			jsonVO.setUser_events(userEventService.checkEvent(userid));
 			ComicVO comicvo = new ComicVO();
 			List<Comic> bonusComic = comicService.getComics(level,Image.Type.BONUS);
+			bonusComic.add(e)
 			List<Comic> streetComic = comicService.getComics(level,Image.Type.STREET);
 			comicvo.setBonusComic(bonusComic);
 			comicvo.setStreetComic(streetComic);
@@ -192,4 +195,6 @@ public class ComicController {
 			return "{\"result\":\"fail\",\"info\":\"" + e.getMessage() + "\"}";
 		}
 	}
+	
+	
 }
