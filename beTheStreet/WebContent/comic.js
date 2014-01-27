@@ -48,18 +48,43 @@ function addItems(){
 				'<div class="box-content">'+
 					'<br/>'+
 					'<ul class="thumbnails gallery">';
+			var type = value[0].type;
+			var divColor = "";
+			if(type=="BONUS"){
+				divColor = '<div class="alert alert-success" style="float:left;"><div>BONUS</div>';
+			}else if(type=="STREET"){
+				divColor = '<div class="alert alert-error" style="float:left;"><div>STREET</div>';
+			}else if(type=="CHALLENGE"){
+				divColor = '<div class="alert alert-block" style="float:left;padding:8px;"><div>CHALLENGE</div>';
+			}
+			levelhead = levelhead+divColor;
 			result = result+levelhead;
 			$(value).each(function(i, v) {
-				 
-				var comic = '<li id="'+v.id+'" class="thumbnail"><input type="hidden" value="'+v.level+'" name="'+v.orderNum+'" />'+
-									'<a style="background:url('+v.thumbnail_path+')" title="'+v.name+'" href="'+v.path+'"><img src="'+v.thumbnail_path+'" alt="'+v.info+'"></a>'+
-								'</li>';
+				/*var comic = '<li tyle="width: 100px;float:inherit;margin:20px;" id="'+v.id+'" class="thumbnail"><input type="hidden" value="'+v.level+'" name="'+v.orderNum+'" alt="'+v.info+'"/>'+
+									'<a style="background:url('+v.thumbnail_path+')" title="'+v.name+'" href="'+v.path+'"></a>'+
+									
+							'</li>';*/
+				var comic = '<li style="width: 100px;float:inherit;margin:20px;" id="'+v.id+'" class="thumbnail"><input type="hidden" value="'+v.level+'" name="'+v.orderNum+'" alt="'+v.info+'"/>'+
+									'<a style="background:url('+v.thumbnail_path+')" title="'+v.name+'" href="'+v.path+'">'+
+									'</a>'+
+							'</li>';
+				if(v.type!=type){
+					type=v.type;
+					if(v.type=="BONUS"){
+						divColor = '</div><div class="alert alert-success" style="float:left;"><div>BONUS</div>';
+					}else if(v.type=="STREET"){
+						divColor = '</div><div class="alert alert-error" style="float:left;"><div>STREET</div>';
+					}else if(v.type=="CHALLENGE"){
+						divColor = '</div><div class="alert alert-block" style="float:left;padding:8px;"><div>CHALLENGE</div>';
+					}
+					comic = divColor+comic;
+				}
 				result = result+comic;				
 			});
-			var leveltail = '</ul>'+
+				var leveltail = '</div></ul>'+
+				'</div>'+
 			'</div>'+
-		'</div>'+
-	'</div>';
+		'</div>';
 			result = result+leveltail;	
 		});
 		$("#level-comic-content").html(result);
@@ -81,7 +106,8 @@ function editComic(imgDom){
 			$("#coreIframe").contents().find("#name").val(imgDom.find("a").attr("title"));
 			$("#coreIframe").contents().find("#level").val(imgDom.find("input").val());
 			$("#coreIframe").contents().find("#order").val(imgDom.find("input").attr("name"));
-			$("#coreIframe").contents().find("#info").val(imgDom.find("img").attr("alt"));
+			$("#coreIframe").contents().find("#type").val(imgDom.parents('.alert').find("div").html());
+			$("#coreIframe").contents().find("#info").val(imgDom.find("input").attr("alt"));
 		}catch(e){
 			console.log(e);
 		}
