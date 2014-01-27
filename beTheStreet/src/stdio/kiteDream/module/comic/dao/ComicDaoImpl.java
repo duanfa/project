@@ -77,6 +77,7 @@ public class ComicDaoImpl implements ComicDao {
 		List<Comic> list = getSessionFactory().getCurrentSession()
 				.createCriteria(Comic.class)
 				.addOrder(Order.asc("level"))
+				.addOrder(Order.asc("type"))
 				.addOrder(Order.asc("orderNum")).list();
 		if(list==null){
 			return new ArrayList<Comic>();
