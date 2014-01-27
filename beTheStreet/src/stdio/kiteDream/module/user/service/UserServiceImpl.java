@@ -48,10 +48,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String saveUser(User user) {
 		try {
-			List<User> users = userDao.getUserByParam("name", user.getName());
-			if(users.size()>0){
-				return Constant.EXIST;
-			}
 			if(userDao.saveUser(user)){
 				userEventService.updateUserEvent(user.getId(), "new_level_comic", 31);
 			}

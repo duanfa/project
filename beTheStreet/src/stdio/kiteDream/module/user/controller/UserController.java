@@ -44,6 +44,11 @@ public class UserController {
 		// 设置上下方文
 		JsonVO json = new JsonVO();
 		try {
+			List<User> users = userService.getUserByParam("nickname", nickname);
+			if(users.size()>0){
+				json.setErrorcode(Constant.EXIST);
+				return json;
+			}
 			User user = new User();
 			user.setName(name);
 			user.setNickname(nickname);

@@ -24,6 +24,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import stdio.kiteDream.module.comic.VO.GameLevel;
+import stdio.kiteDream.module.comic.VO.LevelState;
+import stdio.kiteDream.module.comic.VO.MissionType;
 import stdio.kiteDream.module.comic.bean.Comic;
 import stdio.kiteDream.module.comic.bean.ComicJsonPathParser;
 import stdio.kiteDream.module.comic.service.ComicService;
@@ -130,16 +133,36 @@ public class ComicController {
 					goComic = new Comic("go comic","comicDir/bethestreet_go.jpg","comicDir/thumbnail_bethestreet_go.jpg");	
 				}
 			}
+			GameLevel gameLevel = null;
+			switch (level){
+			case 1:
+				gameLevel = new GameLevel(1, 1, "1 level", LevelState.REPLAY, 1, 0, 1, 0, MissionType.REGULAR, 1);
+			break;
+			case 2:  
+				gameLevel = new GameLevel(2, 2, "2 level", LevelState.REPLAY, 2, 0, 1, 0, MissionType.BONUS, 1);
+				break;
+			case 3: 
+				gameLevel = new GameLevel(3,3, "3 level", LevelState.PLAYING, 2, 0, 2, 0, MissionType.REGULAR, 2);
+				break;
+			case 4: 
+				gameLevel = new GameLevel(4,4, "4 level", LevelState.LOCK, 4, 0, 2, 0, MissionType.BONUS, 2);
+				break;
+			case 5: 
+				gameLevel = new GameLevel(5,5, "5 level", LevelState.LOCK, 5, 0, 1, 0, MissionType.REGULAR, 2);
+				break;
+			default:
+				break;
+			}
+			
 			jsonVO.setUser_events(userEventService.checkEvent(userid));
-			ComicVO comicvo = new ComicVO();
 			List<Comic> bonusComic = comicService.getComics(level,Image.Type.BONUS);
 			bonusComic.add(goComic);
-			comicvo.setBonusComic(bonusComic);
+			gameLevel.setBonusLevel(bonusComic);
 			List<Comic> streetComic = comicService.getComics(level,Image.Type.STREET);
 			streetComic.add(goComic);
-			comicvo.setStreetComic(streetComic);
-			List<ComicVO> comicvos = new ArrayList<ComicVO>();
-			comicvos.add(comicvo);
+			gameLevel.setRegularLevel(streetComic);
+			List<GameLevel> comicvos = new ArrayList<GameLevel>();
+			comicvos.add(gameLevel);
 			jsonVO.setResult(comicvos);
 			jsonVO.setErrorcode(Constant.OK);
 		} catch (Exception e) {
