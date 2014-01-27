@@ -45,12 +45,17 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public List<User> getUserByParam(String param, String value) {
-		@SuppressWarnings("unchecked")
-		List<User> list = getSessionFactory().getCurrentSession().createCriteria(User.class).add(Restrictions.eq(param.trim(), value.trim())).list();
-		if (list == null) {
+		try {
+			@SuppressWarnings("unchecked")
+			List<User> list = getSessionFactory().getCurrentSession().createCriteria(User.class).add(Restrictions.eq(param.trim(), value.trim())).list();
+			if (list == null) {
+				return new ArrayList<User>();
+			}
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
 			return new ArrayList<User>();
 		}
-		return list;
 	}
 
 	@Override

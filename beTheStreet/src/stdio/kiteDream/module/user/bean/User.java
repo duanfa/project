@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -18,6 +19,7 @@ import stdio.kiteDream.module.image.bean.Image;
 
 @Entity
 @Table(name = "user")
+@JsonIgnoreProperties({ "images" }) 
 public class User implements Serializable {
 
 	private static final long serialVersionUID = -8619796610303376571L;
