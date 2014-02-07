@@ -5,13 +5,11 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import stdio.kiteDream.module.comic.bean.Comic;
 import stdio.kiteDream.module.user.bean.User;
 
 @Component
@@ -93,6 +91,23 @@ public class UserDaoImpl implements UserDao {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public Integer getUserCount() {
+		Integer count = (Integer) getSessionFactory().getCurrentSession().createSQLQuery("select count(1) from user").uniqueResult();
+		return count;
+	}
+
+	@Override
+	public List<User> manageSearch(String keyword) {
+		keyword = "%"+keyword+"%";
+		@SuppressWarnings("unchecked")
+		List<User> list = getSessionFactory().getCurrentSession().createCriteria(User.class).add(Restrictions.or(Restrictions.like("name", keyword),Restrictions.like("nickname", keyword))).list();
+		if (list == null) {
+			return new ArrayList<User>();
 		}
 		return list;
 	}

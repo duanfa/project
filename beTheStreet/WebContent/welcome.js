@@ -34,27 +34,6 @@ $(function() {
 	$("#create-user").click(function() {
 		$("#dialog-form").dialog("open");
 	});
-
-	/*$("#from").datepicker({
-		defaultDate : "+1w",
-		changeMonth : true,
-		changeYear : true,
-		numberOfMonths : 1,
-		dateFormat : "yy-mm-dd",
-		onClose : function(selectedDate) {
-			$("#to").datepicker("option", "minDate", selectedDate);
-		}
-	});
-	$("#to").datepicker({
-		defaultDate : "+1w",
-		changeMonth : true,
-		changeYear : true,
-		numberOfMonths : 1,
-		dateFormat : "yy-mm-dd",
-		onClose : function(selectedDate) {
-			$("#from").datepicker("option", "maxDate", selectedDate);
-		}
-	});*/
 });
 
 function addItems(){
@@ -65,11 +44,8 @@ function addItems(){
 			var content = '<tr>'+
 				'<td>'+this.title+'</td>'+
 				'<td class="center">'+this.info+'</td>'+
-			/*	'<td class="center">'+formatDate(new Date(this.startTime))+'</td>'+
-				'<td class="center">'+formatDate(new Date(this.endTime))+'</td>'+*/
 				'<td class="center">'+
 					'<a class="btn btn-info edite-user" onclick="updateMsg('+index+')" href="#"> <i class="icon-edit icon-white"></i> Edite </a>&nbsp;'+
-					/*'<a class="btn btn-danger" onclick="deleteMsg('+this.id+')" href="#"> <i class="icon-trash icon-white"></i> Delete </a>'+*/
 				'</td>'+
 			'</tr>';
 			result = result+content;
@@ -89,39 +65,12 @@ function updateMsg(index){
 			$.post("api/helloMessage/update", {
 				id : jsonData[index].id,
 				msg : $("#message").val(),
-				/*startTime : $("#from").val(),
-				endTime : $("#to").val(),*/
 				title : $("#title").val()
 			}, function() {
-				// alert("success");
 			}).done(function() {
 				 addItems();
 				 $("#message").val("");
 				 $("#title").val("");
-				 /*$("#from").val("");
-				 $("#to").val("");
-				 $( "#dialog-form" ).dialog( "option", "buttons", [{
-					 text: "Add", click: function() {
-							$.post("api/helloMessage/add", {
-								msg : $("#message").val(),
-								/*startTime : $("#from").val(),
-								endTime : $("#to").val(),
-								title : $("#title").val()
-							}, function() {
-								// alert("success");
-							}).done(function() {
-								addItems();
-								 $("#message").val("");
-								 $("#title").val("");
-								$("#from").val("");
-								 $("#to").val("");
-							}).fail(function() {
-								alert("server error");
-							}).always(function() {
-								$("#dialog-form").dialog("close");
-							});
-						}
-					}] );*/
 			}).fail(function() {
 				alert("server error");
 			}).always(function() {
@@ -131,8 +80,6 @@ function updateMsg(index){
 	}] );
 	$("#message").val(jsonData[index].info);
 	$("#title").val(jsonData[index].title);
-	/*$("#from").val(formatDate(new Date(jsonData[index].startTime)));
-	$("#to").val(formatDate(new Date(jsonData[index].endTime)));*/
 	$("#dialog-form").dialog("open");
 }
 function formatDate(date) {

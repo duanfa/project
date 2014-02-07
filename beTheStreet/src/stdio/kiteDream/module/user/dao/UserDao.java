@@ -7,6 +7,8 @@ import stdio.kiteDream.module.user.bean.User;
 public interface UserDao {
 
 	public List<User> getUsers();
+	
+	public Integer getUserCount();
 
 	public List<User> getUsers(int pageNo,int pageSize);
 	
@@ -17,5 +19,7 @@ public interface UserDao {
 	public boolean saveUser(User user);
 
 	public boolean delUser(String userId);
+
+	public List<User> manageSearch(String keyword);
 
 }

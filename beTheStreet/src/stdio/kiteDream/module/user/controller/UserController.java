@@ -167,5 +167,30 @@ public class UserController {
 		}
 		return json;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/count", method = RequestMethod.GET)
+	public long getUserCount(HttpServletRequest request) {
+		try {
+			return userService.getUserCount();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	@ResponseBody
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public JsonVO search(HttpServletRequest request,@RequestParam(value = "keyword") String keyword) {
+
+		JsonVO json = new JsonVO();
+		try {
+			json.setResult(userService.manageSearch(keyword));
+			json.setErrorcode(Constant.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
 
 }

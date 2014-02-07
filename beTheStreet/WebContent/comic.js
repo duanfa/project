@@ -40,7 +40,6 @@ function addItems(){
 				'<div class="box-header well" data-original-title>'+
 					'<h2><i class="icon-picture"></i> level '+value[0].level+'</h2>'+
 					'<div class="box-icon">'+
-						'<a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>'+
 						'<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>'+
 						'<a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>'+
 					'</div>'+
@@ -60,12 +59,8 @@ function addItems(){
 			levelhead = levelhead+divColor;
 			result = result+levelhead;
 			$(value).each(function(i, v) {
-				/*var comic = '<li tyle="width: 100px;float:inherit;margin:20px;" id="'+v.id+'" class="thumbnail"><input type="hidden" value="'+v.level+'" name="'+v.orderNum+'" alt="'+v.info+'"/>'+
-									'<a style="background:url('+v.thumbnail_path+')" title="'+v.name+'" href="'+v.path+'"></a>'+
-									
-							'</li>';*/
 				var comic = '<li style="width: 100px;float:inherit;margin:20px;" id="'+v.id+'" class="thumbnail"><input type="hidden" value="'+v.level+'" name="'+v.orderNum+'" alt="'+v.info+'"/>'+
-									'<a style="background:url('+v.thumbnail_path+')" title="'+v.name+'" href="'+v.path+'">'+
+									'<div>Order:'+v.orderNum+'</div><a style="background:url('+v.thumbnail_path+')" title="'+v.name+'" href="'+v.path+'">'+
 									'</a>'+
 							'</li>';
 				if(v.type!=type){

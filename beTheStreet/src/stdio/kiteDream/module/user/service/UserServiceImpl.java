@@ -111,4 +111,14 @@ public class UserServiceImpl implements UserService {
 		}
 		return Constant.OK;
 	}
+
+	@Override
+	public long getUserCount() {
+		return userDao.getUserCount();
+	}
+
+	@Override
+	public List<User> manageSearch(String keyword) {
+		return userDao.manageSearch(keyword);
+	}
 }

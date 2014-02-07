@@ -134,17 +134,17 @@ body {
 				<div>
 					<ul class="breadcrumb">
 						<li><a href="#">Home</a> <span class="divider">/</span></li>
-						<li><a href="#">user</a></li>
+						<li><a href="#" id="username">user</a></li>
 					</ul>
 				</div>
-
+				<div id="image_content">
 				<div class="row-fluid sortable">
 					<div class="box span12">
 						<div class="box-header well" data-original-title>
 							<h2>App users</h2>
 							<div class="box-icon">
 								<a href="#" class="btn btn-setting btn-round"><i
-									class="icon-search"></i></a> <a href="#"
+									class="icon-cog"></i></a> <a href="#"
 									class="btn btn-minimize btn-round"><i
 									class="icon-chevron-up"></i></a> <a href="#"
 									class="btn btn-close btn-round"><i class="icon-remove"></i></a>
@@ -154,7 +154,6 @@ body {
 							<table class="table table-bordered table-striped table-condensed">
 								<thead>
 									<tr>
-										<th>Portrait</th>
 										<th>Username</th>
 										<th>Email</th>
 										<th>Address</th>
@@ -164,28 +163,12 @@ body {
 									</tr>
 								</thead>
 								<tbody id="user_tbody">
-									<!-- <tr>
-										<td>Muhammad Usman</td>
-										<td class="center">2012/01/01</td>
-										<td class="center">Member</td>
-										<td class="center"><span class="label label-success">Active</span>
-										</td>
-									</tr> -->
 								</tbody>
 							</table>
-							<div class="pagination pagination-centered">
-								<ul>
-									<li><a href="#">Prev</a></li>
-									<li class="active"><a href="#">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#">4</a></li>
-									<li><a href="#">Next</a></li>
-								</ul>
-							</div>
 						</div>
 					</div>
 					<!--/span-->
+				</div>
 				</div>
 				<!--/row-->
 
@@ -199,17 +182,15 @@ body {
 
 		<div class="modal hide fade" id="myModal">
 			<div class="modal-header">
-				<button id="close_search" type="button" class="close" data-dismiss="modal">×</button>
-				<h3>Search user</h3>
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h3>Settings</h3>
 			</div>
 			<div class="modal-body">
-			<input id="userName" style="width: 410px;" />
-			<a onclick="searchUser()" href="#" class="btn btn-success">
-				<i class="icon-zoom-in icon-white"></i>  
-				search                              
-			</a>
+				<p>Here settings can be configured...</p>
 			</div>
 			<div class="modal-footer">
+				<a href="#" class="btn" data-dismiss="modal">Close</a> <a href="#"
+					class="btn btn-primary">Save changes</a>
 			</div>
 		</div>
 
@@ -298,9 +279,9 @@ body {
 	<!-- history.js for cross-browser state change on ajax -->
 	<script src="js/jquery.history.js"></script>
 	<!-- application script for Charisma demo -->
-	<script src="user_after.js"></script>
+	<script src="user_image_after.js"></script>
 	
-	<script src="user.js"></script>
+	<script src="user_image.js"></script>
 
 
 </body>

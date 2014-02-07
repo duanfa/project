@@ -32,4 +32,7 @@ public interface UserService {
 	
 	public String saveUserEventRecord();
 
+	public long getUserCount();
+
+	public List<User> manageSearch(String keyword);
 }
