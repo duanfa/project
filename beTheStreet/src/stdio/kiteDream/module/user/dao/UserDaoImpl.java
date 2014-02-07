@@ -85,9 +85,8 @@ public class UserDaoImpl implements UserDao {
 		List<User> list = new ArrayList<User>();
 		try {
 			if (pageNo > 0 && pageSize > 0) {
-				int firstResult = (pageNo - 1) * pageSize;
-				int maxResult = pageNo * pageSize;
-				list = getSessionFactory().getCurrentSession().createCriteria(User.class).setFirstResult(firstResult).setMaxResults(maxResult).list();
+				int firstResult = (pageNo - 1) * pageSize+1;
+				list = getSessionFactory().getCurrentSession().createCriteria(User.class).setFirstResult(firstResult).setMaxResults(pageSize).list();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
