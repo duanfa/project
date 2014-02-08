@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import stdio.kiteDream.module.comic.bean.ComicJsonPathParser;
+import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
 import stdio.kiteDream.module.image.bean.Image;
 import stdio.kiteDream.module.image.service.ImageService;
 import stdio.kiteDream.module.user.bean.User;
@@ -89,7 +89,7 @@ public class ImageController {
 				image.setPath(imgPre + fileName);
 				image.setThumbnail_path(imgPre + "thumbnail_" + fileName);
 				image.setCreate_time(new Date());
-				image.setDesc(desc);
+				image.setDescrib(desc);
 				image.setLevel(level);
 				image.setName(fileName);
 				image.setStatu(Image.Check.UNREAD.toString());
@@ -114,10 +114,10 @@ public class ImageController {
 	@ResponseBody
 	@RequestMapping(value = "/list/user/{userid}", method = RequestMethod.GET)
 	public JsonVO listLevel(HttpServletRequest request, @PathVariable("userid") int userid) {
-		if (ComicJsonPathParser.basePath == null) {
+		if (BasePathJsonParser.basePath == null) {
 			String path = request.getContextPath();
 			String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
-			ComicJsonPathParser.basePath = basePath;
+			BasePathJsonParser.basePath = basePath;
 		}
 		JsonVO jsonVO = new JsonVO();
 		try {

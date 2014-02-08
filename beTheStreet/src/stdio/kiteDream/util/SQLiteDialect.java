@@ -169,7 +169,7 @@ public class SQLiteDialect extends Dialect {
     }
 
     /**
-     * ÐÞ¸´·ÖÒ³bug
+     * ï¿½Þ¸ï¿½ï¿½ï¿½Ò³bug
      * @author Z.kc
      */
     @Override

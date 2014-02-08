@@ -49,6 +49,20 @@
 		<property name="username" value=""></property>
 		<property name="password" value=""></property>
 	</bean>
+	<!-- <bean id="dataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource">
+		<property name="driver">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="driverUrl">
+			<value>jdbc:mysql://10.12.30.129:3306/test?characterEncoding=utf-8</value>
+		</property>
+		<property name="user">
+			<value>vhost</value>
+		</property>
+		<property name="password">
+			<value>vhost</value>
+		</property>
+	</bean> -->
 	<!-- 配置事务的传播特性 -->
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
@@ -72,7 +86,8 @@
 		<property name="packagesToScan" value="stdio.kiteDream.module" />
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.dialect">stdio.kiteDream.util.SQLiteDialect</prop>
+			<prop key="hibernate.dialect">stdio.kiteDream.util.SQLiteDialect</prop>
+				<!-- <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop> -->
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.format_sql">false</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>

@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import stdio.kiteDream.module.comic.bean.ComicJsonPathParser;
+import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
 import stdio.kiteDream.module.user.bean.User;
 
 @Entity
@@ -35,7 +35,7 @@ public class Image implements Serializable {
 
 	private String name;
 
-	private String desc;
+	private String describ;
 	
 	private String gps;
 	
@@ -75,12 +75,13 @@ public class Image implements Serializable {
 		this.name = name;
 	}
 
-	public String getDesc() {
-		return desc;
+
+	public String getDescrib() {
+		return describ;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescrib(String describe) {
+		this.describ = describe;
 	}
 
 	public int getLevel() {
@@ -107,7 +108,7 @@ public class Image implements Serializable {
 		this.statu = statu;
 	}
 
-	@JsonSerialize(using = ComicJsonPathParser.class)
+	@JsonSerialize(using = BasePathJsonParser.class)
 	public String getPath() {
 		return path;
 	}
@@ -116,7 +117,7 @@ public class Image implements Serializable {
 		this.path = path;
 	}
 	
-	@JsonSerialize(using = ComicJsonPathParser.class)
+	@JsonSerialize(using = BasePathJsonParser.class)
 	public String getThumbnail_path() {
 		return thumbnail_path;
 	}

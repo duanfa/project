@@ -1,10 +1,14 @@
 package stdio.kiteDream.module.user.dao;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -85,8 +89,10 @@ public class UserDaoImpl implements UserDao {
 		List<User> list = new ArrayList<User>();
 		try {
 			if (pageNo > 0 && pageSize > 0) {
-				int firstResult = (pageNo - 1) * pageSize;
-				list = getSessionFactory().getCurrentSession().createCriteria(User.class).setFirstResult(firstResult).setMaxResults(pageSize).list();
+				Query query = getSessionFactory().getCurrentSession().createQuery("from User");
+				query.setFirstResult((pageNo - 1) * pageSize);
+				query.setMaxResults(pageSize);
+				list = query.list();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -96,15 +102,23 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public Integer getUserCount() {
-		Integer count = (Integer) getSessionFactory().getCurrentSession().createSQLQuery("select count(1) from user").uniqueResult();
+		Integer count;
+		try {
+			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery("select count(1) from user").uniqueResult();
+			count = countRaw.intValue();
+		} catch (Exception e) {
+			Integer countRaw = (Integer) getSessionFactory().getCurrentSession().createSQLQuery("select count(1) from user").uniqueResult();
+			count = countRaw.intValue();
+		}
 		return count;
 	}
 
 	@Override
 	public List<User> manageSearch(String keyword) {
-		keyword = "%"+keyword+"%";
+		keyword = "%" + keyword + "%";
 		@SuppressWarnings("unchecked")
-		List<User> list = getSessionFactory().getCurrentSession().createCriteria(User.class).add(Restrictions.or(Restrictions.like("name", keyword),Restrictions.like("nickname", keyword))).list();
+		List<User> list = getSessionFactory().getCurrentSession().createCriteria(User.class)
+				.add(Restrictions.or(Restrictions.like("name", keyword), Restrictions.like("nickname", keyword))).list();
 		if (list == null) {
 			return new ArrayList<User>();
 		}

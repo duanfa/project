@@ -7,7 +7,7 @@ import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
 
-public class ComicJsonPathParser extends JsonSerializer<String> {
+public class BasePathJsonParser extends JsonSerializer<String> {
 	public static String basePath;
 	@Override
 	public void serialize(String value, JsonGenerator jgen,

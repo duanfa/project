@@ -28,7 +28,7 @@ import stdio.kiteDream.module.comic.VO.GameLevel;
 import stdio.kiteDream.module.comic.VO.LevelState;
 import stdio.kiteDream.module.comic.VO.MissionType;
 import stdio.kiteDream.module.comic.bean.Comic;
-import stdio.kiteDream.module.comic.bean.ComicJsonPathParser;
+import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
 import stdio.kiteDream.module.comic.service.ComicService;
 import stdio.kiteDream.module.image.bean.Image;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
@@ -125,10 +125,10 @@ public class ComicController {
 	public JsonVO listLevel(HttpServletRequest request, @PathVariable("level") int level, @RequestParam(value = "userid", required = false) int userid) {
 		JsonVO jsonVO = new JsonVO();
 		try {
-			if (ComicJsonPathParser.basePath == null) {
+			if (BasePathJsonParser.basePath == null) {
 				String path = request.getContextPath();
 				String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
-				ComicJsonPathParser.basePath = basePath;
+				BasePathJsonParser.basePath = basePath;
 				if(goComic==null){
 					goComic = new Comic("go comic","comicDir/bethestreet_go.jpg","comicDir/thumbnail_bethestreet_go.jpg");	
 				}
@@ -175,10 +175,10 @@ public class ComicController {
 	@ResponseBody
 	@RequestMapping(value = "/list/all", method = RequestMethod.GET)
 	public List<List<Comic>> listAll(HttpServletRequest request) {
-		if (ComicJsonPathParser.basePath == null) {
+		if (BasePathJsonParser.basePath == null) {
 			String path = request.getContextPath();
 			String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
-			ComicJsonPathParser.basePath = basePath;
+			BasePathJsonParser.basePath = basePath;
 		}
 		List<List<Comic>> result = new ArrayList<List<Comic>>();
 		List<Integer> levels = new ArrayList<Integer>();

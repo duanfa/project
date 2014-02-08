@@ -33,7 +33,7 @@ public class UserController {
 	@RequestMapping(value = "/register", method = { RequestMethod.POST, RequestMethod.GET })
 	public JsonVO register(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "name", required = false) String name, 
-			@RequestParam(value = "nickname", required = false) String nickname, 
+			@RequestParam(value = "nickname", required = true) String nickname, 
 			@RequestParam(value = "password", required = false) String password,
 			@RequestParam(value = "mac", required = false) String mac,
 			@RequestParam(value = "gender", required = false) String gender,
@@ -60,7 +60,7 @@ public class UserController {
 			user.setCellPhone(cellphone);
 			user.setActive(true);
 			json.setErrorcode(userService.saveUser(user));
-			json.setResult(userService.getUserByParam("name", name));
+			json.setResult(userService.getUserByParam("nickname", nickname));
 			json.setUser_events(userEventService.checkEvent(user.getId()));
 		} catch (Exception e) {
 			e.printStackTrace();

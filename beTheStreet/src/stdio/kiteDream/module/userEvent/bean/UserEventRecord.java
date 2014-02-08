@@ -3,11 +3,11 @@ package stdio.kiteDream.module.userEvent.bean;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Entity
@@ -22,6 +22,7 @@ public class UserEventRecord implements Serializable{
 
 	private Date createTime;
 	
+	@Column(columnDefinition = "BLOB") 
 	private byte[] mem;
 
 	public int getId() {

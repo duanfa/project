@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean manageIsExist(String name) {
-		List<User> users = userDao.getUserByParam("name", name);
+		List<User> users = userDao.getUserByParam("nickname", name);
 		return users.size() > 0;
 	}
 	
