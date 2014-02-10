@@ -112,6 +112,7 @@ function deleteImg(imgId){
 	});
 }
 function check(imgId,statu){
+	img/ajax-loaders/ajax-loader-1.gif
 	$.get("api/image/check/" + imgId+'?statu='+statu, function(data) {
 	}).done(function(data) {
 		if(data.errorcode=='ok'){
