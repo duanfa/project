@@ -40,12 +40,12 @@ public class Product implements Serializable {
 	private String thumbnail_path;
 
 	private String info;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private ProductCategory category;
 
-	@ElementCollection(fetch=FetchType.EAGER)
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "product_pic", joinColumns = @JoinColumn(name = "product_id"))
 	@Column(name = "pic")
 	private List<String> pics;
@@ -81,7 +81,7 @@ public class Product implements Serializable {
 	public void setNum(int num) {
 		this.num = num;
 	}
-	
+
 	@JsonSerialize(using = BasePathJsonParser.class)
 	public String getPath() {
 		return path;
@@ -109,6 +109,9 @@ public class Product implements Serializable {
 	}
 
 	public List<String> getPics() {
+		for (int i = 0; i<pics.size();i++){
+			pics.set(i, BasePathJsonParser.basePath+pics.get(i));
+		}
 		return pics;
 	}
 
