@@ -41,11 +41,11 @@ function addItems(userid){
 							$(value).each(function(i, v) {
 								var statu = "";
 								if(v.statu=='PASS'){
-									statu = '<span class="label label-success">Pass</span>';
+									statu = '<span id="statu'+v.id+'"><span class="label label-success">Pass</span><span>';
 								}else if(v.statu=='FAIL'){
-									statu = '<span class="label label-important">Deny</span>';
+									statu = '<span id="statu'+v.id+'"><span class="label label-important">Deny</span><span>';
 								}else if(v.statu=='UNREAD'){
-									statu = '<span class="label label-warning">Unread</span>';
+									statu = '<span id="statu'+v.id+'"><span class="label label-warning">Unread</span><span>';
 								}
 								var type = "";
 								if(v.type=='BONUS'){
@@ -112,7 +112,7 @@ function deleteImg(imgId){
 	});
 }
 function check(imgId,statu){
-	img/ajax-loaders/ajax-loader-1.gif
+	$("#statu"+imgId).html('<img src="img/ajax-loaders/ajax-loader-1.gif"/>');
 	$.get("api/image/check/" + imgId+'?statu='+statu, function(data) {
 	}).done(function(data) {
 		if(data.errorcode=='ok'){
