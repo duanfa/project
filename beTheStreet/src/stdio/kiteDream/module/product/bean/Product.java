@@ -12,7 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -40,6 +40,10 @@ public class Product implements Serializable {
 	private String thumbnail_path;
 
 	private String info;
+	
+	@ManyToOne
+	@JoinColumn(name = "category_id")
+	private ProductCategory category;
 
 	@ElementCollection(fetch=FetchType.EAGER)
 	@CollectionTable(name = "product_pic", joinColumns = @JoinColumn(name = "product_id"))
@@ -110,6 +114,14 @@ public class Product implements Serializable {
 
 	public void setPics(List<String> pics) {
 		this.pics = pics;
+	}
+
+	public ProductCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(ProductCategory category) {
+		this.category = category;
 	}
 
 }

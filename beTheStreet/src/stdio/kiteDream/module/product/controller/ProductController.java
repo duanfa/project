@@ -25,6 +25,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
 import stdio.kiteDream.module.product.bean.Product;
+import stdio.kiteDream.module.product.bean.ProductCategory;
 import stdio.kiteDream.module.product.service.ProductService;
 import stdio.kiteDream.module.vo.JsonVO;
 import stdio.kiteDream.util.Constant;
@@ -33,7 +34,7 @@ import stdio.kiteDream.util.ImageUtil;
 @Controller
 @RequestMapping("/api/product")
 public class ProductController {
-	
+
 	@Autowired
 	private ProductService productService;
 
@@ -70,11 +71,59 @@ public class ProductController {
 		}
 		return json;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/listcategory", method = RequestMethod.GET)
+	public JsonVO listcategory(HttpServletRequest request) {
+		JsonVO json = new JsonVO();
+		try {
+			json.setResult(productService.getProductCategorys());
+			json.setErrorcode(Constant.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/addcategory", method = RequestMethod.GET)
+	public JsonVO addcategory(ProductCategory category) {
+		JsonVO json = new JsonVO();
+		try {
+			if(productService.saveProductCategory(category)){
+				json.setErrorcode(Constant.OK);
+			}else{
+				json.setErrorcode(Constant.FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/delCategory", method = RequestMethod.GET)
+	public JsonVO delCategory(@RequestParam("id") String id) {
+		JsonVO json = new JsonVO();
+		try {
+			if(productService.delProductCategory(id)){
+				json.setErrorcode(Constant.OK);
+			}else{
+				json.setErrorcode(Constant.FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
 
 	@ResponseBody
 	@RequestMapping(value = "/upload", method = { RequestMethod.POST })
 	public String add(HttpServletRequest request, HttpSession session, @RequestParam(value = "id", required = false) String id, @RequestParam("name") String name,
-			@RequestParam("price") float price, @RequestParam("num") int num, @RequestParam("info") String info) {
+			@RequestParam("categoryid") String categoryid, @RequestParam("price") float price, @RequestParam("num") int num, @RequestParam("info") String info) {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
 		ServletContext context = session.getServletContext();
 		String realContextPath = context.getRealPath("/");
@@ -105,9 +154,9 @@ public class ProductController {
 						}
 						file.transferTo(localFile);
 
-						if(!"fileUpload".equals(file.getName())){
+						if (!"fileUpload".equals(file.getName())) {
 							pics.add(imgPre + fileName);
-						}else{
+						} else {
 							fileName_path = fileName;
 							imgPre_path = imgPre;
 							ImageUtil.createThumbnail(localFile, realContextPath + "/" + imgPre + "thumbnail_" + fileName);
@@ -131,6 +180,7 @@ public class ProductController {
 					product.setThumbnail_path(imgPre_path + "thumbnail_" + fileName_path);
 					product.setPics(pics);
 				}
+				product.setCategory(productService.getProductCategory(categoryid));
 				product.setName(name);
 				product.setInfo(info);
 				product.setPrice(price);
