@@ -22,6 +22,10 @@ import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
 @Entity
 @Table(name = "product")
 public class Product implements Serializable {
+	
+	public enum Type {
+		ONSALE, SALEOUT, COMING
+	}
 
 	private static final long serialVersionUID = 4053029757738001366L;
 
@@ -40,6 +44,8 @@ public class Product implements Serializable {
 	private String thumbnail_path;
 
 	private String info;
+	
+	private Type type;
 
 	@ManyToOne
 	@JoinColumn(name = "category_id")
@@ -125,6 +131,14 @@ public class Product implements Serializable {
 
 	public void setCategory(ProductCategory category) {
 		this.category = category;
+	}
+
+	public Type getType() {
+		return type;
+	}
+
+	public void setType(Type type) {
+		this.type = type;
 	}
 
 }

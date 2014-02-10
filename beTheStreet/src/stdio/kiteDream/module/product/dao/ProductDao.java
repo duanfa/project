@@ -14,4 +14,6 @@ public interface ProductDao {
 
 	public boolean delProduct(String productId);
 
+	public List<Product> getProductsByCategory(String categoryId);
+
 }

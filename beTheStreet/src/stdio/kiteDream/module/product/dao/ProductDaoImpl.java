@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -28,7 +29,7 @@ public class ProductDaoImpl implements ProductDao {
 	@Override
 	public List<Product> getProducts() {
 		@SuppressWarnings("unchecked")
-		List<Product> list = getSessionFactory().getCurrentSession().createCriteria(Product.class).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+		List<Product> list = getSessionFactory().getCurrentSession().createQuery("from Product product order by product.category.id").list();
 		if (list == null) {
 			return new ArrayList<Product>();
 		}
@@ -62,6 +63,16 @@ public class ProductDaoImpl implements ProductDao {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public List<Product> getProductsByCategory(String categoryId) {
+		@SuppressWarnings("unchecked")
+		List<Product> list = getSessionFactory().getCurrentSession().createQuery("from Product product where product.category.id="+categoryId).list();
+		if (list == null) {
+			return new ArrayList<Product>();
+		}
+		return list;
 	}
 
 }

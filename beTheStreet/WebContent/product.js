@@ -6,16 +6,12 @@ $(document).ready(function(){
 
 function addItems(userid){
 	$.get("api/product/list", function( data ) {}).done(function(data) {
-		if(data.result.length>0){
-			$("#username").html(data.result[0][0].user.name+"'s images");
-		}
-		jsonData = data;
 		var result = "";
-		$(data.result).each(function(index, value) {
+		$(data).each(function(index, value) {
 			var head = '<div class="row-fluid sortable">'+
 			'<div class="box span12">'+
 				'<div class="box-header well" data-original-title>'+
-					'<h2> level '+value[0].level+'</h2>'+
+					'<h2>'+value[0].category.name+'</h2>'+
 					'<div class="box-icon">'+
 						'<a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>'+
 						'<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>'+
@@ -27,42 +23,32 @@ function addItems(userid){
 						'<thead>'+
 							'<tr>'+
 								'<th>Preview</th>'+
-								'<th>Statu</th>'+
 								'<th>Type</th>'+
-								'<th>IP</th>'+
-								'<th>GPS</th>'+
-								'<th>Upload time</th>'+
-								'<th>Desc</th>'+
-								'<th>Actions</th>'+
+								'<th>Name</th>'+
+								'<th>Price</th>'+
+								'<th>Num</th>'+
+								'<th>Info</th>'+
+								'<th>Action</th>'+
 							'</tr>'+
 						'</thead>'+
 						'<tbody id="user_tbody">';
 						result = result + head;
 							$(value).each(function(i, v) {
-								var statu = "";
-								if(v.statu=='PASS'){
-									statu = '<span id="statu'+v.id+'"><span class="label label-success">Pass</span><span>';
-								}else if(v.statu=='FAIL'){
-									statu = '<span id="statu'+v.id+'"><span class="label label-important">Deny</span><span>';
-								}else if(v.statu=='UNREAD'){
-									statu = '<span id="statu'+v.id+'"><span class="label label-warning">Unread</span><span>';
-								}
 								var type = "";
-								if(v.type=='BONUS'){
-									type = '<span class="label label-info">BONUS</span>';
-								}else if(v.type=='STREET'){
-									type = '<span class="label label-inverse">STREET</span>';
-								}else if(v.type=='CHALLENGE'){
-									type = '<span class="label label-primary">CHALLENGE</span>';
+								if(v.type=='ONSALE'){
+									type = '<span id="statu'+v.id+'"><span class="label label-success">ONSALE</span><span>';
+								}else if(v.type=='COMING'){
+									type = '<span id="statu'+v.id+'"><span class="label label-important">COMING</span><span>';
+								}else if(v.type=='SALEOUT'){
+									type = '<span id="statu'+v.id+'"><span class="label label-warning">SALEOUT</span><span>';
 								}
 								result = result+'<tr>'+
 									'<td><span class="thumbnail" style="width: 100px;margin-bottom:0px !important"><a title="'+v.desc+'" href='+v.path+'><img src="'+v.thumbnail_path+'"/></a><span></td>'+
-									'<td class="center">'+statu+'</td>'+
 									'<td class="center">'+type+'</td>'+
-									'<td class="center">'+validate(v.address)+'</td>'+
-									'<td class="center">'+validate(v.gps)+'</td>'+
-									'<td class="center">'+formatDate(new Date(v.create_time))+'</td>'+
-									'<td class="center">'+validate(v.desc)+'</td>'+
+									'<td class="center">'+validate(v.name)+'</td>'+
+									'<td class="center">'+validate(v.price)+'</td>'+
+									'<td class="center">'+validate(v.num)+'</td>'+
+									'<td class="center">'+validate(v.info)+'</td>'+
 									'<td class="center">'+
 										'<a class="btn btn-success" onclick="check('+v.id+',\'PASS\')" href="#"><i class="icon icon-black icon-check"></i>Pass</a>&nbsp;'+
 										'<a class="btn btn-danger" onclick="check('+v.id+',\'FAIL\')" href="#"><i class="icon icon-black icon-close"></i>Deny</a>&nbsp;'+

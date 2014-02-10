@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
+import stdio.kiteDream.module.comic.bean.Comic;
 import stdio.kiteDream.module.product.bean.Product;
 import stdio.kiteDream.module.product.bean.ProductCategory;
 import stdio.kiteDream.module.product.service.ProductService;
@@ -55,7 +56,38 @@ public class ProductController {
 
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public JsonVO list(HttpServletRequest request) {
+	public List<List<Product>> list(HttpServletRequest request) {
+		if (BasePathJsonParser.basePath == null) {
+			String path = request.getContextPath();
+			String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+			BasePathJsonParser.basePath = basePath;
+		}
+		List<List<Product>> result = new ArrayList<List<Product>>();
+		List<Integer> levels = new ArrayList<Integer>();
+		try {
+			List<Product> comics = productService.getProducts();
+			List<Product> currentComics = null;
+			for (Product comic : comics) {
+				if (levels.contains(comic.getCategory().getId())) {
+					currentComics.add(comic);
+				} else {
+					if (currentComics != null) {
+						result.add(currentComics);
+					}
+					currentComics = new ArrayList<Product>();
+					currentComics.add(comic);
+					levels.add(comic.getCategory().getId());
+				}
+			}
+			result.add(currentComics);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/list/{categoryId}", method = RequestMethod.GET)
+	public JsonVO listByCategory(HttpServletRequest request,@PathVariable("categoryId") String categoryId) {
 		if (BasePathJsonParser.basePath == null) {
 			String path = request.getContextPath();
 			String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
@@ -63,7 +95,7 @@ public class ProductController {
 		}
 		JsonVO json = new JsonVO();
 		try {
-			json.setResult(productService.getProducts());
+			json.setResult(productService.getProductsByCategory(categoryId));
 			json.setErrorcode(Constant.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -123,7 +155,7 @@ public class ProductController {
 	@ResponseBody
 	@RequestMapping(value = "/upload", method = { RequestMethod.POST })
 	public String add(HttpServletRequest request, HttpSession session, @RequestParam(value = "id", required = false) String id, @RequestParam("name") String name,
-			@RequestParam("categoryid") String categoryid, @RequestParam("price") float price, @RequestParam("num") int num, @RequestParam("info") String info) {
+			@RequestParam("categoryid") String categoryid, @RequestParam("price") float price, @RequestParam("num") int num, @RequestParam("info") String info, @RequestParam("type") Product.Type type) {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
 		ServletContext context = session.getServletContext();
 		String realContextPath = context.getRealPath("/");
@@ -185,6 +217,7 @@ public class ProductController {
 				product.setInfo(info);
 				product.setPrice(price);
 				product.setNum(num);
+				product.setType(type);
 				productService.saveProduct(product);
 			}
 			return "{\"result\":\"success\",\"info\":\"none\"}";
