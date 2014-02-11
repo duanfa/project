@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import stdio.kiteDream.module.image.bean.Image;
 import stdio.kiteDream.module.image.dao.ImageDao;
+import stdio.kiteDream.module.prize.service.PrizeRuleService;
+import stdio.kiteDream.module.user.dao.UserDao;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
 
 @Service
@@ -17,7 +19,13 @@ public class ImageServiceImpl implements ImageService {
 	private ImageDao imageDao;
 	
 	@Autowired
+	private UserDao userDao;
+	
+	@Autowired
 	UserEventService userEventService;
+	
+	@Autowired
+	PrizeRuleService prizeRuleService;
 	
 	@Override
 	public List<Image> getImages(int userId) {
@@ -64,6 +72,7 @@ public class ImageServiceImpl implements ImageService {
 			image.setStatu(statu);
 			if(imageDao.saveImage(image)){
 				if(Image.Check.PASS.toString().equals(statu)){
+					prizeRuleService.managePrize(image.getLevel(), image.getUser().getId()+"");
 					userEventService.updateUserEvent(image.getUser().getId(), "new_pass_image", 1);
 				}else if(Image.Check.FAIL.toString().equals(statu)){
 					userEventService.updateUserEvent(image.getUser().getId(), "new_deny_image", 1);

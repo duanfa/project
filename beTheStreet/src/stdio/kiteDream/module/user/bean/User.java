@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -16,6 +17,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import stdio.kiteDream.module.image.bean.Image;
+import stdio.kiteDream.module.prize.bean.Coins;
 
 @Entity
 @Table(name = "user")
@@ -60,6 +62,10 @@ public class User implements Serializable {
 	@Fetch(FetchMode.JOIN)
 	@JoinColumn
 	private List<Image> images;
+	
+	@OneToOne
+	@JoinColumn(name = "coinid")
+	private Coins coins;
 
 	public int getId() {
 		return id;
@@ -67,6 +73,14 @@ public class User implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public Coins getCoins() {
+		return coins;
+	}
+
+	public void setCoins(Coins coins) {
+		this.coins = coins;
 	}
 
 	public String getName() {
