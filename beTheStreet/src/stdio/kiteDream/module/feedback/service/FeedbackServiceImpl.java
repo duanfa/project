@@ -29,4 +29,9 @@ public class FeedbackServiceImpl implements FeedbackService {
 		return feedbackDao.delFeedback(id);
 	}
 
+	@Override
+	public long getCount() {
+		return feedbackDao.getCount();
+	}
+
 }

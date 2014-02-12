@@ -73,5 +73,16 @@ public class FeedbackController {
 		}
 		return json;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/count", method = { RequestMethod.GET, RequestMethod.POST })
+	public long count() {
+		try {
+			return feedbackService.getCount();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
 
 }

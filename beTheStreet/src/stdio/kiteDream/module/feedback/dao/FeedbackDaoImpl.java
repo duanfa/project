@@ -1,9 +1,11 @@
 package stdio.kiteDream.module.feedback.dao;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,9 +32,14 @@ public class FeedbackDaoImpl implements FeedbackDao {
 		List<Feedback> list = new ArrayList<Feedback>();
 		try {
 			if (pageNo > 0 && pageSize > 0) {
-				int firstResult = (pageNo - 1) * pageSize;
+				/*int firstResult = (pageNo - 1) * pageSize;
 				int maxResult = pageNo * pageSize;
 				list = getSessionFactory().getCurrentSession().createCriteria(Feedback.class).setFirstResult(firstResult).setMaxResults(maxResult).list();
+				*/
+				Query query = getSessionFactory().getCurrentSession().createQuery("from Feedback");
+				query.setFirstResult((pageNo - 1) * pageSize);
+				query.setMaxResults(pageSize);
+				list = query.list();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -61,6 +68,19 @@ public class FeedbackDaoImpl implements FeedbackDao {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public long getCount() {
+		Integer count;
+		try {
+			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery("select count(1) from feedback").uniqueResult();
+			count = countRaw.intValue();
+		} catch (Exception e) {
+			Integer countRaw = (Integer) getSessionFactory().getCurrentSession().createSQLQuery("select count(1) from feedback").uniqueResult();
+			count = countRaw.intValue();
+		}
+		return count;
 	}
 
 

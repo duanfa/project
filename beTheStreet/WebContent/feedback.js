@@ -1,9 +1,9 @@
 $(function() {
-	addItems();
+	addItems(1,10);
 });
 
-function addItems(){
-	$.get("api/feedback/list?pageNo=1&pageSize=10", function( data ) {}).done(function(data) {
+function addItems(page,size){
+	$.get("api/feedback/list?pageNo="+page+"&pageSize="+size, function( data ) {}).done(function(data) {
 		if(data.errorcode=='ok'){
 			var result = "";
 			$(data.result).each(function(index, value) {
@@ -20,6 +20,7 @@ function addItems(){
 				result = result+content;
 			});
 			$("#user_tbody").html(result);
+			pagination(page,size);
 		}
 	});
 
@@ -37,5 +38,60 @@ function deleteFeedback(id){
 		if(data.errorcode=='ok'){
 			addItems();
 		}
+	});
+}
+
+function pagination(page,size){
+	if(page==0){
+		$(".pagination").html("");
+		return;
+	}
+	$.get("api/feedback/count", function( data ) {}).done(function(data) {
+		var max = parseInt(data/size)+1;
+		console.log(data);
+		console.log(max);
+		var innerHtml_pre;
+		if(page>=3){
+			innerHtml_pre = '<ul>'+
+							'<li><a onclick="addItems(1,'+size+')" href="#" title="1">|<</a></li>'+
+							'<li><a onclick="addItems('+(page-2)+','+size+')" href="#">'+(page-2)+'</a></li>'+
+							'<li><a onclick="addItems('+(page-1)+','+size+')" href="#">'+(page-1)+'</a></li>';
+		}else{
+			if(page==1){
+				innerHtml_pre = '<ul>';
+			}
+			if(page==2){
+				innerHtml_pre = '<ul>'+
+				'<li><a onclick="addItems(1,'+size+')" href="#">1</a></li>';
+				
+			}
+		}
+		var innerHtml_active = '<li class="active"><a onclick="addItems('+page+','+size+')" href="#">'+page+'</a></li>';
+		
+		var innerHtml_suffix ;
+		if(max-page>=3){
+			innerHtml_suffix = 	'<li><a onclick="addItems('+(page+1)+','+size+')" href="#">'+(page+1)+'</a></li>'+
+								'<li><a onclick="addItems('+(page+2)+','+size+')" href="#">'+(page+2)+'</a></li>'+
+								'<li><a title="'+max+'" href="#" onclick="addItems('+max+','+size+')">>|</a></li>'+
+						'</ul>';
+		}else{
+			if(max-page==0){
+				innerHtml_suffix = '</ul>';
+			}
+			if(max-page==1){
+				innerHtml_suffix = 	'<li><a onclick="addItems('+(page+1)+','+size+')" href="#">'+(page+1)+'</a></li>'+
+						'</ul>';
+			}
+			if(max-page==2){
+				innerHtml_suffix = 	'<li><a onclick="addItems('+(page+1)+','+size+')" href="#">'+(page+1)+'</a></li>'+
+									'<li><a onclick="addItems('+(page+2)+','+size+')" href="#">'+(page+2)+'</a></li>'+
+				'</ul>';
+			}
+		}
+		console.log(innerHtml_pre);
+		console.log(innerHtml_active);
+		console.log(innerHtml_suffix);
+		
+		$(".pagination").html(innerHtml_pre+innerHtml_active+innerHtml_suffix);
 	});
 }
