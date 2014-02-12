@@ -101,9 +101,17 @@ public class ImageController {
 				image.setAddress(address);
 				image.setType(type);
 				User user = userService.getUser(userid+"");
+				System.out.println("userid is :"+userid);
+				System.out.println("user:"+user);
 				image.setUser(user);
 				imageService.saveImage(image);
-				user.getImages().add(image);
+				if(user.getImages()==null){
+					List<Image> images = new ArrayList<Image>();
+					images.add(image);
+					user.setImages(images);
+				}else{
+					user.getImages().add(image);
+				}
 				userService.saveUser(user);
 			}
 			json.setErrorcode(Constant.OK);

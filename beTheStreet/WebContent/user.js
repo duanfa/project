@@ -14,7 +14,8 @@ function addItems(page,size){
 			}
 			var content = '<tr>'+
 				'<td><img src="'+validateHeadPhoto(value.headPhoto)+'"/></img></td>'+
-				'<td>'+value.nickname+'</td>'+
+				'<td>'+validate(value.name)+'</td>'+
+				'<td>'+validate(value.nickname)+'</td>'+
 				'<td class="center">'+validate(value.email)+'</td>'+
 				'<td class="center">'+validate(value.address)+'</td>'+
 				'<td class="center">'+validate(value.cellphone)+'</td>'+
@@ -113,7 +114,8 @@ function searchUser(){
 			}
 			var content = '<tr>'+
 				'<td><img src="'+validateHeadPhoto(value.headPhoto)+'"/></img></td>'+
-				'<td>'+value.name+'</td>'+
+				'<td>'+validate(value.name)+'</td>'+
+				'<td>'+validate(value.nickname)+'</td>'+
 				'<td class="center">'+validate(value.email)+'</td>'+
 				'<td class="center">'+validate(value.address)+'</td>'+
 				'<td class="center">'+validate(value.cellphone)+'</td>'+
