@@ -11,7 +11,6 @@ import stdio.kiteDream.module.prize.dao.CoinsDao;
 import stdio.kiteDream.module.prize.dao.PrizeRuleDao;
 import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.user.dao.UserDao;
-import stdio.kiteDream.module.userEvent.service.UserEventService;
 
 @Service
 public class PrizeRuleServiceImpl implements PrizeRuleService {
@@ -22,8 +21,6 @@ public class PrizeRuleServiceImpl implements PrizeRuleService {
 	UserDao userDao;
 	@Autowired
 	CoinsDao coinsDao;
-	@Autowired
-	UserEventService userEventService;
 
 	@Override
 	public PrizeRule getPrizeRule(String id) {

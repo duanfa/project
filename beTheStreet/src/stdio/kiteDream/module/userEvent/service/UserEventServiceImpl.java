@@ -43,12 +43,25 @@ public class UserEventServiceImpl implements UserEventService,
 			Integer new_message_num = (Integer) record.get(key);
 			if (new_message_num != null) {
 				userEvetn.setNew_message_num(new_message_num);
-				record.put("new_message_num", 0);
 			}
 		}else{
 			addUserId(userId);
 		}
 		return userEvetn;
+	}
+	
+	@Override
+	public boolean clearEvent(int userId) {
+		try {
+			Map<String, Object> record = events.get(userId);
+			if (record != null) {
+				record.put("new_message_num", 0);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -125,5 +138,6 @@ public class UserEventServiceImpl implements UserEventService,
 	public Map getEvents() {
 		return events;
 	}
+
 
 }

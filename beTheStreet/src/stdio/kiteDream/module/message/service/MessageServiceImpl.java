@@ -23,6 +23,7 @@ public class MessageServiceImpl implements MessageService {
 	@Override
 	public List<Message> manageGetUserMessage(String userid) {
 		List<Message> messages = messageDao.getUserMessage(userid);
+		userEventService.clearEvent(Integer.parseInt(userid));
 		return messages;
 	}
 

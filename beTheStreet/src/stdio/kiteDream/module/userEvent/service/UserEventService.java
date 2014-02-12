@@ -8,6 +8,8 @@ public interface UserEventService {
 
 	public UserEvent checkEvent(int userId);
 	
+	public boolean clearEvent(int userId);
+	
 	public boolean updateAllUserEvent(String key,Object value);
 	
 	public boolean updateUserEvent(int userId,String key,Object value);
