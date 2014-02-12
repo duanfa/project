@@ -63,6 +63,11 @@ public class ImageServiceImpl implements ImageService {
 				if(img.exists()){
 					img.delete();
 				}
+				Message message = new Message();
+				message.setDescription("image "+image.getId()+" been deleted");
+				message.setTitle("new image delete");
+				message.setType(MessageType.NOTICE);
+				messageService.saveMessage(message, image.getUser().getId());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -79,14 +84,17 @@ public class ImageServiceImpl implements ImageService {
 			if(imageDao.saveImage(image)){
 				if(Image.Check.PASS.toString().equals(statu)){
 					prizeRuleService.managePrize(image.getLevel(), image.getUser().getId()+"");
-					userEventService.updateUserEvent(image.getUser().getId(), "new_pass_image", 1);
 					Message message = new Message();
 					message.setDescription("new image "+image.getId()+" passed and coins is added ");
 					message.setTitle("new image pass");
-					message.setType(MessageType.NOTICE);
+					message.setType(MessageType.CHA_CHING);
 					messageService.saveMessage(message, image.getUser().getId());
 				}else if(Image.Check.FAIL.toString().equals(statu)){
-					userEventService.updateUserEvent(image.getUser().getId(), "new_deny_image", 1);
+					Message message = new Message();
+					message.setDescription("new image "+image.getId()+" been deny ");
+					message.setTitle("new image pass");
+					message.setType(MessageType.NOTICE);
+					messageService.saveMessage(message, image.getUser().getId());
 				}
 				return true;
 			}

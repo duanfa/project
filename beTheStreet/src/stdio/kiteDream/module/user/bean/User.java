@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -60,7 +61,7 @@ public class User implements Serializable {
 
 	private boolean active;
 
-	@OneToMany(targetEntity = Image.class)
+	@OneToMany(targetEntity = Image.class,fetch=FetchType.EAGER)
 	@JoinColumn
 	private List<Image> images;
 	
@@ -75,7 +76,6 @@ public class User implements Serializable {
 	public int getId() {
 		return id;
 	}
-	
 
 	public List<Message> getMessages() {
 		return messages;

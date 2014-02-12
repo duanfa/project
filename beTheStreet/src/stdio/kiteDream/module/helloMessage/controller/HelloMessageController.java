@@ -29,18 +29,17 @@ public class HelloMessageController {
 
 	@ResponseBody
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
-	public HelloMessage get(ModelMap model,@RequestParam(value="userid",required=false) int userid) {
+	public JsonVO get(ModelMap model,@RequestParam(value="userid",required=false) int userid) {
 		JsonVO json = new JsonVO();
 		try {
 			json.setErrorcode(Constant.OK);
 			json.setResult(messageService.getMessages());
 			json.setUser_events(userEventService.checkEvent(userid));
-			return messageService.getNowMessage();
 		} catch (Exception e) {
 			e.printStackTrace();
 			json.setErrorcode(Constant.FAIL);
-			return null;
 		}
+		return json;
 	}
 
 	@ResponseBody

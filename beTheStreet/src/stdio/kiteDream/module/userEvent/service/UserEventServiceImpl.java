@@ -36,10 +36,11 @@ public class UserEventServiceImpl implements UserEventService,
 
 	@Override
 	public UserEvent checkEvent(int userId) {
+		String key = "new_message_num";
 		UserEvent userEvetn = new UserEvent();
 		Map<String, Object> record = events.get(userId);
 		if (record != null) {
-			Integer new_message_num = (Integer) record.get("new_message_num");
+			Integer new_message_num = (Integer) record.get(key);
 			if (new_message_num != null) {
 				userEvetn.setNew_message_num(new_message_num);
 				record.put("new_message_num", 0);
@@ -52,6 +53,7 @@ public class UserEventServiceImpl implements UserEventService,
 
 	@Override
 	public boolean updateAllUserEvent(String key, Object value) {
+		key = "new_message_num";
 		for (Map.Entry<Integer, Map<String, Object>> event : events.entrySet()) {
 			try {
 				Object v = event.getValue().get(key);
@@ -69,6 +71,7 @@ public class UserEventServiceImpl implements UserEventService,
 
 	@Override
 	public boolean updateUserEvent(int userId, String key, Object value) {
+		key = "new_message_num";
 		Map<String, Object> record = events.get(userId);
 		try {
 			Object v = record.get(key);

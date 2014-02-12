@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 	public String saveUser(User user) {
 		try {
 			if(userDao.saveUser(user)){
-				userEventService.updateUserEvent(user.getId(), "new_level_comic", 31);
+				//userEventService.updateUserEvent(user.getId(), "new_level_comic", 31);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

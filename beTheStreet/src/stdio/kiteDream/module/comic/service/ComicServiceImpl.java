@@ -14,8 +14,6 @@ import stdio.kiteDream.module.userEvent.service.UserEventService;
 @Service
 public class ComicServiceImpl implements ComicService {
 	@Autowired
-	UserEventService userEventService;
-	@Autowired
 	ComicDao comicDao;
 
 	@Override
@@ -31,7 +29,7 @@ public class ComicServiceImpl implements ComicService {
 	@Override
 	public boolean saveComic(Comic comic) {
 		if(comicDao.saveComic(comic)){
-			userEventService.updateAllUserEvent("new_level_comic", new Double(Math.pow(2, comic.getLevel()-1)).intValue());
+			//userEventService.updateAllUserEvent("new_level_comic", new Double(Math.pow(2, comic.getLevel()-1)).intValue());
 		}
 		return true;
 	}
