@@ -5,10 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import stdio.kiteDream.module.prize.bean.Coins;
 import stdio.kiteDream.module.prize.bean.PrizeRule;
+import stdio.kiteDream.module.prize.dao.CoinsDao;
 import stdio.kiteDream.module.prize.dao.PrizeRuleDao;
 import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.user.dao.UserDao;
+import stdio.kiteDream.module.userEvent.service.UserEventService;
 
 @Service
 public class PrizeRuleServiceImpl implements PrizeRuleService {
@@ -17,6 +20,10 @@ public class PrizeRuleServiceImpl implements PrizeRuleService {
 	PrizeRuleDao prizeRuleDao;
 	@Autowired
 	UserDao userDao;
+	@Autowired
+	CoinsDao coinsDao;
+	@Autowired
+	UserEventService userEventService;
 
 	@Override
 	public PrizeRule getPrizeRule(String id) {
@@ -30,10 +37,7 @@ public class PrizeRuleServiceImpl implements PrizeRuleService {
 
 	@Override
 	public boolean savePrizeRule(PrizeRule rule) {
-		if(prizeRuleDao.getLevelRule(rule.getLevel())!=null){
-			return prizeRuleDao.savePrizeRule(rule);
-		}
-		return false;
+		return prizeRuleDao.savePrizeRule(rule);
 	}
 
 	@Override
@@ -50,11 +54,25 @@ public class PrizeRuleServiceImpl implements PrizeRuleService {
 	public boolean managePrize(int level, String userid) {
 		try {
 			PrizeRule rule = prizeRuleDao.getLevelRule(level);
-			User user = userDao.getUser(userid);
-			user.getCoins().setGreenNum(user.getCoins().getGreenNum()+rule.getCoins().getGreenNum());
-			user.getCoins().setRedNum(user.getCoins().getRedNum()+rule.getCoins().getRedNum());
-			user.getCoins().setYellowNum(user.getCoins().getYellowNum()+rule.getCoins().getYellowNum());
-			return userDao.saveUser(user);
+			if(rule!=null){
+				User user = userDao.getUser(userid);
+				if(user.getCoins()!=null){
+					user.getCoins().setGreenNum(user.getCoins().getGreenNum()+rule.getCoins().getGreenNum());
+					user.getCoins().setRedNum(user.getCoins().getRedNum()+rule.getCoins().getRedNum());
+					user.getCoins().setYellowNum(user.getCoins().getYellowNum()+rule.getCoins().getYellowNum());
+				}else{
+					Coins coins = new Coins();
+					coins.setGreenNum(rule.getCoins().getGreenNum());
+					coins.setRedNum(rule.getCoins().getRedNum());
+					coins.setYellowNum(rule.getCoins().getYellowNum());
+					coinsDao.saveCoins(coins);
+					user.setCoins(coins);
+				}
+				userEventService.updateUserEvent(Integer.parseInt(userid), "new_reward_num", 1);
+				return userDao.saveUser(user);
+			}else{
+				System.out.println("no such rule of level:"+level);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

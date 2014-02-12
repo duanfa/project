@@ -36,9 +36,8 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 	@Override
 	public UserEvent checkEvent(int userId) {
 		UserEvent userEvetn = new UserEvent();
-		/*Map<String, Object> record = events.get(userId);
+		Map<String, Object> record = events.get(userId);
 		if(record!=null){
-			//
 			Integer new_level_comic = (Integer) record.get("new_level_comic");
 			if (new_level_comic != null) {
 				userEvetn.setNew_level_comic(new_level_comic);
@@ -54,13 +53,23 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 				userEvetn.setNew_deny_image_num(new_deny_image);
 				record.put("new_deny_image", 0);
 			}
-		}*/
+			Integer new_message_num = (Integer) record.get("new_message_num");
+			if (new_message_num != null) {
+				userEvetn.setNew_message_num(new_message_num);
+				record.put("new_message_num", 0);
+			}
+			Integer new_reward_num = (Integer) record.get("new_reward_num");
+			if (new_reward_num != null) {
+				userEvetn.setNew_reward_num(new_reward_num);
+				record.put("new_reward_num", 0);
+			}
+		}
 		return userEvetn;
 	}
 
 	@Override
 	public boolean updateAllUserEvent(String key, Object value) {
-		/*for (Map.Entry<Integer, Map<String, Object>> event : events.entrySet()) {
+		for (Map.Entry<Integer, Map<String, Object>> event : events.entrySet()) {
 			try {
 				Object v = event.getValue().get(key);
 				if ("new_level_comic".equals(key)) {
@@ -69,13 +78,7 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 					} else {
 						event.getValue().put(key, value);
 					}
-				}else if("new_pass_image".equals(key)){
-					if (v != null) {
-						event.getValue().put(key, (Integer) v + (Integer) value);
-					} else {
-						event.getValue().put(key, value);
-					}
-				}else if("new_deny_image".equals(key)){
+				}else{
 					if (v != null) {
 						event.getValue().put(key, (Integer) v + (Integer) value);
 					} else {
@@ -85,13 +88,13 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}*/
+		}
 		return true;
 	}
 
 	@Override
 	public boolean updateUserEvent(int userId, String key, Object value) {
-	/*	Map<String, Object> record = events.get(userId);
+		Map<String, Object> record = events.get(userId);
 		try {
 			Object v = record.get(key);
 			if ("new_level_comic".equals(key)) {
@@ -100,22 +103,16 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 				} else {
 					record.put(key, value);
 				}
-			}else if("new_pass_image".equals(key)){
+			}else {
 				if (v != null) {
 					record.put(key, (Integer) v + (Integer) value);
-				} else {
-					record.put(key, value);
-				}
-			}else if("new_deny_image".equals(key)){
-				if (v != null) {
-					record.put(key,(Integer) v + (Integer) value);
 				} else {
 					record.put(key, value);
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}*/
+		}
 		return true;
 	}
 
@@ -140,14 +137,14 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 					e.printStackTrace();
 				}
 			}
-			if (events.size() < 1) {
-				List<User> users = userService.getUsers();
-				for (User user : users) {
+			List<User> users = userService.getUsers();
+			for (User user : users) {
+				if(events.get(user.getId())==null){
 					Map<String, Object> newRecord = new HashMap<String, Object>();
 					events.put(user.getId(), newRecord);
 				}
-				System.out.println("init userEventService.events complet");
 			}
+			System.out.println("init userEventService.events complet");
 		}
 		if(event instanceof ContextClosedEvent ){
 			userService.saveUserEventRecord();

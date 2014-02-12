@@ -1,4 +1,4 @@
-package stdio.kiteDream.module.prize.bean;
+package stdio.kiteDream.module.message.bean;
 
 public enum MessageType {
 

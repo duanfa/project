@@ -3,6 +3,7 @@ package stdio.kiteDream.module.user.bean;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,11 +18,12 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import stdio.kiteDream.module.image.bean.Image;
+import stdio.kiteDream.module.message.bean.Message;
 import stdio.kiteDream.module.prize.bean.Coins;
 
 @Entity
 @Table(name = "user")
-@JsonIgnoreProperties({ "images" }) 
+@JsonIgnoreProperties({ "images","messages" }) 
 public class User implements Serializable {
 
 	private static final long serialVersionUID = -8619796610303376571L;
@@ -59,17 +61,33 @@ public class User implements Serializable {
 	private boolean active;
 
 	@OneToMany(targetEntity = Image.class)
-	@Fetch(FetchMode.JOIN)
 	@JoinColumn
 	private List<Image> images;
 	
-	@OneToOne
-	@JoinColumn(name = "coinid")
+	@OneToMany(targetEntity = Message.class)
+	@JoinColumn
+	private List<Message> messages;
+	
+	@OneToOne(targetEntity = Coins.class)
+	@JoinColumn
 	private Coins coins;
 
 	public int getId() {
 		return id;
 	}
+	
+
+	public List<Message> getMessages() {
+		return messages;
+	}
+
+
+
+	public void setMessages(List<Message> messages) {
+		this.messages = messages;
+	}
+
+
 
 	public void setId(int id) {
 		this.id = id;
