@@ -68,7 +68,6 @@ public class PrizeRuleServiceImpl implements PrizeRuleService {
 					coinsDao.saveCoins(coins);
 					user.setCoins(coins);
 				}
-				userEventService.updateUserEvent(Integer.parseInt(userid), "new_reward_num", 1);
 				return userDao.saveUser(user);
 			}else{
 				System.out.println("no such rule of level:"+level);
