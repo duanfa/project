@@ -29,6 +29,7 @@ import stdio.kiteDream.module.image.service.ImageService;
 import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.user.service.UserService;
 import stdio.kiteDream.module.userEvent.bean.UserEvent;
+import stdio.kiteDream.module.userEvent.service.UserEventService;
 import stdio.kiteDream.module.vo.JsonVO;
 import stdio.kiteDream.util.Constant;
 import stdio.kiteDream.util.ImageUtil;
@@ -40,10 +41,12 @@ public class ImageController {
 	ImageService imageService;
 	@Autowired
 	UserService userService;
+	@Autowired
+	UserEventService userEventService;
 
 	@ResponseBody
 	@RequestMapping(value = "/user/upload", method = RequestMethod.POST)
-	public JsonVO uploadImage(HttpServletRequest request, HttpSession session, @RequestParam("userid") String userid,
+	public JsonVO uploadImage(HttpServletRequest request, HttpSession session, @RequestParam("userid") int userid,
 			@RequestParam(value = "imgname", required = false) String imgname, @RequestParam(value = "desc", required = false) String desc,
 			@RequestParam(value = "level", required = false) int level,
 			@RequestParam(value = "gps", required = false) String gps,
@@ -97,13 +100,14 @@ public class ImageController {
 				image.setIp(request.getRemoteAddr());
 				image.setAddress(address);
 				image.setType(type);
-				User user = userService.getUser(userid);
+				User user = userService.getUser(userid+"");
 				image.setUser(user);
 				imageService.saveImage(image);
 				user.getImages().add(image);
 				userService.saveUser(user);
 			}
 			json.setErrorcode(Constant.OK);
+			json.setUser_events(userEventService.checkEvent(userid));
 		} catch (Exception e) {
 			e.printStackTrace();
 			json.setErrorcode(Constant.FAIL);
@@ -138,7 +142,6 @@ public class ImageController {
 				}
 			}
 			result.add(currentComics);
-			jsonVO.setUser_events(new UserEvent());
 			jsonVO.setResult(result);
 			jsonVO.setErrorcode("ok");
 		} catch (Exception e) {
@@ -168,19 +171,13 @@ public class ImageController {
 
 	@ResponseBody
 	@RequestMapping(value = "/delete/{imageid}", method = RequestMethod.GET)
-	public JsonVO del(HttpServletRequest request, @PathVariable("imageid") String imageid) {
-		JsonVO json = new JsonVO();
+	public boolean del(HttpServletRequest request, @PathVariable("imageid") String imageid) {
 		try {
-			if (imageService.deleteImage(imageid)) {
-				json.setErrorcode(Constant.OK);
-			} else {
-				json.setErrorcode(Constant.FAIL);
-			}
+			return imageService.deleteImage(imageid);
 		} catch (Exception e) {
 			e.printStackTrace();
-			json.setErrorcode(Constant.FAIL);
+			return false;
 		}
-		return json;
 	}
 
 }

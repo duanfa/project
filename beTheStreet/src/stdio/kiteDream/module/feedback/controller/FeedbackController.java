@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import stdio.kiteDream.module.feedback.bean.Feedback;
 import stdio.kiteDream.module.feedback.service.FeedbackService;
+import stdio.kiteDream.module.userEvent.service.UserEventService;
 import stdio.kiteDream.module.vo.JsonVO;
 import stdio.kiteDream.util.Constant;
 
@@ -20,6 +21,8 @@ public class FeedbackController {
 
 	@Autowired
 	private FeedbackService feedbackService;
+	@Autowired
+	UserEventService userEventService;
 
 	@ResponseBody
 	@RequestMapping(value = "/list", method = { RequestMethod.GET, RequestMethod.POST })
@@ -38,7 +41,7 @@ public class FeedbackController {
 	@ResponseBody
 	@RequestMapping(value = "/add",  method = { RequestMethod.GET, RequestMethod.POST })
 	public JsonVO add(ModelMap model, @RequestParam(value="title") String title, @RequestParam(value="email",required=false) String email,
-			@RequestParam(value="info",required=false) String info) {
+			@RequestParam(value="info",required=false) String info,@RequestParam(value="userid",required=false) int userid) {
 		JsonVO json = new JsonVO();
 		try {
 			Feedback feedback = new Feedback();
@@ -48,6 +51,7 @@ public class FeedbackController {
 			if(feedbackService.saveFeedback(feedback)){
 				json.setErrorcode(Constant.OK);
 			}
+			json.setUser_events(userEventService.checkEvent(userid));
 		} catch (Exception e) {
 			json.setErrorcode(Constant.FAIL);
 			e.printStackTrace();

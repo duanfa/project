@@ -39,17 +39,15 @@ public class MessageController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/add", method = { RequestMethod.GET, RequestMethod.POST })
-	public JsonVO addMessage(Message message) {
-		JsonVO json = new JsonVO();
+	public boolean addMessage(Message message) {
 		try {
 			messageService.saveMessage(message,message.getUser().getId());
 			userEventService.updateUserEvent(message.getUser().getId(), "new_message_num", 1);
-			json.setErrorcode(Constant.OK);
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			json.setErrorcode(Constant.FAIL);
 		}
-		return json;
+		return false;
 	}
 
 

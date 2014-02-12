@@ -1,6 +1,5 @@
 package stdio.kiteDream.module.helloMessage.controller;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import stdio.kiteDream.module.helloMessage.bean.HelloMessage;
 import stdio.kiteDream.module.helloMessage.service.HelloMessageService;
+import stdio.kiteDream.module.userEvent.service.UserEventService;
+import stdio.kiteDream.module.vo.JsonVO;
 import stdio.kiteDream.util.Constant;
 
 @Controller
@@ -23,14 +24,21 @@ public class HelloMessageController {
 
 	@Autowired
 	private HelloMessageService messageService;
+	@Autowired
+	private UserEventService userEventService;
 
 	@ResponseBody
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
-	public HelloMessage get(ModelMap model) {
+	public HelloMessage get(ModelMap model,@RequestParam(value="userid",required=false) int userid) {
+		JsonVO json = new JsonVO();
 		try {
+			json.setErrorcode(Constant.OK);
+			json.setResult(messageService.getMessages());
+			json.setUser_events(userEventService.checkEvent(userid));
 			return messageService.getNowMessage();
 		} catch (Exception e) {
 			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
 			return null;
 		}
 	}

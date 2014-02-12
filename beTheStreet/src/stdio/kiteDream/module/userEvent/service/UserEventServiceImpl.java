@@ -22,7 +22,8 @@ import stdio.kiteDream.module.userEvent.bean.UserEventRecord;
 import stdio.kiteDream.module.userEvent.dao.UserEventRecordDao;
 
 @Service
-public class UserEventServiceImpl implements UserEventService ,ApplicationListener{
+public class UserEventServiceImpl implements UserEventService,
+		ApplicationListener {
 
 	@Autowired
 	UserDao userDao;
@@ -37,32 +38,14 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 	public UserEvent checkEvent(int userId) {
 		UserEvent userEvetn = new UserEvent();
 		Map<String, Object> record = events.get(userId);
-		if(record!=null){
-			Integer new_level_comic = (Integer) record.get("new_level_comic");
-			if (new_level_comic != null) {
-				userEvetn.setNew_level_comic(new_level_comic);
-				record.put("new_level_comic", 0);
-			}
-			Integer new_pass_image = (Integer) record.get("new_pass_image");
-			if (new_pass_image != null) {
-				userEvetn.setNew_pass_image_num(new_pass_image);
-				record.put("new_pass_image", 0);
-			}
-			Integer new_deny_image = (Integer) record.get("new_deny_image");
-			if (new_level_comic != null) {
-				userEvetn.setNew_deny_image_num(new_deny_image);
-				record.put("new_deny_image", 0);
-			}
+		if (record != null) {
 			Integer new_message_num = (Integer) record.get("new_message_num");
 			if (new_message_num != null) {
 				userEvetn.setNew_message_num(new_message_num);
 				record.put("new_message_num", 0);
 			}
-			Integer new_reward_num = (Integer) record.get("new_reward_num");
-			if (new_reward_num != null) {
-				userEvetn.setNew_reward_num(new_reward_num);
-				record.put("new_reward_num", 0);
-			}
+		}else{
+			addUserId(userId);
 		}
 		return userEvetn;
 	}
@@ -72,18 +55,10 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 		for (Map.Entry<Integer, Map<String, Object>> event : events.entrySet()) {
 			try {
 				Object v = event.getValue().get(key);
-				if ("new_level_comic".equals(key)) {
-					if (v != null) {
-						event.getValue().put(key, (Integer) v | (Integer) value);
-					} else {
-						event.getValue().put(key, value);
-					}
-				}else{
-					if (v != null) {
-						event.getValue().put(key, (Integer) v + (Integer) value);
-					} else {
-						event.getValue().put(key, value);
-					}
+				if (v != null) {
+					event.getValue().put(key, (Integer) v + (Integer) value);
+				} else {
+					event.getValue().put(key, value);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -97,18 +72,10 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 		Map<String, Object> record = events.get(userId);
 		try {
 			Object v = record.get(key);
-			if ("new_level_comic".equals(key)) {
-				if (v != null) {
-					record.put(key, (Integer) v | (Integer) value);
-				} else {
-					record.put(key, value);
-				}
-			}else {
-				if (v != null) {
-					record.put(key, (Integer) v + (Integer) value);
-				} else {
-					record.put(key, value);
-				}
+			if (v != null) {
+				record.put(key, (Integer) v + (Integer) value);
+			} else {
+				record.put(key, value);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -123,40 +90,37 @@ public class UserEventServiceImpl implements UserEventService ,ApplicationListen
 		return true;
 	}
 
-	
-
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
-		if(event instanceof ContextRefreshedEvent ){ 
+		if (event instanceof ContextRefreshedEvent) {
 			UserEventRecord record = userService.getUserEventRecord();
-			if(record!=null){
+			if (record != null) {
 				try {
-					ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(record.getMem()));
-					events = (Map<Integer, Map<String, Object>>) ois.readObject();
+					ObjectInputStream ois = new ObjectInputStream(
+							new ByteArrayInputStream(record.getMem()));
+					events = (Map<Integer, Map<String, Object>>) ois
+							.readObject();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 			List<User> users = userService.getUsers();
 			for (User user : users) {
-				if(events.get(user.getId())==null){
+				if (events.get(user.getId()) == null) {
 					Map<String, Object> newRecord = new HashMap<String, Object>();
 					events.put(user.getId(), newRecord);
 				}
 			}
 			System.out.println("init userEventService.events complet");
 		}
-		if(event instanceof ContextClosedEvent ){
+		if (event instanceof ContextClosedEvent) {
 			userService.saveUserEventRecord();
 		}
 	}
-
 
 	@Override
 	public Map getEvents() {
 		return events;
 	}
-
-	
 
 }
