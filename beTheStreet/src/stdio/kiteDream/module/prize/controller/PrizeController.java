@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
+import stdio.kiteDream.module.prize.bean.Order;
 import stdio.kiteDream.module.prize.bean.Prize;
 import stdio.kiteDream.module.prize.service.PrizeService;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
@@ -189,10 +190,10 @@ public class PrizeController {
 	public JsonVO buy(HttpServletRequest request,
 			@PathVariable("prizeid") int prizeid,
 			@RequestParam("userid") int userid,
-			@RequestParam("address") String address) {
+			Order order) {
 		JsonVO json = new JsonVO();
 		try {
-			int statu = prizeService.manageBuy(userid, prizeid, address);
+			int statu = prizeService.manageBuy(userid, prizeid, order);
 			switch (statu) {
 			case 1:
 				json.setErrorcode(Constant.OK);

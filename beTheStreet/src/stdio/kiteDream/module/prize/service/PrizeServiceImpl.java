@@ -2,6 +2,7 @@ package stdio.kiteDream.module.prize.service;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import stdio.kiteDream.module.prize.bean.Order;
 import stdio.kiteDream.module.prize.bean.Prize;
 import stdio.kiteDream.module.prize.dao.OrderDao;
 import stdio.kiteDream.module.prize.dao.PrizeDao;
+import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.user.dao.UserDao;
 
 @Service
@@ -50,8 +52,9 @@ public class PrizeServiceImpl implements PrizeService {
 	}
 
 	@Override
-	public int manageBuy(int userid, int prizeid, String address) {
+	public int manageBuy(int userid, int prizeid, Order order) {
 		Prize prize = prizeDao.getPrize(prizeid+"");
+		User user = userDao.getUser(userid+"");
 		Coins coins = coinsDao.getUserCoins(userid+"");
 		if(prize!=null&&prize.getNum()<0){
 			return 2;
@@ -66,12 +69,20 @@ public class PrizeServiceImpl implements PrizeService {
 		}else{
 			return 3;
 		}
-		Order order = new Order();
-		order.setAddredss(address);
 		order.setNum(1);
-		order.setUser(userDao.getUser(userid+""));
+		order.setUser(user);
 		order.setPrize(prize);
 		orderDao.saveOrder(order);
+		if(StringUtils.isBlank(user.getName())){
+			user.setName(order.getName());
+		}
+		if(StringUtils.isBlank(user.getEmail())){
+			user.setEmail(order.getEmail());
+		}
+		if(StringUtils.isBlank(user.getCellPhone())){
+			user.setCellPhone(order.getPhone());
+		}
+		userDao.saveUser(user);
 		return 1;
 	}
 

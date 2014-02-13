@@ -28,6 +28,12 @@ public class Order implements Serializable {
 	private int id;
 
 	private int num;
+	
+	private String name;
+	
+	private String email;
+	
+	private String phone;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "prizeid")
@@ -96,6 +102,30 @@ public class Order implements Serializable {
 
 	public void setAddredss(String addredss) {
 		this.addredss = addredss;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 }

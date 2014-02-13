@@ -19,5 +19,5 @@ public interface PrizeService {
 
 	public boolean deletePrize(String id);
 
-	public int manageBuy(int userid, int prizeid, String address);
+	public int manageBuy(int userid, int prizeid, Order order);
 }
