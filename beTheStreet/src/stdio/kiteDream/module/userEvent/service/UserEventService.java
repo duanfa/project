@@ -6,7 +6,7 @@ import stdio.kiteDream.module.userEvent.bean.UserEvent;
 
 public interface UserEventService {
 
-	public UserEvent checkEvent(int userId);
+	public UserEvent checkEvent(int userid);
 	
 	public boolean clearEvent(int userId);
 	

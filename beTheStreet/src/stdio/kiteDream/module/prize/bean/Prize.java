@@ -27,6 +27,7 @@ public class Prize implements Serializable {
 	private String headPhoto;
 	private String thumbnail_path;
 	private String title;
+	private int num;
 	private String description;
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "coinid")
@@ -53,7 +54,7 @@ public class Prize implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	@JsonSerialize(using = BasePathJsonParser.class)
 	public String getHeadPhoto() {
 		return headPhoto;
@@ -102,6 +103,14 @@ public class Prize implements Serializable {
 
 	public void setThumbnail_path(String thumbnail_path) {
 		this.thumbnail_path = thumbnail_path;
+	}
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
 	}
 
 }

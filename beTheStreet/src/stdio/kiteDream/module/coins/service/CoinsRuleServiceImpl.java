@@ -74,6 +74,11 @@ public class CoinsRuleServiceImpl implements CoinsRuleService {
 		}
 		return false;
 	}
+
+	@Override
+	public Coins getUserCoins(int userid) {
+		return coinsDao.getUserCoins(userid+"");
+	}
 	
 
 }

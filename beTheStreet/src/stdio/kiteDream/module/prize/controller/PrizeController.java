@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,11 +23,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
-import stdio.kiteDream.module.comic.bean.Comic;
-import stdio.kiteDream.module.image.bean.Image;
 import stdio.kiteDream.module.prize.bean.Prize;
 import stdio.kiteDream.module.prize.service.PrizeService;
-import stdio.kiteDream.module.product.bean.Product;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
 import stdio.kiteDream.module.vo.JsonVO;
 import stdio.kiteDream.util.Constant;
@@ -51,7 +47,9 @@ public class PrizeController {
 			@RequestParam(value = "size", required = false) int size) {
 		if (BasePathJsonParser.basePath == null) {
 			String path = request.getContextPath();
-			String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+			String basePath = request.getScheme() + "://"
+					+ request.getServerName() + ":" + request.getServerPort()
+					+ path + "/";
 			BasePathJsonParser.basePath = basePath;
 		}
 		JsonVO json = new JsonVO();
@@ -69,6 +67,25 @@ public class PrizeController {
 		}
 		return json;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/order/list/{userid}", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public JsonVO listOrder(HttpServletRequest request,
+			@PathVariable(value = "userid") int userid,
+			@RequestParam(value = "page", required = true) int page,
+			@RequestParam(value = "size", required = true) int size) {
+		JsonVO json = new JsonVO();
+		try {
+			json.setResult(prizeService.getUserOrders(userid, page, size));
+			json.setErrorcode(Constant.OK);
+			json.setUser_events(userEventService.checkEvent(userid));
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
 
 	@ResponseBody
 	@RequestMapping(value = "/listPrize", method = { RequestMethod.GET,
@@ -78,7 +95,9 @@ public class PrizeController {
 			@RequestParam(value = "size", required = false) int size) {
 		if (BasePathJsonParser.basePath == null) {
 			String path = request.getContextPath();
-			String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+			String basePath = request.getScheme() + "://"
+					+ request.getServerName() + ":" + request.getServerPort()
+					+ path + "/";
 			BasePathJsonParser.basePath = basePath;
 		}
 		try {
@@ -115,7 +134,7 @@ public class PrizeController {
 					if (file != null) {
 						fileName = file.getOriginalFilename();
 						if (StringUtils.isBlank(fileName)) {
-							if (prize.getId()==0) {
+							if (prize.getId() == 0) {
 								return "{\"result\":\"fail\",\"info\":\"must need upload the image\"}";
 							}
 							break;
@@ -158,11 +177,41 @@ public class PrizeController {
 	public boolean del(HttpServletRequest request,
 			@PathVariable("prizeid") String prizeid) {
 		try {
-			return prizeService.delPrize(prizeid);
+			return prizeService.deletePrize(prizeid);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/buy/{prizeid}", method = RequestMethod.GET)
+	public JsonVO buy(HttpServletRequest request,
+			@PathVariable("prizeid") int prizeid,
+			@RequestParam("userid") int userid,
+			@RequestParam("address") String address) {
+		JsonVO json = new JsonVO();
+		try {
+			int statu = prizeService.manageBuy(userid, prizeid, address);
+			switch (statu) {
+			case 1:
+				json.setErrorcode(Constant.OK);
+				break;
+			case 2:
+				json.setErrorcode("SALEOUT");
+				break;
+			case 3:
+				json.setErrorcode("SHORT");
+				break;
+			default:
+				json.setErrorcode(Constant.FAIL);
+			}
+			json.setUser_events(userEventService.checkEvent(userid));
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
 	}
 
 }

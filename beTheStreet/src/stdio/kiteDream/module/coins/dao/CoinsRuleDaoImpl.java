@@ -31,7 +31,7 @@ public class CoinsRuleDaoImpl implements CoinsRuleDao {
 
 	@Override
 	public CoinsRule getLevelRule(int level) {
-		List<CoinsRule> rules = getSessionFactory().getCurrentSession().createQuery("from PrizeRule rule where rule.level="+level).list();
+		List<CoinsRule> rules = getSessionFactory().getCurrentSession().createQuery("from CoinsRule rule where rule.level="+level).list();
 		if(rules.size()>0){
 			return rules.get(0);
 		}
@@ -63,7 +63,7 @@ public class CoinsRuleDaoImpl implements CoinsRuleDao {
 
 	@Override
 	public List<CoinsRule> getLevelRules() {
-		 List<CoinsRule> list = getSessionFactory().getCurrentSession().createQuery("from PrizeRule").list();
+		 List<CoinsRule> list = getSessionFactory().getCurrentSession().createQuery("from CoinsRule").list();
 		 if(list==null){
 			 return new ArrayList<CoinsRule>();
 		 }
