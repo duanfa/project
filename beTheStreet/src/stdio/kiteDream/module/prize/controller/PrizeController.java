@@ -9,24 +9,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import stdio.kiteDream.module.prize.bean.Coins;
-import stdio.kiteDream.module.prize.bean.PrizeRule;
-import stdio.kiteDream.module.prize.service.PrizeRuleService;
+import stdio.kiteDream.module.coins.bean.CoinsRule;
+import stdio.kiteDream.module.prize.service.PrizeService;
 import stdio.kiteDream.module.vo.JsonVO;
 import stdio.kiteDream.util.Constant;
 
 @Controller
-@RequestMapping("/api/prize")
+@RequestMapping("/api/coins")
 public class PrizeController {
 	@Autowired
-	PrizeRuleService prizeRuleService;
+	PrizeService coinsRuleService;
 
 	@ResponseBody
 	@RequestMapping(value = "/listrule", method = { RequestMethod.GET, RequestMethod.POST })
 	public JsonVO listrule() {
 		JsonVO json = new JsonVO();
 		try {
-			json.setResult(prizeRuleService.getLevelRules());
+			json.setResult(coinsRuleService.getLevelRules());
 			json.setErrorcode(Constant.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -37,10 +36,10 @@ public class PrizeController {
 
 	@ResponseBody
 	@RequestMapping(value = "/addrule", method = { RequestMethod.GET, RequestMethod.POST })
-	public JsonVO check(PrizeRule rule) {
+	public JsonVO check(CoinsRule rule) {
 		JsonVO json = new JsonVO();
 		try {
-			if (prizeRuleService.savePrizeRule(rule)) {
+			if (coinsRuleService.savePrizeRule(rule)) {
 				json.setErrorcode(Constant.OK);
 			} else {
 				json.setErrorcode(Constant.FAIL);
@@ -58,7 +57,7 @@ public class PrizeController {
 	public JsonVO del(HttpServletRequest request, @PathVariable("ruleid") String ruleid) {
 		JsonVO json = new JsonVO();
 		try {
-			if (prizeRuleService.delPrizeRule(ruleid)) {
+			if (coinsRuleService.delPrizeRule(ruleid)) {
 				json.setErrorcode(Constant.OK);
 			} else {
 				json.setErrorcode(Constant.FAIL);

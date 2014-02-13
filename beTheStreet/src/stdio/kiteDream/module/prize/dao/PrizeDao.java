@@ -1,8 +1,8 @@
 package stdio.kiteDream.module.prize.dao;
 
-import stdio.kiteDream.module.prize.bean.Coins;
+import stdio.kiteDream.module.coins.bean.Coins;
 
-public interface CoinsDao {
+public interface PrizeDao {
 
 	public Coins getCoins(String id);
 	

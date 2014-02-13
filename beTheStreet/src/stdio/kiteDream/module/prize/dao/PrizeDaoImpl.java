@@ -1,6 +1,5 @@
 package stdio.kiteDream.module.prize.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -9,11 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import stdio.kiteDream.module.prize.bean.Coins;
-import stdio.kiteDream.module.prize.bean.PrizeRule;
+import stdio.kiteDream.module.coins.bean.Coins;
 
 @Component
-public class CoinsDaoImpl implements CoinsDao {
+public class PrizeDaoImpl implements PrizeDao {
 	@Autowired
 	@Qualifier("sessionFactory")
 	private SessionFactory sessionFactory;

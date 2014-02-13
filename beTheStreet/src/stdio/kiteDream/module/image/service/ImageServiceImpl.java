@@ -11,7 +11,7 @@ import stdio.kiteDream.module.image.dao.ImageDao;
 import stdio.kiteDream.module.message.bean.Message;
 import stdio.kiteDream.module.message.bean.MessageType;
 import stdio.kiteDream.module.message.service.MessageService;
-import stdio.kiteDream.module.prize.service.PrizeRuleService;
+import stdio.kiteDream.module.prize.service.PrizeService;
 import stdio.kiteDream.module.user.dao.UserDao;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
 
@@ -28,7 +28,7 @@ public class ImageServiceImpl implements ImageService {
 	UserEventService userEventService;
 	
 	@Autowired
-	PrizeRuleService prizeRuleService;
+	PrizeService prizeRuleService;
 	
 	@Autowired
 	MessageService messageService;

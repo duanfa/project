@@ -5,52 +5,52 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import stdio.kiteDream.module.prize.bean.Coins;
-import stdio.kiteDream.module.prize.bean.PrizeRule;
-import stdio.kiteDream.module.prize.dao.CoinsDao;
-import stdio.kiteDream.module.prize.dao.PrizeRuleDao;
+import stdio.kiteDream.module.coins.bean.Coins;
+import stdio.kiteDream.module.coins.bean.CoinsRule;
+import stdio.kiteDream.module.coins.dao.CoinsRuleDao;
+import stdio.kiteDream.module.prize.dao.PrizeDao;
 import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.user.dao.UserDao;
 
 @Service
-public class PrizeRuleServiceImpl implements PrizeRuleService {
+public class PrizeServiceImpl implements PrizeService {
 	
 	@Autowired
-	PrizeRuleDao prizeRuleDao;
+	CoinsRuleDao coinsRuleDao;
 	@Autowired
 	UserDao userDao;
 	@Autowired
-	CoinsDao coinsDao;
+	PrizeDao coinsDao;
 
 	@Override
-	public PrizeRule getPrizeRule(String id) {
-		return prizeRuleDao.getPrizeRule(id);
+	public CoinsRule getPrizeRule(String id) {
+		return coinsRuleDao.getPrizeRule(id);
 	}
 
 	@Override
-	public PrizeRule getLevelRule(int level) {
-		return prizeRuleDao.getLevelRule(level);
+	public CoinsRule getLevelRule(int level) {
+		return coinsRuleDao.getLevelRule(level);
 	}
 
 	@Override
-	public boolean savePrizeRule(PrizeRule rule) {
-		return prizeRuleDao.savePrizeRule(rule);
+	public boolean savePrizeRule(CoinsRule rule) {
+		return coinsRuleDao.savePrizeRule(rule);
 	}
 
 	@Override
 	public boolean delPrizeRule(String id) {
-		return prizeRuleDao.delPrizeRule(id);
+		return coinsRuleDao.delPrizeRule(id);
 	}
 
 	@Override
-	public List<PrizeRule> getLevelRules() {
-		return prizeRuleDao.getLevelRules();
+	public List<CoinsRule> getLevelRules() {
+		return coinsRuleDao.getLevelRules();
 	}
 
 	@Override
 	public boolean managePrize(int level, String userid) {
 		try {
-			PrizeRule rule = prizeRuleDao.getLevelRule(level);
+			CoinsRule rule = coinsRuleDao.getLevelRule(level);
 			if(rule!=null){
 				User user = userDao.getUser(userid);
 				if(user.getCoins()!=null){

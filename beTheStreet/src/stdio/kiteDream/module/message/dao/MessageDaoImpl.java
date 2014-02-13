@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import stdio.kiteDream.module.message.bean.Message;
-import stdio.kiteDream.module.prize.bean.Coins;
 
 @Component
 public class MessageDaoImpl implements MessageDao {

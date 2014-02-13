@@ -2,6 +2,8 @@ package stdio.kiteDream.module.prize.bean;
 
 import java.io.Serializable;
 
+import stdio.kiteDream.module.coins.bean.Coins;
+
 public class Prize implements Serializable{
 
 	private static final long serialVersionUID = -1443130064688988876L;
