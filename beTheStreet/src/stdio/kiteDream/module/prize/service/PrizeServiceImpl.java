@@ -56,7 +56,7 @@ public class PrizeServiceImpl implements PrizeService {
 		if(prize!=null&&prize.getNum()<0){
 			return 2;
 		}
-		if(coins.getGreenNum()>=prize.getCoins().getGreenNum()&&coins.getRedNum()>=prize.getCoins().getRedNum()&&coins.getYellowNum()>=prize.getCoins().getYellowNum()){
+		if(coins!=null&&coins.getGreenNum()>=prize.getCoins().getGreenNum()&&coins.getRedNum()>=prize.getCoins().getRedNum()&&coins.getYellowNum()>=prize.getCoins().getYellowNum()){
 			coins.setGreenNum(coins.getGreenNum()-prize.getCoins().getGreenNum());
 			coins.setRedNum(coins.getRedNum()-prize.getCoins().getRedNum());
 			coins.setYellowNum(coins.getYellowNum()-prize.getCoins().getYellowNum());
