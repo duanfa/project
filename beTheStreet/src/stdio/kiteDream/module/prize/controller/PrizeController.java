@@ -1,32 +1,68 @@
 package stdio.kiteDream.module.prize.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import stdio.kiteDream.module.coins.bean.CoinsRule;
+import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
+import stdio.kiteDream.module.comic.bean.Comic;
+import stdio.kiteDream.module.image.bean.Image;
+import stdio.kiteDream.module.prize.bean.Prize;
 import stdio.kiteDream.module.prize.service.PrizeService;
+import stdio.kiteDream.module.product.bean.Product;
+import stdio.kiteDream.module.userEvent.service.UserEventService;
 import stdio.kiteDream.module.vo.JsonVO;
 import stdio.kiteDream.util.Constant;
+import stdio.kiteDream.util.ImageUtil;
 
 @Controller
-@RequestMapping("/api/coins")
+@RequestMapping("/api/prize")
 public class PrizeController {
 	@Autowired
-	PrizeService coinsRuleService;
+	PrizeService prizeService;
+	@Autowired
+	UserEventService userEventService;
 
 	@ResponseBody
-	@RequestMapping(value = "/listrule", method = { RequestMethod.GET, RequestMethod.POST })
-	public JsonVO listrule() {
+	@RequestMapping(value = "/list", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public JsonVO list(HttpServletRequest request,
+			@RequestParam(value = "userid", required = true) int userid,
+			@RequestParam(value = "page", required = false) int page,
+			@RequestParam(value = "size", required = false) int size) {
+		if (BasePathJsonParser.basePath == null) {
+			String path = request.getContextPath();
+			String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+			BasePathJsonParser.basePath = basePath;
+		}
 		JsonVO json = new JsonVO();
 		try {
-			json.setResult(coinsRuleService.getLevelRules());
+			if (page < 1) {
+				json.setResult(prizeService.getPrizes());
+			} else {
+				json.setResult(prizeService.getPrizes(page, size));
+			}
 			json.setErrorcode(Constant.OK);
+			json.setUser_events(userEventService.checkEvent(userid));
 		} catch (Exception e) {
 			e.printStackTrace();
 			json.setErrorcode(Constant.FAIL);
@@ -35,38 +71,98 @@ public class PrizeController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/addrule", method = { RequestMethod.GET, RequestMethod.POST })
-	public JsonVO check(CoinsRule rule) {
-		JsonVO json = new JsonVO();
+	@RequestMapping(value = "/listPrize", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public List<Prize> listPrize(HttpServletRequest request,
+			@RequestParam(value = "page", required = false) int page,
+			@RequestParam(value = "size", required = false) int size) {
+		if (BasePathJsonParser.basePath == null) {
+			String path = request.getContextPath();
+			String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+			BasePathJsonParser.basePath = basePath;
+		}
 		try {
-			if (coinsRuleService.savePrizeRule(rule)) {
-				json.setErrorcode(Constant.OK);
+			if (page < 1) {
+				return prizeService.getPrizes();
 			} else {
-				json.setErrorcode(Constant.FAIL);
+				return prizeService.getPrizes(page, size);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			json.setErrorcode(Constant.FAIL);
+			return new ArrayList<Prize>();
 		}
-		return json;
 	}
-	
 
 	@ResponseBody
-	@RequestMapping(value = "/deleterule/{ruleid}", method = RequestMethod.GET)
-	public JsonVO del(HttpServletRequest request, @PathVariable("ruleid") String ruleid) {
-		JsonVO json = new JsonVO();
+	@RequestMapping(value = "/upload", method = { RequestMethod.POST })
+	public String add(HttpServletRequest request, HttpSession session,
+			Prize prize) {
 		try {
-			if (coinsRuleService.delPrizeRule(ruleid)) {
-				json.setErrorcode(Constant.OK);
-			} else {
-				json.setErrorcode(Constant.FAIL);
+			CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
+					request.getSession().getServletContext());
+			ServletContext context = session.getServletContext();
+			String realContextPath = context.getRealPath("/");
+
+			String imgPre = "";
+			String fileName = "";
+			if (multipartResolver.isMultipart(request)) {
+				MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+
+				Iterator<String> iter = multiRequest.getFileNames();
+				while (iter.hasNext()) {
+
+					MultipartFile file = multiRequest.getFile(iter.next());
+					if (file != null) {
+						fileName = file.getOriginalFilename();
+						if (StringUtils.isBlank(fileName)) {
+							if (prize.getId()==0) {
+								return "{\"result\":\"fail\",\"info\":\"must need upload the image\"}";
+							}
+							break;
+						}
+						imgPre = Constant.COMIC_PATH_PRE;
+						File localFile = new File(realContextPath + "/"
+								+ imgPre + fileName);
+						while (localFile.exists()) {
+							imgPre = Constant.COMIC_PATH_PRE
+									+ new Date().getTime() + "_";
+							localFile = new File(realContextPath + "/" + imgPre
+									+ fileName);
+						}
+						file.transferTo(localFile);
+
+						ImageUtil.createThumbnail(localFile, realContextPath
+								+ "/" + imgPre + "thumbnail_" + fileName);
+						System.out.println(localFile.getAbsolutePath());
+
+						prize.setHeadPhoto(imgPre + fileName);
+						prize.setThumbnail_path(imgPre + "thumbnail_"
+								+ fileName);
+
+					}
+
+				}
+				prize.setHeadPhoto(imgPre + fileName);
+				prize.setThumbnail_path(imgPre + "thumbnail_" + fileName);
+				prizeService.savePrize(prize);
 			}
+			return "{\"result\":\"success\",\"info\":\"none\"}";
 		} catch (Exception e) {
 			e.printStackTrace();
-			json.setErrorcode(Constant.FAIL);
+			return "{\"result\":\"fail\",\"info\":\"" + e.getMessage() + "\"}";
 		}
-		return json;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/delete/{prizeid}", method = RequestMethod.GET)
+	public boolean del(HttpServletRequest request,
+			@PathVariable("prizeid") String prizeid) {
+		try {
+			return prizeService.delPrize(prizeid);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }

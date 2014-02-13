@@ -6,12 +6,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import stdio.kiteDream.module.coins.service.CoinsRuleService;
 import stdio.kiteDream.module.image.bean.Image;
 import stdio.kiteDream.module.image.dao.ImageDao;
 import stdio.kiteDream.module.message.bean.Message;
 import stdio.kiteDream.module.message.bean.MessageType;
 import stdio.kiteDream.module.message.service.MessageService;
-import stdio.kiteDream.module.prize.service.PrizeService;
 import stdio.kiteDream.module.user.dao.UserDao;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
 
@@ -28,7 +28,7 @@ public class ImageServiceImpl implements ImageService {
 	UserEventService userEventService;
 	
 	@Autowired
-	PrizeService prizeRuleService;
+	CoinsRuleService coinsRuleService;
 	
 	@Autowired
 	MessageService messageService;
@@ -83,7 +83,7 @@ public class ImageServiceImpl implements ImageService {
 			image.setStatu(statu);
 			if(imageDao.saveImage(image)){
 				if(Image.Check.PASS.toString().equals(statu)){
-					prizeRuleService.managePrize(image.getLevel(), image.getUser().getId()+"");
+					coinsRuleService.managePrize(image.getLevel(), image.getUser().getId()+"");
 					Message message = new Message();
 					message.setDescription("new image "+image.getId()+" passed and coins is added ");
 					message.setTitle("new image pass");

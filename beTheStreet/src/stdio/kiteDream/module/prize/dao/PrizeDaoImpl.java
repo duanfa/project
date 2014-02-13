@@ -1,14 +1,17 @@
 package stdio.kiteDream.module.prize.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import stdio.kiteDream.module.coins.bean.Coins;
+import stdio.kiteDream.module.prize.bean.Prize;
+import stdio.kiteDream.module.user.bean.User;
 
 @Component
 public class PrizeDaoImpl implements PrizeDao {
@@ -24,19 +27,16 @@ public class PrizeDaoImpl implements PrizeDao {
 		this.sessionFactory = sessionFactory;
 	}
 
+
 	@Override
-	public Coins getUserCoins(String userid) {
-		List<Coins> list = getSessionFactory().getCurrentSession().createQuery("select user.coins from User user where user.id="+userid).list();
-		 if(list.size()>0){
-			 return list.get(0);
-		 }
-		 return null;
+	public Prize getPrize(String id) {
+		return (Prize) getSessionFactory().getCurrentSession().get(Prize.class, Integer.parseInt(id.trim()));
 	}
 
 	@Override
-	public boolean saveCoins(Coins coins) {
+	public boolean savePrize(Prize prize) {
 		try {
-			getSessionFactory().getCurrentSession().saveOrUpdate(coins);
+			getSessionFactory().getCurrentSession().saveOrUpdate(prize);
 			return true;
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -45,10 +45,10 @@ public class PrizeDaoImpl implements PrizeDao {
 	}
 
 	@Override
-	public boolean delCoins(String id) {
+	public boolean delPrize(String id) {
 		try {
-			Coins coins = (Coins) getSessionFactory().getCurrentSession().get(Coins.class, Integer.parseInt(id.trim()));
-			getSessionFactory().getCurrentSession().delete(coins);
+			Prize prize = (Prize) getSessionFactory().getCurrentSession().get(Prize.class, Integer.parseInt(id.trim()));
+			getSessionFactory().getCurrentSession().delete(prize);
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			return false;
@@ -57,8 +57,25 @@ public class PrizeDaoImpl implements PrizeDao {
 	}
 
 	@Override
-	public Coins getCoins(String id) {
-		return (Coins) getSessionFactory().getCurrentSession().get(Coins.class, Integer.parseInt(id.trim()));
+	public List<Prize> getPrizes() {
+		return getSessionFactory().getCurrentSession().createQuery("from Prize").list();
+	}
+
+	@Override
+	public List<Prize> getPrizes(int pageNo, int pageSize) {
+		List<Prize> list = null;
+		try {
+			if (pageNo > 0 && pageSize > 0) {
+				Query query = getSessionFactory().getCurrentSession().createQuery("from Prize");
+				query.setFirstResult((pageNo - 1) * pageSize);
+				query.setMaxResults(pageSize);
+				list = query.list();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			list = new ArrayList<Prize>();
+		}
+		return list;
 	}
 
 }

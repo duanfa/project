@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>文件上传</title>
+</head>
+<body>
+	<form action="api/prize/upload" method="post" enctype="multipart/form-data">
+		title:<input type="text" name="title"><br>
+		description:<input type="text" name="description"><br>
+		greenNum:<input type="text" name="coins.greenNum"><br>
+		yellowNum:<input type="text" name="coins.yellowNum"><br>
+		redNum:<input type="text" name="coins.redNum"><br>
+		sellState:<select name="sellState" >
+                <option value="1" selected>ONSALE</option>
+                <option value="0">SALEOUT</option><br>
+		path:<input type="file" name="fileUpload" /><br>
+		<input type="submit" value="上传" />
+	</form>
+</body>
+</html>

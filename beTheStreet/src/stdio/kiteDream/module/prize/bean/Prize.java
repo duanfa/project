@@ -2,24 +2,42 @@ package stdio.kiteDream.module.prize.bean;
 
 import java.io.Serializable;
 
-import stdio.kiteDream.module.coins.bean.Coins;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-public class Prize implements Serializable{
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import stdio.kiteDream.module.coins.bean.Coins;
+import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
+
+@Entity
+@Table(name = "prize")
+public class Prize implements Serializable {
 
 	private static final long serialVersionUID = -1443130064688988876L;
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String headPhoto;
+	private String thumbnail_path;
 	private String title;
 	private String description;
-	/** 三种金币数 **/
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "coinid")
 	private Coins coins;
-	/** 销售状态-0是售罄1是销售中 **/
 	private int sellState;
-	
-	public Prize(){}
-	
-	public Prize(int id, String headPhoto, String title, String description, Coins coins, int sellState){
+
+	public Prize() {
+	}
+
+	public Prize(int id, String headPhoto, String title, String description,
+			Coins coins, int sellState) {
 		this.id = id;
 		this.title = title;
 		this.headPhoto = headPhoto;
@@ -35,7 +53,8 @@ public class Prize implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
-
+	
+	@JsonSerialize(using = BasePathJsonParser.class)
 	public String getHeadPhoto() {
 		return headPhoto;
 	}
@@ -43,7 +62,7 @@ public class Prize implements Serializable{
 	public void setHeadPhoto(String headPhoto) {
 		this.headPhoto = headPhoto;
 	}
-	
+
 	public String getTitle() {
 		return title;
 	}
@@ -75,4 +94,14 @@ public class Prize implements Serializable{
 	public void setSellState(int sellState) {
 		this.sellState = sellState;
 	}
+
+	@JsonSerialize(using = BasePathJsonParser.class)
+	public String getThumbnail_path() {
+		return thumbnail_path;
+	}
+
+	public void setThumbnail_path(String thumbnail_path) {
+		this.thumbnail_path = thumbnail_path;
+	}
+
 }

@@ -2,20 +2,17 @@ package stdio.kiteDream.module.prize.service;
 
 import java.util.List;
 
-import stdio.kiteDream.module.coins.bean.CoinsRule;
+import stdio.kiteDream.module.prize.bean.Prize;
 
 public interface PrizeService {
 
-public CoinsRule getPrizeRule(String id);
-	
-	public List<CoinsRule> getLevelRules();
-	
-	public CoinsRule getLevelRule(int level);
+	public List<Prize> getPrizes();
 
-	public boolean savePrizeRule(CoinsRule rule);
-	
-	public boolean managePrize(int level,String userid);
+	public List<Prize> getPrizes(int pageNo, int pageSize);
 
-	public boolean delPrizeRule(String id);
+	public Prize getPrize(String id);
 
+	public boolean savePrize(Prize prize);
+
+	public boolean delPrize(String id);
 }

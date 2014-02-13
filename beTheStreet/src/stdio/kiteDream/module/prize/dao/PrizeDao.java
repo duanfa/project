@@ -1,15 +1,19 @@
 package stdio.kiteDream.module.prize.dao;
 
-import stdio.kiteDream.module.coins.bean.Coins;
+import java.util.List;
+
+import stdio.kiteDream.module.prize.bean.Prize;
 
 public interface PrizeDao {
 
-	public Coins getCoins(String id);
+	public List<Prize> getPrizes();
 	
-	public Coins getUserCoins(String userid);
+	public List<Prize> getPrizes(int pageNo,int pageSize);
+	
+	public Prize getPrize(String id);
+	
+	public boolean savePrize(Prize prize);
 
-	public boolean saveCoins(Coins coins);
-
-	public boolean delCoins(String id);
+	public boolean delPrize(String id);
 
 }
