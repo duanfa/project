@@ -29,7 +29,7 @@ public class UserController {
 	@Autowired
 	UserEventService userEventService;
 
-	@ResponseBody
+	/*@ResponseBody
 	@RequestMapping(value = "/register", method = { RequestMethod.POST, RequestMethod.GET })
 	public JsonVO register(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "name", required = false) String name, 
@@ -40,27 +40,22 @@ public class UserController {
 			@RequestParam(value = "birthday", required = false) String birthday,
 			@RequestParam(value = "email", required = false) String email, 
 			@RequestParam(value = "address", required = false) String address,
-			@RequestParam(value = "cellphone", required = false) String cellphone) {
+			@RequestParam(value = "cellphone", required = false) String cellphone) {*/
+		@ResponseBody
+		@RequestMapping(value = "/register", method = { RequestMethod.POST, RequestMethod.GET })
+		public JsonVO register(HttpServletRequest request, HttpSession session,
+				User user) {
 		// 设置上下方文
 		JsonVO json = new JsonVO();
 		try {
-			List<User> users = userService.getUserByParam("nickname", nickname);
+			List<User> users = userService.getUserByParam("nickname", user.getNickname());
 			if(users.size()>0){
 				json.setErrorcode(Constant.EXIST);
 				return json;
 			}
-			User user = new User();
-			user.setName(name);
-			user.setNickname(nickname);
-			user.setPassword(password);
-			user.setMac(mac);
-			user.setGender(gender);
-			user.setEmail(email);
-			user.setAddress(address);
-			user.setCellPhone(cellphone);
 			user.setActive(true);
 			json.setErrorcode(userService.saveUser(user));
-			json.setResult(userService.getUserByParam("nickname", nickname));
+			json.setResult(userService.getUserByParam("nickname", user.getNickname()));
 			json.setUser_events(userEventService.checkEvent(user.getId()));
 		} catch (Exception e) {
 			e.printStackTrace();
