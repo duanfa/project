@@ -179,7 +179,7 @@ public class UserController {
 
 		JsonVO json = new JsonVO();
 		try {
-			json.setResult(userService.manageSearch(keyword));
+			json.setResult(userService.manageSearchUser(keyword));
 			json.setErrorcode(Constant.OK);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -69,6 +70,10 @@ public class User implements Serializable {
 	@OneToOne(targetEntity = Coins.class)
 	@JoinColumn
 	private Coins coins;
+	
+	@ManyToOne(targetEntity = Group.class)
+	@JoinColumn(name = "groupid")
+	private Group group;
 
 	public int getId() {
 		return id;
@@ -216,6 +221,14 @@ public class User implements Serializable {
 
 	public void setHeadPhoto(String headPhoto) {
 		this.headPhoto = headPhoto;
+	}
+
+	public Group getGroup() {
+		return group;
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
 	}
 
 }

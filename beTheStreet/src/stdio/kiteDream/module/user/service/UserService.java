@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.util.List;
 
+import stdio.kiteDream.module.user.bean.Group;
 import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.userEvent.bean.UserEventRecord;
 import stdio.kiteDream.util.Constant;
@@ -34,5 +35,21 @@ public interface UserService {
 
 	public long getUserCount();
 
-	public List<User> manageSearch(String keyword);
+	public List<User> manageSearchUser(String keyword);
+	
+	public Integer getCount();
+	
+	public Integer getGroupUserCount(int groupid);
+
+	public List<User> getGroupUsers(int pageNo,int pageSize,int groupid);
+	
+	public List<Group> getGroups(int pageNo,int pageSize);
+	
+	public Group getGroup(int id);
+	
+	public boolean saveGroup(Group group);
+
+	public boolean delGroup(String id);
+
+	public List<Group> manageSearchGroup(String keyword);
 }

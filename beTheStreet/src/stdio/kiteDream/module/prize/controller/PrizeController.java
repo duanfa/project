@@ -90,31 +90,6 @@ public class PrizeController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/listPrize", method = { RequestMethod.GET,
-			RequestMethod.POST })
-	public List<Prize> listPrize(HttpServletRequest request,
-			@RequestParam(value = "page", required = false) int page,
-			@RequestParam(value = "size", required = false) int size) {
-		if (BasePathJsonParser.basePath == null) {
-			String path = request.getContextPath();
-			String basePath = request.getScheme() + "://"
-					+ request.getServerName() + ":" + request.getServerPort()
-					+ path + "/";
-			BasePathJsonParser.basePath = basePath;
-		}
-		try {
-			if (page < 1) {
-				return prizeService.getPrizes();
-			} else {
-				return prizeService.getPrizes(page, size);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ArrayList<Prize>();
-		}
-	}
-
-	@ResponseBody
 	@RequestMapping(value = "/upload", method = { RequestMethod.POST })
 	public String add(HttpServletRequest request, HttpSession session,
 			Prize prize) {

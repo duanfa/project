@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import stdio.kiteDream.module.user.bean.Group;
 import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.user.dao.UserDao;
 import stdio.kiteDream.module.userEvent.bean.UserEventRecord;
@@ -118,7 +119,55 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> manageSearch(String keyword) {
+	public List<User> manageSearchUser(String keyword) {
 		return userDao.manageSearch(keyword);
+	}
+
+	@Override
+	public Integer getCount() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Integer getGroupUserCount(int groupid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<User> getGroupUsers(int pageNo, int pageSize, int groupid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Group> getGroups(int pageNo, int pageSize) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Group getGroup(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean saveGroup(Group group) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean delGroup(String id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<Group> manageSearchGroup(String keyword) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
