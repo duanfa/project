@@ -24,6 +24,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
 import stdio.kiteDream.module.prize.bean.Order;
+import stdio.kiteDream.module.prize.bean.Order.OrderStatu;
 import stdio.kiteDream.module.prize.bean.Prize;
 import stdio.kiteDream.module.prize.service.PrizeService;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
@@ -208,6 +209,40 @@ public class PrizeController {
 				json.setErrorcode(Constant.FAIL);
 			}
 			json.setUser_events(userEventService.checkEvent(userid));
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/cancel/{orderid}", method = RequestMethod.GET)
+	public JsonVO cancelPrize(HttpServletRequest request,
+			@PathVariable("orderid") int orderid,
+			@RequestParam("userid") int userid) {
+		JsonVO json = new JsonVO();
+		try {
+			if(prizeService.manageChangeOrder(orderid, OrderStatu.CANCEL)){
+				json.setErrorcode(Constant.OK);
+			}
+			json.setUser_events(userEventService.checkEvent(userid));
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/changeOrder/{orderid}", method = RequestMethod.GET)
+	public JsonVO changeOrder(@PathVariable("orderid") int orderid,
+			@RequestParam("statu") OrderStatu statu) {
+		JsonVO json = new JsonVO();
+		try {
+			if(prizeService.manageChangeOrder(orderid,statu)){
+				json.setErrorcode(Constant.OK);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			json.setErrorcode(Constant.FAIL);

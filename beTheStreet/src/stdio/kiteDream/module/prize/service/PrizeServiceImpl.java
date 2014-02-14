@@ -8,7 +8,11 @@ import org.springframework.stereotype.Service;
 
 import stdio.kiteDream.module.coins.bean.Coins;
 import stdio.kiteDream.module.coins.dao.CoinsDao;
+import stdio.kiteDream.module.message.bean.Message;
+import stdio.kiteDream.module.message.bean.MessageType;
+import stdio.kiteDream.module.message.service.MessageService;
 import stdio.kiteDream.module.prize.bean.Order;
+import stdio.kiteDream.module.prize.bean.Order.OrderStatu;
 import stdio.kiteDream.module.prize.bean.Prize;
 import stdio.kiteDream.module.prize.dao.OrderDao;
 import stdio.kiteDream.module.prize.dao.PrizeDao;
@@ -25,6 +29,8 @@ public class PrizeServiceImpl implements PrizeService {
 	OrderDao orderDao;
 	@Autowired
 	CoinsDao coinsDao;
+	@Autowired
+	MessageService messageService;
 
 	@Override
 	public List<Prize> getPrizes() {
@@ -89,6 +95,54 @@ public class PrizeServiceImpl implements PrizeService {
 	@Override
 	public List<Order> getUserOrders(int userid, int pageNo, int pageSize) {
 		return orderDao.getUserOrders(pageNo, pageSize, userid);
+	}
+
+
+	@Override
+	public boolean manageChangeOrder(int orderid, OrderStatu statu) {
+		Order order = orderDao.getOrder(orderid+"");
+		OrderStatu oldStatu = order.getStatu();
+		order.setStatu(statu);
+		if(orderDao.saveOrder(order)){
+			switch(statu){
+			case CLOSE:
+				Prize prize = order.getPrize();
+				User user = order.getUser();
+				Coins coins = coinsDao.getUserCoins(user.getId()+"");
+				if(coins!=null&&prize!=null){
+					coins.setGreenNum(coins.getGreenNum()+prize.getCoins().getGreenNum());
+					coins.setRedNum(coins.getRedNum()+prize.getCoins().getRedNum());
+					coins.setYellowNum(coins.getYellowNum()+prize.getCoins().getYellowNum());
+					prize.setNum(prize.getNum()+1);
+					order.setStatu(OrderStatu.CANCEL);
+					prizeDao.savePrize(prize);
+					coinsDao.saveCoins(coins);
+					orderDao.saveOrder(order);
+					
+					Message message = new Message();
+					message.setDescription("product "+prize.getTitle()+" returned success");
+					message.setTitle("new product returned approve");
+					message.setType(MessageType.NOTICE);
+					messageService.saveMessage(message, user.getId());
+				}
+				break;
+			case SEND:
+				Message message = new Message();
+				message.setDescription("product "+order.getPrize().getTitle()+" had been posted .");
+				message.setTitle("product post");
+				message.setType(MessageType.NOTICE);
+				messageService.saveMessage(message,order.getUser().getId());
+				if(oldStatu.equals(OrderStatu.CANCEL)){
+					message = new Message();
+					message.setDescription("product "+order.getPrize().getTitle()+" had been posted .sales return reject");
+					message.setTitle(" sales return reject.");
+					message.setType(MessageType.NOTICE);
+					messageService.saveMessage(message,order.getUser().getId());
+				}
+				break;
+			}
+		}
+		return false;
 	}
 	
 

@@ -18,7 +18,7 @@ import stdio.kiteDream.module.user.bean.User;
 public class Order implements Serializable {
 
 	public enum OrderStatu {
-		PURCHASE, SEND, DONE
+		PURCHASE, SEND, DONE, CANCEL, CLOSE
 	}
 
 	private static final long serialVersionUID = 7545666740293797326L;

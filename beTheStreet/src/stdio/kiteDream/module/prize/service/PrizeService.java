@@ -3,6 +3,7 @@ package stdio.kiteDream.module.prize.service;
 import java.util.List;
 
 import stdio.kiteDream.module.prize.bean.Order;
+import stdio.kiteDream.module.prize.bean.Order.OrderStatu;
 import stdio.kiteDream.module.prize.bean.Prize;
 
 public interface PrizeService {
@@ -20,4 +21,6 @@ public interface PrizeService {
 	public boolean deletePrize(String id);
 
 	public int manageBuy(int userid, int prizeid, Order order);
+
+	public boolean manageChangeOrder(int orderid, OrderStatu statu);
 }
