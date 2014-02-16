@@ -84,21 +84,6 @@ public class UserDaoImpl implements UserDao {
 		return true;
 	}
 
-	@Override
-	public List<User> getUsers(int pageNo, int pageSize) {
-		List<User> list = new ArrayList<User>();
-		try {
-			if (pageNo > 0 && pageSize > 0) {
-				Query query = getSessionFactory().getCurrentSession().createQuery("from User");
-				query.setFirstResult((pageNo - 1) * pageSize);
-				query.setMaxResults(pageSize);
-				list = query.list();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
 
 	@Override
 	public Integer getUserCount() {

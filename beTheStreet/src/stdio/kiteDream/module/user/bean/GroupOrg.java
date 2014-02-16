@@ -8,18 +8,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import stdio.kiteDream.module.coins.bean.Coins;
-
 @Entity
-@Table(name = "user_group")
-@JsonIgnoreProperties({"users"}) 
-public class Group implements Serializable {
+@Table(name = "group_org")
+@JsonIgnoreProperties({"groups"})
+public class GroupOrg implements Serializable {
 
 	private static final long serialVersionUID = -990828283870178741L;
 
@@ -30,16 +28,13 @@ public class Group implements Serializable {
 	private String name;
 	
 	private String info;
-	
-	@JoinColumn(name = "orgid")
-	private GroupOrg groupOrg;
 
-	@OneToOne
-	@JoinColumn
-	private Coins coins;
+	@ManyToOne
+	@JoinColumn(name = "categoryid")
+	private GroupCategory category;
 	
 	@OneToMany
-	private List<User> users;
+	private List<Group> groups;
 
 	public int getId() {
 		return id;
@@ -65,28 +60,20 @@ public class Group implements Serializable {
 		this.info = info;
 	}
 
-	public Coins getCoins() {
-		return coins;
+	public GroupCategory getCategory() {
+		return category;
 	}
 
-	public void setCoins(Coins coins) {
-		this.coins = coins;
+	public void setCategory(GroupCategory category) {
+		this.category = category;
 	}
 
-	public List<User> getUsers() {
-		return users;
+	public List<Group> getGroups() {
+		return groups;
 	}
 
-	public void setUsers(List<User> users) {
-		this.users = users;
+	public void setGroups(List<Group> groups) {
+		this.groups = groups;
 	}
 
-	public GroupOrg getGroupOrg() {
-		return groupOrg;
-	}
-
-	public void setGroupOrg(GroupOrg groupOrg) {
-		this.groupOrg = groupOrg;
-	}
-	
 }

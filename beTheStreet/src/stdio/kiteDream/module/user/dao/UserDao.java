@@ -10,8 +10,6 @@ public interface UserDao {
 	
 	public Integer getUserCount();
 
-	public List<User> getUsers(int pageNo,int pageSize);
-	
 	public User getUser(String id);
 	
 	public List<User> getUserByParam(String param,String value);

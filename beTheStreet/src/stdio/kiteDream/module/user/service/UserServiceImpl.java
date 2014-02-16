@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import stdio.kiteDream.module.user.bean.Group;
 import stdio.kiteDream.module.user.bean.User;
+import stdio.kiteDream.module.user.dao.GroupDao;
 import stdio.kiteDream.module.user.dao.UserDao;
 import stdio.kiteDream.module.userEvent.bean.UserEventRecord;
 import stdio.kiteDream.module.userEvent.dao.UserEventRecordDao;
@@ -25,6 +26,8 @@ public class UserServiceImpl implements UserService {
 	UserEventRecordDao userEventRecordDao;
 	@Autowired
 	UserDao userDao;
+	@Autowired
+	GroupDao groupDao;
 
 	@Override
 	public List<User> getUsers() {
@@ -33,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getUsers(int pageNo, int pageSize) {
-		return userDao.getUsers(pageNo, pageSize);
+		return groupDao.getGroupUsers(pageNo, pageSize, -1);
 	}
 
 	@Override

@@ -4,15 +4,15 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import stdio.kiteDream.module.user.bean.Group;
+import stdio.kiteDream.module.user.bean.GroupCategory;
+import stdio.kiteDream.module.user.bean.GroupOrg;
 import stdio.kiteDream.module.user.bean.User;
 
 @Component
@@ -30,13 +30,17 @@ public class GroupDaoImpl implements GroupDao {
 	}
 
 	@Override
-	public Integer getCount() {
+	public Integer getGroupCount(int orgid) {
 		Integer count;
+		String sql = "select count(1) from user_group";
+		if(orgid>0){
+			sql = sql+" where orgid="+orgid;
+		}
 		try {
-			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery("select count(1) from Group").uniqueResult();
+			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
 			count = countRaw.intValue();
 		} catch (Exception e) {
-			Integer countRaw = (Integer) getSessionFactory().getCurrentSession().createSQLQuery("select count(1) from Group").uniqueResult();
+			Integer countRaw = (Integer) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
 			count = countRaw.intValue();
 		}
 		return count;
@@ -58,9 +62,13 @@ public class GroupDaoImpl implements GroupDao {
 	@Override
 	public List<User> getGroupUsers(int pageNo, int pageSize, int groupid) {
 		List<User> list = null;
+		String hql = "from User user ";
+		if(groupid>0){
+			hql = hql + " where user.group.id="+groupid;
+		}
 		try {
 			if (pageNo > 0 && pageSize > 0) {
-				Query query = getSessionFactory().getCurrentSession().createQuery("from User user where user.grop.id="+groupid);
+				Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 				query.setFirstResult((pageNo - 1) * pageSize);
 				query.setMaxResults(pageSize);
 				list = query.list();
@@ -75,8 +83,12 @@ public class GroupDaoImpl implements GroupDao {
 	}
 
 	@Override
-	public List<Group> getGroups(int pageNo, int pageSize) {
+	public List<Group> getGroups(int orgid,int pageNo, int pageSize) {
 		List<Group> list = null;
+		String hql = "from Group grou";
+		if(orgid>0){
+			hql = hql+" where grou.groupOrg.id="+orgid;
+		}
 		try {
 			if (pageNo > 0 && pageSize > 0) {
 				Query query = getSessionFactory().getCurrentSession().createQuery("from Group");
@@ -111,11 +123,11 @@ public class GroupDaoImpl implements GroupDao {
 	}
 
 	@Override
-	public boolean delGroup(String id) {
+	public boolean delGroup(int id) {
 		try {
 			Group group = (Group) getSessionFactory().getCurrentSession().get(Group.class, id);
 			getSessionFactory().getCurrentSession().delete(group);
-		} catch (HibernateException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -131,6 +143,127 @@ public class GroupDaoImpl implements GroupDao {
 			return new ArrayList<Group>();
 		}
 		return list;
+	}
+
+	@Override
+	public List<GroupCategory> getGroupCategorys(int pageNo, int pageSize) {
+		List<GroupCategory> list = null;
+		try {
+			if (pageNo > 0 && pageSize > 0) {
+				Query query = getSessionFactory().getCurrentSession().createQuery("from GroupCategory");
+				query.setFirstResult((pageNo - 1) * pageSize);
+				query.setMaxResults(pageSize);
+				list = query.list();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(list==null){
+			list = new ArrayList<GroupCategory>();
+		}
+		return list;
+	}
+
+	@Override
+	public Integer getGroupCategoryCount() {
+		Integer count;
+		String sql = "select count(1) from group_category";
+		try {
+			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
+			count = countRaw.intValue();
+		} catch (Exception e) {
+			Integer countRaw = (Integer) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
+			count = countRaw.intValue();
+		}
+		return count;
+	}
+
+	@Override
+	public boolean saveGroupCategory(GroupCategory groupCategory) {
+		try {
+			getSessionFactory().getCurrentSession().saveOrUpdate(groupCategory);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+
+	}
+
+	@Override
+	public boolean delGroupCategory(int id) {
+		try {
+			GroupCategory groupOrg = (GroupCategory) getSessionFactory().getCurrentSession().get(GroupCategory.class, id);
+			getSessionFactory().getCurrentSession().delete(groupOrg);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public List<GroupOrg> getGroupOrgs(int categoryid, int pageNo, int pageSize) {
+		List<GroupOrg> list = null;
+		String hql = "from GroupOrg org ";
+		if(categoryid>0){
+			hql = hql + " where org.category.id="+categoryid;
+		}
+		try {
+			if (pageNo > 0 && pageSize > 0) {
+				Query query = getSessionFactory().getCurrentSession().createQuery(hql);
+				query.setFirstResult((pageNo - 1) * pageSize);
+				query.setMaxResults(pageSize);
+				list = query.list();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(list==null){
+			list = new ArrayList<GroupOrg>();
+		}
+		return list;
+	}
+
+	@Override
+	public Integer getGroupOrgCount(int categoryid) {
+		Integer count;
+		String sql = "select count(1) from group_org";
+		if(categoryid>0){
+			sql = sql +" where categoryid="+categoryid;
+		}
+		try {
+			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
+			count = countRaw.intValue();
+		} catch (Exception e) {
+			Integer countRaw = (Integer) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
+			count = countRaw.intValue();
+		}
+		return count;
+	}
+
+	@Override
+	public boolean saveGroupOrg(GroupOrg groupOrg) {
+		try {
+			getSessionFactory().getCurrentSession().saveOrUpdate(groupOrg);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+
+	}
+
+	@Override
+	public boolean delGroupOrg(int id) {
+		try {
+			GroupOrg groupOrg = (GroupOrg) getSessionFactory().getCurrentSession().get(GroupOrg.class,id);
+			getSessionFactory().getCurrentSession().delete(groupOrg);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 }

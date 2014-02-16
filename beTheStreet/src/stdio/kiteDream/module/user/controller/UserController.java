@@ -29,18 +29,6 @@ public class UserController {
 	@Autowired
 	UserEventService userEventService;
 
-	/*@ResponseBody
-	@RequestMapping(value = "/register", method = { RequestMethod.POST, RequestMethod.GET })
-	public JsonVO register(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "name", required = false) String name, 
-			@RequestParam(value = "nickname", required = true) String nickname, 
-			@RequestParam(value = "password", required = false) String password,
-			@RequestParam(value = "mac", required = false) String mac,
-			@RequestParam(value = "gender", required = false) String gender,
-			@RequestParam(value = "birthday", required = false) String birthday,
-			@RequestParam(value = "email", required = false) String email, 
-			@RequestParam(value = "address", required = false) String address,
-			@RequestParam(value = "cellphone", required = false) String cellphone) {*/
 		@ResponseBody
 		@RequestMapping(value = "/register", method = { RequestMethod.POST, RequestMethod.GET })
 		public JsonVO register(HttpServletRequest request, HttpSession session,
