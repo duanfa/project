@@ -1,4 +1,4 @@
-function ready(){
+$(document).ready(function(){
 	//themes, change CSS with JS
 	//default theme(CSS) is cerulean, change it if needed
 	var current_theme = $.cookie('current_theme')==null ? 'cerulean' :$.cookie('current_theme');
@@ -93,7 +93,7 @@ function ready(){
 	
 	//other things to do on document ready, seperated for ajax calls
 	docReady();
-}
+});
 		
 		
 function docReady(){

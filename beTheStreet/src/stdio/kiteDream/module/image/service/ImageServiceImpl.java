@@ -1,6 +1,8 @@
 package stdio.kiteDream.module.image.service;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,8 @@ import stdio.kiteDream.module.image.dao.ImageDao;
 import stdio.kiteDream.module.message.bean.Message;
 import stdio.kiteDream.module.message.bean.MessageType;
 import stdio.kiteDream.module.message.service.MessageService;
+import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.user.dao.UserDao;
-import stdio.kiteDream.module.userEvent.service.UserEventService;
 
 @Service
 public class ImageServiceImpl implements ImageService {
@@ -25,17 +27,14 @@ public class ImageServiceImpl implements ImageService {
 	private UserDao userDao;
 	
 	@Autowired
-	UserEventService userEventService;
-	
-	@Autowired
 	CoinsRuleService coinsRuleService;
 	
 	@Autowired
 	MessageService messageService;
 	
 	@Override
-	public List<Image> getImages(int userId) {
-		return imageDao.getImageByUserid(userId);
+	public List<Image> getUserImages(int userId,int page,int size) {
+		return imageDao.getImageByUserid(userId,page,size);
 	}
 
 	@Override
@@ -44,7 +43,18 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public boolean saveImage(Image image) {
+	public boolean saveImage(Image image,int userid) {
+		User user = userDao.getUser(userid+"");
+		List<Image> images = user.getImages();
+		if(images==null){
+			images = new ArrayList<Image>();
+			images.add(image);
+		}else{
+			images.add(image);
+		}
+		image.setUser(user);
+		user.setImages(images);
+		userDao.saveUser(user);
 		return imageDao.saveImage(image);
 	}
 
@@ -81,6 +91,7 @@ public class ImageServiceImpl implements ImageService {
 		try {
 			Image image = imageDao.getImage(imageId);
 			image.setStatu(statu);
+			image.setUpdate_time(new Date());
 			if(imageDao.saveImage(image)){
 				if(Image.Check.PASS.toString().equals(statu)){
 					coinsRuleService.managePrize(image.getLevel(), image.getUser().getId()+"");
@@ -102,6 +113,21 @@ public class ImageServiceImpl implements ImageService {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public Integer getUserImageCount(int userId) {
+		return imageDao.getUserImageCount(userId);
+	}
+
+	@Override
+	public List<Image> getImages(int page, int size) {
+		return imageDao.getImages(page, size);
+	}
+
+	@Override
+	public Integer getImageCount() {
+		return imageDao.getImageCount();
 	}
 
 }

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,7 +17,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import stdio.kiteDream.module.coins.bean.Coins;
 
 @Entity
-@Table(name = "group")
+@Table(name = "user_group")
 @JsonIgnoreProperties({"users"}) 
 public class Group implements Serializable {
 
@@ -32,12 +31,11 @@ public class Group implements Serializable {
 	
 	private String info;
 
-	@OneToOne(targetEntity = Coins.class)
+	@OneToOne
 	@JoinColumn
 	private Coins coins;
 	
-	@OneToMany(targetEntity = User.class,fetch=FetchType.EAGER)
-	@JoinColumn
+	@OneToMany
 	private List<User> users;
 
 	public int getId() {

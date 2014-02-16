@@ -28,9 +28,9 @@ import stdio.kiteDream.module.image.bean.Image;
 import stdio.kiteDream.module.image.service.ImageService;
 import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.user.service.UserService;
-import stdio.kiteDream.module.userEvent.bean.UserEvent;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
 import stdio.kiteDream.module.vo.JsonVO;
+import stdio.kiteDream.module.vo.PageVO;
 import stdio.kiteDream.util.Constant;
 import stdio.kiteDream.util.ImageUtil;
 
@@ -100,19 +100,8 @@ public class ImageController {
 				image.setIp(request.getRemoteAddr());
 				image.setAddress(address);
 				image.setType(type);
-				User user = userService.getUser(userid+"");
 				System.out.println("userid is :"+userid);
-				System.out.println("user:"+user);
-				image.setUser(user);
-				imageService.saveImage(image);
-				if(user.getImages()==null){
-					List<Image> images = new ArrayList<Image>();
-					images.add(image);
-					user.setImages(images);
-				}else{
-					user.getImages().add(image);
-				}
-				userService.saveUser(user);
+				imageService.saveImage(image,userid);
 			}
 			json.setErrorcode(Constant.OK);
 			json.setUser_events(userEventService.checkEvent(userid));
@@ -124,40 +113,44 @@ public class ImageController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/list/user/{userid}", method = RequestMethod.GET)
-	public JsonVO listLevel(HttpServletRequest request, @PathVariable("userid") int userid) {
+	@RequestMapping(value = "/list/{userid}", method = RequestMethod.GET)
+	public PageVO listUesrImage(HttpServletRequest request, @PathVariable("userid") int userid,@RequestParam("page") int page,@RequestParam("size") int size) {
 		if (BasePathJsonParser.basePath == null) {
 			String path = request.getContextPath();
 			String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 			BasePathJsonParser.basePath = basePath;
 		}
-		JsonVO jsonVO = new JsonVO();
+		PageVO jsonVO = new PageVO();
 		try {
-			List<List<Image>> result = new ArrayList<List<Image>>();
-			List<Integer> levels = new ArrayList<Integer>();
-			List<Image> comics = imageService.getImages(userid);
-			List<Image> currentComics = null;
-			for (Image comic : comics) {
-				if (levels.contains(comic.getLevel())) {
-					currentComics.add(comic);
-				} else {
-					if (currentComics != null) {
-						result.add(currentComics);
-					}
-					currentComics = new ArrayList<Image>();
-					currentComics.add(comic);
-					levels.add(comic.getLevel());
-				}
-			}
-			result.add(currentComics);
-			jsonVO.setResult(result);
+			List<Image> images = imageService.getUserImages(userid,page,size);
+			jsonVO.setCount(imageService.getUserImageCount(userid));
+			jsonVO.setResult(images);
 			jsonVO.setErrorcode("ok");
 		} catch (Exception e) {
 			e.printStackTrace();
 			jsonVO.setErrorcode("fail");
 		}
 		return jsonVO;
-
+	}
+	@ResponseBody
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public PageVO list(HttpServletRequest request,@RequestParam("page") int page,@RequestParam("size") int size) {
+		if (BasePathJsonParser.basePath == null) {
+			String path = request.getContextPath();
+			String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+			BasePathJsonParser.basePath = basePath;
+		}
+		PageVO jsonVO = new PageVO();
+		try {
+			List<Image> images = imageService.getImages(page, size);
+			jsonVO.setCount(imageService.getImageCount());
+			jsonVO.setResult(images);
+			jsonVO.setErrorcode("ok");
+		} catch (Exception e) {
+			e.printStackTrace();
+			jsonVO.setErrorcode("fail");
+		}
+		return jsonVO;
 	}
 
 	@ResponseBody

@@ -1,9 +1,11 @@
 package stdio.kiteDream.module.image.dao;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -28,10 +30,16 @@ public class ImageDaoImpl implements ImageDao {
 	}
 
 	@Override
-	public List<Image> getImageByUserid(int userId) {
-		@SuppressWarnings("unchecked")
-//		List<Image> list = getSessionFactory().getCurrentSession().createCriteria(Image.class).createAlias("user", "user").add(Restrictions.eq("user.id", userId)).addOrder(Order.asc("level")).addOrder(Order.asc("type")).addOrder(Order.asc("create_time")).list();
-		List<Image> list = getSessionFactory().getCurrentSession().createQuery("from Image image where image.user.id="+userId+" order by image.level asc,image.type asc,image.create_time asc").list();
+	public List<Image> getImageByUserid(int userId,int page,int size) {
+		List<Image> list = null;
+		try {
+			Query query = getSessionFactory().getCurrentSession().createQuery("from Image image where image.user.id="+userId+" order by image.create_time desc");
+			query.setFirstResult((page - 1) * size);
+			query.setMaxResults(size);
+			list = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		if (list == null) {
 			return new ArrayList<Image>();
 		}
@@ -64,6 +72,49 @@ public class ImageDaoImpl implements ImageDao {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public Integer getUserImageCount(int userId) {
+		Integer count;
+		try {
+			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery("select count(1) from image where userid="+userId).uniqueResult();
+			count = countRaw.intValue();
+		} catch (Exception e) {
+			Integer countRaw = (Integer) getSessionFactory().getCurrentSession().createSQLQuery("select count(1) from image where userid="+userId).uniqueResult();
+			count = countRaw.intValue();
+		}
+		return count;
+	}
+
+	@Override
+	public List<Image> getImages(int page, int size) {
+		List<Image> list = null;
+		try {
+			Query query = getSessionFactory().getCurrentSession().createQuery("from Image image order by image.create_time desc");
+			query.setFirstResult((page - 1) * size);
+			query.setMaxResults(size);
+			list = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (list == null) {
+			return new ArrayList<Image>();
+		}
+		return list;
+	}
+
+	@Override
+	public Integer getImageCount() {
+		Integer count;
+		try {
+			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery("select count(1) from image").uniqueResult();
+			count = countRaw.intValue();
+		} catch (Exception e) {
+			Integer countRaw = (Integer) getSessionFactory().getCurrentSession().createSQLQuery("select count(1) from image").uniqueResult();
+			count = countRaw.intValue();
+		}
+		return count;
 	}
 
 }

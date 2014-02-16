@@ -1,45 +1,48 @@
 $(function() {
 	addItems(1,10);
 });
-
+var pageNo,pageSize;
 function addItems(page,size){
-	$.get("api/user/list/page?page="+page+"&size="+size, function( data ) {}).done(function(data) {
+	pageNo = page;
+	pageSize = size;
+	var url = "api/image/list?page="+page+"&size="+size;
+	var userid = $.getUrlParam('userid');
+	if(userid==null){
+		console.log("all");
+	}else{
+		url = "api/image/list/"+userid+"?page="+page+"&size="+size;
+		console.log(userid);
+	}
+	$.get(url, function( data ) {}).done(function(data) {
 		var result = "";
 		$(data.result).each(function(index, value) {
+			var statu = "";
+			if(value.statu=='PASS'){
+				statu = '<span id="statu'+value.id+'"><span class="label label-success">Pass</span><span>';
+			}else if(value.statu=='FAIL'){
+				statu = '<span id="statu'+value.id+'"><span class="label label-important">Deny</span><span>';
+			}else if(value.statu=='UNREAD'){
+				statu = '<span id="statu'+value.id+'"><span class="label label-warning">Unread</span><span>';
+			}
 			var content = '<tr>'+
-				/*'<td><img src="'+validateHeadPhoto(value.headPhoto)+'"/></img></td>'+*/
-			/*	'<td>'+validate(value.name)+'</td>'+*/
-				'<td>'+validate(value.nickname)+'</td>'+
-				'<td class="center">'+validate(value.level)+'</td>'+
-				'<td class="center">'+validate('<span style="background-color:#E2EFD9; padding-left: 20px;">1</span><span style="background-color:rgb(255, 243, 203); padding-left: 20px;">2</span><span style="background-color:rgb(255, 153, 153); padding-left: 20px;">3</span>'/*value.coins*/)+'</td>'+
-				'<td class="center">'+validate("1")+'</td>'+
-				'<td class="center">'+validate("4/10")+'</td>'+
-				'<td class="center">'+validate("23")+'</td>'+
-				'<td class="center">'+validate("46:23:12")+'</td>'+
-				'<td class="center">'+validate("Music"/*value.group.type*/)+'</td>'+
-				'<td class="center">'+validate("UC Berkeley"/*value.group.org*/)+'</td>'+
-				'<td class="center">'+validate("Swim Team"/*value.group.nam*/)+'</td>'+
-				'<td class="center">'+validate("true"/*value.group.create*/)+'</td>'+
+				'<td>'+validate(value.level)+'</td>'+
+				'<td class="center"><span class="thumbnail" style="width: 100px;margin-bottom:0px !important"><a title="'+value.desc+'" href='+value.path+'><img src="'+value.thumbnail_path+'"/></a><span></td>'+
+				'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
+				'<td class="center">'+validate(value.gps)+'</td>'+
+				'<td class="center">'+validate(value.address)+'</td>'+
+				'<td class="center">'+validate(value.user.nickname)+'</td>'+
 				'<td class="center">'+
-					'<a class="btn btn-info" href="image.html?userid='+value.id+'"><i class="icon-picture icon-white"></i>Image</a>&nbsp;'+
-				'</td>'+
+				'<a class="btn btn-success" onclick="check('+value.id+',\'PASS\')" href="#"><i class="icon icon-black icon-check"></i>Pass</a>&nbsp;'+
+				'<a class="btn btn-danger" onclick="check('+value.id+',\'FAIL\')" href="#"><i class="icon icon-black icon-close"></i>Deny</a>&nbsp;'+
+				'<a class="btn btn-info" onclick="deleteImg('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
+			'</td>'+
+				'<td class="center">'+validate(statu)+'</td>'+
+				'<td class="center">'+formatDate(new Date(value.update_time))+'</td>'+
 			'</tr>';
 			result = result+content;
 		});
-		/* <th>Nickname</th>
-										<!-- <th>Username</th> -->
-										<th>register time</th>
-										<th>account</th>
-										<th>level</th>
-										<th>score</th>
-										<th>logins</th>
-										<th>total time</th>
-										<th>group type</th>
-										<th>group org</th>
-										<th>gruop name</th>
-										<th>Actions</th> */
 		$("#user_tbody").html(result);
-		pagination(page,size);
+		pagination(page,size,data.count);
 	});
 
 }
@@ -57,15 +60,12 @@ function validateHeadPhoto(value){
 		return value;
 	}
 }
-function pagination(page,size){
+function pagination(page,size,count){
 	if(page==0){
 		$(".pagination").html("");
 		return;
 	}
-	$.get("api/user/count", function( data ) {}).done(function(data) {
-		var max = parseInt(data/size)+1;
-		console.log(data);
-		console.log(max);
+		var max = parseInt(count/size)+1;
 		var innerHtml_pre;
 		if(page>=3){
 			innerHtml_pre = '<ul>'+
@@ -104,12 +104,7 @@ function pagination(page,size){
 				'</ul>';
 			}
 		}
-		console.log(innerHtml_pre);
-		console.log(innerHtml_active);
-		console.log(innerHtml_suffix);
-		
 		$(".pagination").html(innerHtml_pre+innerHtml_active+innerHtml_suffix);
-	});
 }
 function searchUser(){
 	var keyWord = $("#userName").val();
@@ -143,4 +138,34 @@ function searchUser(){
 		$("#close_search").click();
 	});
 }
+function formatDate(date) {
+    var seperator1 = "-";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+    return currentdate;
+} 
 
+function deleteImg(imgId){
+	$.get("api/image/delete/" + imgId, function(data) {
+	}).done(function(data) {
+		if(data.errorcode=='ok'){
+			addItems(pageNo,pageSize);
+		}
+	});
+}
+function check(imgId,statu){
+	$("#statu"+imgId).html('<img src="img/ajax-loaders/ajax-loader-1.gif"/>');
+	$.get("api/image/check/" + imgId+'?statu='+statu, function(data) {
+	}).done(function(data) {
+		if(data.errorcode=='ok'){
+			addItems(pageNo,pageSize);
+		}
+	});
+}

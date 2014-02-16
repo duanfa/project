@@ -11,12 +11,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
 import stdio.kiteDream.module.user.bean.User;
 
 @Entity
+@JsonIgnoreProperties({}) 
 @Table(name = "image")
 public class Image implements Serializable {
 
@@ -46,6 +48,8 @@ public class Image implements Serializable {
 	private int level;
 
 	private Date create_time;
+	
+	private Date update_time;
 
 	private String path;
 	
@@ -164,6 +168,14 @@ public class Image implements Serializable {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public Date getUpdate_time() {
+		return update_time;
+	}
+
+	public void setUpdate_time(Date update_time) {
+		this.update_time = update_time;
 	}
 
 }

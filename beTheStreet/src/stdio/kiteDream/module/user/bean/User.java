@@ -59,19 +59,19 @@ public class User implements Serializable {
 
 	private boolean active;
 
-	@OneToMany(targetEntity = Image.class,fetch=FetchType.EAGER)
+	@OneToMany
 	@JoinColumn
 	private List<Image> images;
 	
-	@OneToMany(targetEntity = Message.class)
+	@OneToMany
 	@JoinColumn
 	private List<Message> messages;
 	
-	@OneToOne(targetEntity = Coins.class)
+	@OneToOne
 	@JoinColumn
 	private Coins coins;
 	
-	@ManyToOne(targetEntity = Group.class)
+	@ManyToOne
 	@JoinColumn(name = "groupid")
 	private Group group;
 
@@ -83,13 +83,9 @@ public class User implements Serializable {
 		return messages;
 	}
 
-
-
 	public void setMessages(List<Message> messages) {
 		this.messages = messages;
 	}
-
-
 
 	public void setId(int id) {
 		this.id = id;
