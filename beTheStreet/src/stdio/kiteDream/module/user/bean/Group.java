@@ -1,6 +1,7 @@
 package stdio.kiteDream.module.user.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -31,6 +33,9 @@ public class Group implements Serializable {
 	
 	private String info;
 	
+	private Date create_time;
+	
+	@ManyToOne
 	@JoinColumn(name = "orgid")
 	private GroupOrg groupOrg;
 
@@ -75,6 +80,14 @@ public class Group implements Serializable {
 
 	public List<User> getUsers() {
 		return users;
+	}
+
+	public Date getCreate_time() {
+		return create_time;
+	}
+
+	public void setCreate_time(Date create_time) {
+		this.create_time = create_time;
 	}
 
 	public void setUsers(List<User> users) {

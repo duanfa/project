@@ -7,25 +7,14 @@ $(function() {
 		buttons : {
 			"submit" : function() {
 				$("#dialog-form").dialog("close");
-				$("#coreIframe").contents().find("#addGroupOrgForm").submit();
+				$("#coreIframe").contents().find("#addForm").submit();
 				$('#coreIframe').load(function(){
-					try{
-						var uploadResult = JSON.parse($('#coreIframe').contents().find('body').html());
-						if('success'==uploadResult.result.toLowerCase()){
-							addItems(1,10);
-						}
-					}catch(e){
-						console.log(e);
-					}
+						addItems(pageNo,pageSize);
 				   });
 			},
 		},
 		close : function() {
 		}
-	});
-	$("#create-category").click(function() {
-		$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="group_org_upload.html" frameborder="0" style="height: 150px;"></iframe>');
-		$("#dialog-form").dialog("open");
 	});
 	addItems(1,10);
 });
@@ -46,15 +35,20 @@ function addItems(page,size){
 				'<td class="center">'+validate(value.info)+'</td>'+
 				'<td class="center">'+validate(value.category.name)+'</td>'+
 				'<td class="center">'+
-				'<a class="btn btn-success" onclick="check('+value.id+',\'PASS\')" href="#"><i class="icon icon-black icon-check"></i>Pass</a>&nbsp;'+
+				'<a class="btn btn-success" href="group.html?orgid='+value.id+'"><i class="icon-black icon-eye-open"></i>view groups</a>&nbsp;'+
 				'<a class="btn btn-danger" onclick="check('+value.id+',\'FAIL\')" href="#"><i class="icon icon-black icon-close"></i>Deny</a>&nbsp;'+
-				'<a class="btn btn-info" onclick="deleteCategory('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
+				'<a class="btn btn-info" onclick="deleteCategory('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>&nbsp;'+
+				'<a class="btn btn-success addgroup" rel="'+value.id+'" href="#"><i class="icon icon-white icon-add"> </i>add group</a>'+
 			'</td>'+
 			'</tr>';
 			result = result+content;
 		});
 		$("#user_tbody").html(result);
 		pagination(page,size,data.count);
+		$(".addgroup").click(function() {
+			$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="group_upload.html?orgid='+$(this).attr("rel")+'" frameborder="0" style="height: 180px;"></iframe>');
+			$("#dialog-form").dialog("open");
+		});
 	});
 
 }
