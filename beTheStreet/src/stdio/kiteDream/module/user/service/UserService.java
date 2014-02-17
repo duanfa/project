@@ -10,7 +10,7 @@ public interface UserService {
 
 	public List<User> getUsers();
 	
-	public List<User> getUsers(int pageNo,int pageSize);
+	public List<User> getUsers(int pageNo,int pageSize,int groupid);
 
 	public User getUser(String id);
 
@@ -28,7 +28,7 @@ public interface UserService {
 	
 	public String saveUserEventRecord();
 
-	public long getUserCount();
+	public int getUserCount(int groupid);
 
 	public List<User> manageSearchUser(String keyword);
 	

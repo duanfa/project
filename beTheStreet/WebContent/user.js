@@ -3,14 +3,21 @@ $(function() {
 });
 
 function addItems(page,size){
-	$.get("api/user/list/page?page="+page+"&size="+size, function( data ) {}).done(function(data) {
+	var url ="api/user/list/page?page="+page+"&size="+size;
+	var groupid = $.getUrlParam("groupid");
+	if(groupid==null){
+		url = url +"&groupid=-1";
+	}else{
+		url = url + "&groupid="+groupid;
+	}
+	$.get(url, function( data ) {}).done(function(data) {
 		var result = "";
 		$(data.result).each(function(index, value) {
 			var content = '<tr>'+
 				/*'<td><img src="'+validateHeadPhoto(value.headPhoto)+'"/></img></td>'+*/
 			/*	'<td>'+validate(value.name)+'</td>'+*/
 				'<td>'+validate(value.nickname)+'</td>'+
-				'<td class="center">'+validate(value.level)+'</td>'+
+				'<td class="center">'+validate(value.create_time)+'</td>'+
 				'<td class="center">'+validate('<span style="background-color:#E2EFD9; padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">1</span><span style="background-color:rgb(255, 243, 203); padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">2</span><span style="background-color:rgb(255, 153, 153); padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">3</span>'/*value.coins*/)+'</td>'+
 				'<td class="center">'+validate("1")+'</td>'+
 				'<td class="center">'+validate("4/10")+'</td>'+
@@ -26,20 +33,8 @@ function addItems(page,size){
 			'</tr>';
 			result = result+content;
 		});
-		/* <th>Nickname</th>
-										<!-- <th>Username</th> -->
-										<th>register time</th>
-										<th>account</th>
-										<th>level</th>
-										<th>score</th>
-										<th>logins</th>
-										<th>total time</th>
-										<th>group type</th>
-										<th>group org</th>
-										<th>gruop name</th>
-										<th>Actions</th> */
 		$("#user_tbody").html(result);
-		pagination(page,size);
+		pagination(page,size,data.count);
 	});
 
 }
@@ -57,15 +52,12 @@ function validateHeadPhoto(value){
 		return value;
 	}
 }
-function pagination(page,size){
+function pagination(page,size,count){
 	if(page==0){
 		$(".pagination").html("");
 		return;
 	}
-	$.get("api/user/count", function( data ) {}).done(function(data) {
-		var max = parseInt(data/size)+1;
-		console.log(data);
-		console.log(max);
+		var max = parseInt(count/size)+1;
 		var innerHtml_pre;
 		if(page>=3){
 			innerHtml_pre = '<ul>'+
@@ -104,12 +96,7 @@ function pagination(page,size){
 				'</ul>';
 			}
 		}
-		console.log(innerHtml_pre);
-		console.log(innerHtml_active);
-		console.log(innerHtml_suffix);
-		
 		$(".pagination").html(innerHtml_pre+innerHtml_active+innerHtml_suffix);
-	});
 }
 function searchUser(){
 	var keyWord = $("#userName").val();

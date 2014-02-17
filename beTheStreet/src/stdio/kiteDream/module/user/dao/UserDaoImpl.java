@@ -86,13 +86,17 @@ public class UserDaoImpl implements UserDao {
 
 
 	@Override
-	public Integer getUserCount() {
+	public Integer getUserCount(int groupid) {
 		Integer count;
+		String sql = "select count(1) from user";
+		if(groupid>0){
+			sql = sql +" where groupid="+groupid;
+		}
 		try {
-			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery("select count(1) from user").uniqueResult();
+			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
 			count = countRaw.intValue();
 		} catch (Exception e) {
-			Integer countRaw = (Integer) getSessionFactory().getCurrentSession().createSQLQuery("select count(1) from user").uniqueResult();
+			Integer countRaw = (Integer) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
 			count = countRaw.intValue();
 		}
 		return count;

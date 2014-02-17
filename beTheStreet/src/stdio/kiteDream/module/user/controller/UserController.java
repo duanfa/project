@@ -19,6 +19,7 @@ import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.user.service.UserService;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
 import stdio.kiteDream.module.vo.JsonVO;
+import stdio.kiteDream.module.vo.PageVO;
 import stdio.kiteDream.util.Constant;
 
 @Controller
@@ -125,11 +126,12 @@ public class UserController {
 
 	@ResponseBody
 	@RequestMapping(value = "/list/page", method = RequestMethod.GET)
-	public JsonVO listAll(HttpServletRequest request, @RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-		JsonVO json = new JsonVO();
+	public PageVO listAll(HttpServletRequest request, @RequestParam(value = "page") int page, @RequestParam(value = "size") int size, @RequestParam(value = "groupid",required=false) int groupid) {
+		PageVO json = new PageVO();
 		try {
-			List<User> users = userService.getUsers(page, size);
+			List<User> users = userService.getUsers(page, size,groupid);
 			json.setResult(users);
+			json.setCount(userService.getUserCount(groupid));
 			json.setErrorcode(Constant.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -151,16 +153,6 @@ public class UserController {
 		return json;
 	}
 	
-	@ResponseBody
-	@RequestMapping(value = "/count", method = RequestMethod.GET)
-	public long getUserCount(HttpServletRequest request) {
-		try {
-			return userService.getUserCount();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
-	}
 	@ResponseBody
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public JsonVO search(HttpServletRequest request,@RequestParam(value = "keyword") String keyword) {

@@ -39,4 +39,6 @@ public interface GroupService {
 	public Group getGroup(int id);
 
 	public List<Group> manageSearch(String keyword);
+
+	public boolean manageJoinGroup(int groupid, int userid);
 }

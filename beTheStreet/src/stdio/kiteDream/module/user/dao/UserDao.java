@@ -8,7 +8,7 @@ public interface UserDao {
 
 	public List<User> getUsers();
 	
-	public Integer getUserCount();
+	public Integer getUserCount(int groupid);
 
 	public User getUser(String id);
 	

@@ -2,6 +2,7 @@ package stdio.kiteDream.module.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -68,6 +69,24 @@ public class GroupController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value = "/join/{groupid}", method = { RequestMethod.POST, RequestMethod.GET })
+	public JsonVO join(@PathVariable("groupid")int groupid,@RequestParam("userid")int userid) {
+		// 设置上下方文
+		JsonVO json = new JsonVO();
+		try {
+			if(groupService.manageJoinGroup(groupid,userid)){
+				json.setErrorcode(Constant.OK);
+			}else{
+				json.setErrorcode(Constant.FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = "/category/list", method = { RequestMethod.POST, RequestMethod.GET })
 	public PageVO categoryList(@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
 		// 设置上下方文
@@ -112,7 +131,5 @@ public class GroupController {
 				}
 				return json;
 	}
-	
-	
 
 }

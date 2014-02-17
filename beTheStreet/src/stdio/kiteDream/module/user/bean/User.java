@@ -1,10 +1,10 @@
 package stdio.kiteDream.module.user.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -55,6 +55,8 @@ public class User implements Serializable {
 
 	private String address;
 
+	private Date create_time;
+	
 	private String cellPhone;
 
 	private boolean active;
@@ -225,6 +227,14 @@ public class User implements Serializable {
 
 	public void setGroup(Group group) {
 		this.group = group;
+	}
+
+	public Date getCreate_time() {
+		return create_time;
+	}
+
+	public void setCreate_time(Date create_time) {
+		this.create_time = create_time;
 	}
 
 }

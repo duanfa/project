@@ -35,8 +35,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getUsers(int pageNo, int pageSize) {
-		return groupDao.getGroupUsers(pageNo, pageSize, -1);
+	public List<User> getUsers(int pageNo, int pageSize ,int groupid) {
+		return groupDao.getGroupUsers(pageNo, pageSize, groupid);
 	}
 
 	@Override
@@ -52,6 +52,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String saveUser(User user) {
 		try {
+			user.setCreate_time(new Date());
 			if(userDao.saveUser(user)){
 				//userEventService.updateUserEvent(user.getId(), "new_level_comic", 31);
 			}
@@ -117,8 +118,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public long getUserCount() {
-		return userDao.getUserCount();
+	public int getUserCount(int groupid) {
+		return userDao.getUserCount(groupid);
 	}
 
 	@Override

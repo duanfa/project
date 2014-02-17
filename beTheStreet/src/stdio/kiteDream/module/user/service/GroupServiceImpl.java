@@ -1,5 +1,6 @@
 package stdio.kiteDream.module.user.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,14 @@ import stdio.kiteDream.module.user.bean.GroupCategory;
 import stdio.kiteDream.module.user.bean.GroupOrg;
 import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.user.dao.GroupDao;
+import stdio.kiteDream.module.user.dao.UserDao;
 
 @Service
 public class GroupServiceImpl implements GroupService {
 	@Autowired
 	GroupDao groupDao;
+	@Autowired
+	UserDao userDao;
 
 	@Override
 	public List<GroupCategory> getGroupCategorys(int pageNo, int pageSize) {
@@ -94,6 +98,29 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public List<Group> manageSearch(String keyword) {
 		return groupDao.manageSearch(keyword);
+	}
+
+	@Override
+	public boolean manageJoinGroup(int groupid, int userid) {
+		try {
+			Group group = groupDao.getGroup(groupid);
+			User user = userDao.getUser(userid+"");
+			List<User> users = group.getUsers();
+			if(users!=null){
+				users.add(user);
+			}else{
+				users = new ArrayList<User>();
+				users.add(user);
+			}
+			user.setGroup(group);
+			group.setUsers(users);
+			groupDao.saveGroup(group);
+			userDao.saveUser(user);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

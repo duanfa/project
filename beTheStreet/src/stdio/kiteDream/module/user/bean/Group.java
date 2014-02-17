@@ -28,6 +28,8 @@ public class Group implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	
+	private int createrid;
 
 	private String name;
 	
@@ -100,6 +102,14 @@ public class Group implements Serializable {
 
 	public void setGroupOrg(GroupOrg groupOrg) {
 		this.groupOrg = groupOrg;
+	}
+
+	public int getCreaterid() {
+		return createrid;
+	}
+
+	public void setCreaterid(int createrid) {
+		this.createrid = createrid;
 	}
 	
 }
