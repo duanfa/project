@@ -42,7 +42,6 @@ public class MessageController {
 	public boolean addMessage(Message message) {
 		try {
 			messageService.saveMessage(message,message.getUser().getId());
-			userEventService.updateUserEvent(message.getUser().getId(), "new_message_num", 1);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

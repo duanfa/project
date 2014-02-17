@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import stdio.kiteDream.module.message.bean.Message;
+import stdio.kiteDream.module.message.bean.MessageType;
 
 @Component
 public class MessageDaoImpl implements MessageDao {
@@ -32,7 +33,7 @@ public class MessageDaoImpl implements MessageDao {
 
 	@Override
 	public List<Message> getUserMessage(String userid) {
-		List<Message> list = getSessionFactory().getCurrentSession().createQuery("from Message message where message.user.id="+userid).list();
+		List<Message> list = getSessionFactory().getCurrentSession().createQuery("from Message message where message.type=? or message.user.id=?").setParameter(0, MessageType.BROADCAST).setParameter(1, Integer.parseInt(userid.trim())).list();
 		 if(list==null){
 			 return new ArrayList<Message>();
 		 }
