@@ -6,12 +6,15 @@ import stdio.kiteDream.module.message.bean.Message;
 
 public interface MessageDao {
 
-	public Message getMessage(String id);
+	public Message getMessage(int id);
 	
-	public List<Message> getUserMessage(String userid);
-
 	public boolean saveMessage(Message message);
 
-	public boolean delMessage(String id);
+	public boolean delMessage(int id);
+	
+	public List<Message> getUserMessage(int userid,int page,int size);
+	
+	public int getUserMessageCount(int userid);
+	
 
 }

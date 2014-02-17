@@ -155,6 +155,7 @@ body {
 								<thead>
 									<tr>
 										<!-- <th>Portrait</th> -->
+										<th><input type="checkbox" id="allCheck" value="">All</th>
 										<th>Nickname</th>
 										<!-- <th>Username</th> -->
 										<th>register time</th>
@@ -181,7 +182,10 @@ body {
 								</tbody>
 							</table>
 							<div class="pagination pagination-centered">
-								<ul>
+								<a class="btn btn-success" id="bulk_message" href="#">
+									<i class="icon-white icon-envelope"> </i>bulk message
+								</a>
+								<ul class="pagination_ul">
 									<li><a href="#">Prev</a></li>
 									<li class="active"><a href="#">1</a></li>
 									<li><a href="#">2</a></li>
@@ -201,7 +205,9 @@ body {
 			<!--/#content.span10-->
 		</div>
 		<!--/fluid-row-->
-
+		<div id="dialog-form" title="group" style="display: none;">
+			<!-- 　<iframe id="coreIframe" name="coreIframe" src="comic_upload.html" frameborder="0"></iframe> -->
+			</div> 
 		<hr>
 
 		<div class="modal hide fade" id="myModal">

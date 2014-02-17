@@ -6,7 +6,10 @@ import stdio.kiteDream.module.message.bean.Message;
 
 public interface MessageService {
 
-	public List<Message> manageGetUserMessage(String userid);
+	public List<Message> manageGetUserMessage(int userid,int page,int size);
+	
+	public int getUserMessageCount(int userid);
+	
 
 	public boolean saveMessage(Message message,int userid);
 

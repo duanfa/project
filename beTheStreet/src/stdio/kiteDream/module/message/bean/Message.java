@@ -1,6 +1,7 @@
 package stdio.kiteDream.module.message.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +16,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import stdio.kiteDream.module.user.bean.User;
 
 @Entity
-@JsonIgnoreProperties({ "user" })
+@JsonIgnoreProperties({})
 @Table(name = "message")
 public class Message implements Serializable {
 
@@ -29,6 +30,7 @@ public class Message implements Serializable {
 	/** 如果这个字段不为空，则用它，否则就根据messageType来确定使用什么logo **/
 	private String headPhoto;
 	private MessageType type;
+	private Date create_time;
 
 	@ManyToOne(targetEntity = User.class)
 	@JoinColumn(name = "userid")
@@ -98,6 +100,14 @@ public class Message implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Date getCreate_time() {
+		return create_time;
+	}
+
+	public void setCreate_time(Date create_time) {
+		this.create_time = create_time;
 	}
 
 }

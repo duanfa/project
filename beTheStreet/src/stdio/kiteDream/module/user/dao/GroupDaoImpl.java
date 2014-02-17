@@ -91,7 +91,7 @@ public class GroupDaoImpl implements GroupDao {
 		}
 		try {
 			if (pageNo > 0 && pageSize > 0) {
-				Query query = getSessionFactory().getCurrentSession().createQuery("from Group");
+				Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 				query.setFirstResult((pageNo - 1) * pageSize);
 				query.setMaxResults(pageSize);
 				list = query.list();

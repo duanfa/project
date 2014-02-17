@@ -1,5 +1,49 @@
 $(function() {
+	onReady();
 	addItems(1,10);
+	$("#dialog-form").dialog({
+		autoOpen : false,
+		height : 300,
+		width : 330,
+		modal : true,
+		buttons : {
+			"submit" : function() {
+				$("#dialog-form").dialog("close");
+				$("#coreIframe").contents().find("#addForm").submit();
+				$('#coreIframe').load(function(){
+							addItems(pageNo,pageSize);
+				   });
+			},
+		},
+		close : function() {
+		}
+	});
+	
+	$("#bulk_message").click(function() {
+		$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="message_upload.html" frameborder="0" style="height: 150px;"></iframe>');
+		$("#dialog-form").dialog("open");
+		var str="";  
+		$("[type='checkbox'][checked]").each(function(){  
+			str+=$(this).val()+",";  
+		});  
+		alert(str); 
+	});
+	
+	/*$("#allCheck").click(function(){
+	    $("[name='checkbox']").attr("checked",'true');//ȫѡ
+	    });*/
+	
+	 $("#allCheck").click(function(){
+		 	if($("#allCheck").attr("checked")=='checked'){
+			 	$("[type='checkbox']").each(function(){
+			 		$(this).attr("checked",'true');
+			 	});
+	        }else{
+	        	$("[type='checkbox']").each(function(){
+	        		    $(this).removeAttr("checked");
+			 	});
+	        }
+	    });
 });
 
 function addItems(page,size){
@@ -14,8 +58,7 @@ function addItems(page,size){
 		var result = "";
 		$(data.result).each(function(index, value) {
 			var content = '<tr>'+
-				/*'<td><img src="'+validateHeadPhoto(value.headPhoto)+'"/></img></td>'+*/
-			/*	'<td>'+validate(value.name)+'</td>'+*/
+				'<td><input type="checkbox" id="inlineCheckbox1" value="'+value.id+'"></td>'+
 				'<td>'+validate(value.nickname)+'</td>'+
 				'<td class="center">'+validate(value.create_time)+'</td>'+
 				'<td class="center">'+validate('<span style="background-color:#E2EFD9; padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">1</span><span style="background-color:rgb(255, 243, 203); padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">2</span><span style="background-color:rgb(255, 153, 153); padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">3</span>'/*value.coins*/)+'</td>'+
@@ -54,23 +97,21 @@ function validateHeadPhoto(value){
 }
 function pagination(page,size,count){
 	if(page==0){
-		$(".pagination").html("");
+		$(".pagination_ul").html("");
 		return;
 	}
 		var max = parseInt(count/size)+1;
 		var innerHtml_pre;
 		if(page>=3){
-			innerHtml_pre = '<ul>'+
-							'<li><a onclick="addItems(1,'+size+')" href="#" title="1">|<</a></li>'+
+			innerHtml_pre = '<li><a onclick="addItems(1,'+size+')" href="#" title="1">|<</a></li>'+
 							'<li><a onclick="addItems('+(page-2)+','+size+')" href="#">'+(page-2)+'</a></li>'+
 							'<li><a onclick="addItems('+(page-1)+','+size+')" href="#">'+(page-1)+'</a></li>';
 		}else{
 			if(page==1){
-				innerHtml_pre = '<ul>';
+				innerHtml_pre = '';
 			}
 			if(page==2){
-				innerHtml_pre = '<ul>'+
-				'<li><a onclick="addItems(1,'+size+')" href="#">1</a></li>';
+				innerHtml_pre = '<li><a onclick="addItems(1,'+size+')" href="#">1</a></li>';
 				
 			}
 		}
@@ -84,19 +125,17 @@ function pagination(page,size,count){
 						'</ul>';
 		}else{
 			if(max-page==0){
-				innerHtml_suffix = '</ul>';
+				innerHtml_suffix = '';
 			}
 			if(max-page==1){
-				innerHtml_suffix = 	'<li><a onclick="addItems('+(page+1)+','+size+')" href="#">'+(page+1)+'</a></li>'+
-						'</ul>';
+				innerHtml_suffix = 	'<li><a onclick="addItems('+(page+1)+','+size+')" href="#">'+(page+1)+'</a></li>';
 			}
 			if(max-page==2){
 				innerHtml_suffix = 	'<li><a onclick="addItems('+(page+1)+','+size+')" href="#">'+(page+1)+'</a></li>'+
-									'<li><a onclick="addItems('+(page+2)+','+size+')" href="#">'+(page+2)+'</a></li>'+
-				'</ul>';
+									'<li><a onclick="addItems('+(page+2)+','+size+')" href="#">'+(page+2)+'</a></li>';
 			}
 		}
-		$(".pagination").html(innerHtml_pre+innerHtml_active+innerHtml_suffix);
+		$(".pagination_ul").html(innerHtml_pre+innerHtml_active+innerHtml_suffix);
 }
 function searchUser(){
 	var keyWord = $("#userName").val();

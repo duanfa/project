@@ -1,9 +1,11 @@
 package stdio.kiteDream.module.message.dao;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,13 +29,28 @@ public class MessageDaoImpl implements MessageDao {
 	}
 
 	@Override
-	public Message getMessage(String id) {
-		return (Message) getSessionFactory().getCurrentSession().get(Message.class, Integer.parseInt(id.trim()));
+	public Message getMessage(int id) {
+		return (Message) getSessionFactory().getCurrentSession().get(Message.class, id);
 	}
 
 	@Override
-	public List<Message> getUserMessage(String userid) {
-		List<Message> list = getSessionFactory().getCurrentSession().createQuery("from Message message where message.type=? or message.user.id=?").setParameter(0, MessageType.BROADCAST).setParameter(1, Integer.parseInt(userid.trim())).list();
+	public List<Message> getUserMessage(int userid,int page,int size) {
+		List<Message> list = null;
+		try {
+			String hql = "from Message message";
+			if(userid>0){
+				hql = hql+" where message.type=? or message.user.id="+userid;
+			}
+			Query query = getSessionFactory().getCurrentSession().createQuery(hql);
+			if(userid>0){
+				query.setParameter(0, MessageType.BROADCAST);
+			}
+			query.setFirstResult((page - 1) * size);
+			query.setMaxResults(size);
+			list = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		 if(list==null){
 			 return new ArrayList<Message>();
 		 }
@@ -54,15 +71,32 @@ public class MessageDaoImpl implements MessageDao {
 	}
 
 	@Override
-	public boolean delMessage(String id) {
+	public boolean delMessage(int id) {
 		try {
-			Message message = (Message) getSessionFactory().getCurrentSession().get(Message.class, Integer.parseInt(id.trim()));
+			Message message = (Message) getSessionFactory().getCurrentSession().get(Message.class, id);
 			getSessionFactory().getCurrentSession().delete(message);
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public int getUserMessageCount(int userid) {
+		Integer count;
+		String sql = "select count(1) from message ";
+		if(userid>0){
+			sql = sql+" where userid="+userid;
+		}
+		try {
+			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
+			count = countRaw.intValue();
+		} catch (Exception e) {
+			Integer countRaw = (Integer) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
+			count = countRaw.intValue();
+		}
+		return count;
 	}
 
 }
