@@ -1,6 +1,7 @@
 package stdio.kiteDream.module.user.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +73,7 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public boolean saveGroup(Group group) {
+		group.setCreate_time(new Date());
 		return groupDao.saveGroup(group);
 	}
 
