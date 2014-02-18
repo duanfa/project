@@ -48,7 +48,7 @@ function addItems(page,size){
 				'<a class="btn btn-info" onclick="deleteCategory('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>&nbsp;'+
 				'<a class="btn btn-success addorg" rel="'+value.id+'" href="#"><i class="icon icon-white icon-add"> </i>add org</a>'+
 			'</td>'+
-			'<td class="center">'+formatDate(value.create_time)+'</td>'+
+			'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
 			'</tr>';
 			result = result+content;
 		});
@@ -74,7 +74,12 @@ function pagination(page,size,count){
 		$(".pagination").html("");
 		return;
 	}
-		var max = parseInt(count/size)+1;
+	var max ;
+	if(count%size==0){
+		max= parseInt(count/size);
+	}else{
+		max= parseInt(count/size)+1;
+	}
 		var innerHtml_pre;
 		if(page>=3){
 			innerHtml_pre = '<ul>'+
@@ -115,26 +120,6 @@ function pagination(page,size,count){
 		}
 		$(".pagination").html(innerHtml_pre+innerHtml_active+innerHtml_suffix);
 }
-
-function formatDate(date) {
-    try {
-		var seperator1 = "-";
-		var month = date.getMonth() + 1;
-		var strDate = date.getDate();
-		if (month >= 1 && month <= 9) {
-			month = "0" + month;
-		}
-		if (strDate >= 0 && strDate <= 9) {
-			strDate = "0" + strDate;
-		}
-		var currentdate = date.getFullYear() + seperator1 + month + seperator1
-				+ strDate;
-		return currentdate;
-	} catch (e) {
-		console.log(e);
-	}
-	return "1970-01-01";
-} 
 
 function deleteCategory(id){
 	$.get("api/image/delete/" + imgId, function(data) {

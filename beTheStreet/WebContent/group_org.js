@@ -71,7 +71,12 @@ function pagination(page,size,count){
 		$(".pagination").html("");
 		return;
 	}
-		var max = parseInt(count/size)+1;
+	var max ;
+	if(count%size==0){
+		max= parseInt(count/size);
+	}else{
+		max= parseInt(count/size)+1;
+	}
 		var innerHtml_pre;
 		if(page>=3){
 			innerHtml_pre = '<ul>'+
@@ -144,19 +149,6 @@ function searchUser(){
 		$("#close_search").click();
 	});
 }
-function formatDate(date) {
-    var seperator1 = "-";
-    var month = date.getMonth() + 1;
-    var strDate = date.getDate();
-    if (month >= 1 && month <= 9) {
-        month = "0" + month;
-    }
-    if (strDate >= 0 && strDate <= 9) {
-        strDate = "0" + strDate;
-    }
-    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
-    return currentdate;
-} 
 
 function deleteCategory(id){
 	$.get("api/image/delete/" + imgId, function(data) {

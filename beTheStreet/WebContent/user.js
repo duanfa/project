@@ -11,8 +11,7 @@ $(function() {
 				$("#dialog-form").dialog("close");
 				$("#coreIframe").contents().find("#addForm").submit();
 				$('#coreIframe').load(function(){
-							addItems(pageNo,pageSize);
-				   });
+				 });
 			},
 		},
 		close : function() {
@@ -20,18 +19,15 @@ $(function() {
 	});
 	
 	$("#bulk_message").click(function() {
-		$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="message_upload.html" frameborder="0" style="height: 150px;"></iframe>');
-		$("#dialog-form").dialog("open");
-		var str="";  
-		$("[type='checkbox'][checked]").each(function(){  
-			str+=$(this).val()+",";  
+		var userids="";  
+		$("[type='checkbox']").each(function(){
+			if($(this).attr("checked")=="checked"){
+				userids+=$(this).val()+",";  
+			}
 		});  
-		alert(str); 
+		$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="user_message_upload.html?userids='+userids+'" frameborder="0" style="height: 150px;"></iframe>');
+		$("#dialog-form").dialog("open");
 	});
-	
-	/*$("#allCheck").click(function(){
-	    $("[name='checkbox']").attr("checked",'true');//ȫѡ
-	    });*/
 	
 	 $("#allCheck").click(function(){
 		 	if($("#allCheck").attr("checked")=='checked'){
@@ -60,7 +56,7 @@ function addItems(page,size){
 			var content = '<tr>'+
 				'<td><input type="checkbox" id="inlineCheckbox1" value="'+value.id+'"></td>'+
 				'<td>'+validate(value.nickname)+'</td>'+
-				'<td class="center">'+validate(value.create_time)+'</td>'+
+				'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
 				'<td class="center">'+validate('<span style="background-color:#E2EFD9; padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">1</span><span style="background-color:rgb(255, 243, 203); padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">2</span><span style="background-color:rgb(255, 153, 153); padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">3</span>'/*value.coins*/)+'</td>'+
 				'<td class="center">'+validate("1")+'</td>'+
 				'<td class="center">'+validate("4/10")+'</td>'+
@@ -100,7 +96,12 @@ function pagination(page,size,count){
 		$(".pagination_ul").html("");
 		return;
 	}
-		var max = parseInt(count/size)+1;
+		var max ;
+		if(count%size==0){
+			max= parseInt(count/size);
+		}else{
+			max= parseInt(count/size)+1;
+		}
 		var innerHtml_pre;
 		if(page>=3){
 			innerHtml_pre = '<li><a onclick="addItems(1,'+size+')" href="#" title="1">|<</a></li>'+

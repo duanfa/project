@@ -47,7 +47,12 @@ function pagination(page,size){
 		return;
 	}
 	$.get("api/feedback/count", function( data ) {}).done(function(data) {
-		var max = parseInt(data/size)+1;
+		var max ;
+		if(count%size==0){
+			max= parseInt(count/size);
+		}else{
+			max= parseInt(count/size)+1;
+		}
 		console.log(data);
 		console.log(max);
 		var innerHtml_pre;

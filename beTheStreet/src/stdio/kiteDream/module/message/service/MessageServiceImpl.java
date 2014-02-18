@@ -35,14 +35,17 @@ public class MessageServiceImpl implements MessageService {
 		try {
 			for(String id :bulkuserid.split(",")){
 				if(StringUtils.isNotBlank(id.trim())){
-					message.setUser(userDao.getUser(id));
-					message.setCreate_time(new Date());
+					Message newMessage = new Message();
+					newMessage.setTitle(message.getTitle());
+					newMessage.setDescription(message.getDescription());
+					newMessage.setUser(userDao.getUser(id));
+					newMessage.setCreate_time(new Date());
 					if(MessageType.BROADCAST.equals(message.getType())){
 						userEventService.updateAllUserEvent("new_message_num", 1);
 					}else{
 						userEventService.updateUserEvent(Integer.parseInt(id), "new_message_num", 1);
 					}
-					messageDao.saveMessage(message);
+					messageDao.saveMessage(newMessage);
 				}
 			}
 		} catch (Exception e) {
