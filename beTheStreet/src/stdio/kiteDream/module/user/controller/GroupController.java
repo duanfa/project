@@ -79,6 +79,7 @@ public class GroupController {
 			}else{
 				json.setErrorcode(Constant.FAIL);
 			}
+			json.setUser_events(userEventService.checkEvent(userid));
 		} catch (Exception e) {
 			e.printStackTrace();
 			json.setErrorcode(Constant.FAIL);
@@ -130,6 +131,52 @@ public class GroupController {
 					json.setErrorcode(Constant.FAIL);
 				}
 				return json;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/listcategory", method = { RequestMethod.POST, RequestMethod.GET })
+	public JsonVO listcategory(@RequestParam(value = "page") int page, @RequestParam(value = "size") int size,@RequestParam(value = "userid") int userid ) {
+		// 设置上下方文
+		JsonVO json = new JsonVO();
+		try {
+			json.setResult(groupService.getGroupCategorys(page, size));
+			json.setUser_events(userEventService.checkEvent(userid));
+			json.setErrorcode(Constant.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/listorg", method = { RequestMethod.POST, RequestMethod.GET })
+	public JsonVO listorg(@RequestParam(value = "categoryid") int categoryid,@RequestParam(value = "page") int page, @RequestParam(value = "size") int size,@RequestParam(value = "userid") int userid) {
+		// 设置上下方文
+		JsonVO json = new JsonVO();
+		try {
+			json.setResult(groupService.getGroupOrgs(categoryid, page, size));
+			json.setUser_events(userEventService.checkEvent(userid));
+			json.setErrorcode(Constant.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/listgroup", method = { RequestMethod.POST, RequestMethod.GET })
+	public JsonVO listgroup(@RequestParam(value = "orgid") int orgid,@RequestParam(value = "page") int page, @RequestParam(value = "size") int size,@RequestParam(value = "userid") int userid) {
+		// 设置上下方文
+		JsonVO json = new JsonVO();
+		try {
+			json.setResult(groupService.getGroups(orgid, page, size));
+			json.setUser_events(userEventService.checkEvent(userid));
+			json.setErrorcode(Constant.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
 	}
 
 }
