@@ -60,31 +60,37 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public boolean deleteImage(String imageId) {
-		Image image = imageDao.getImage(imageId);
-		if (imageDao.delImage(imageId)) {
-			try {
-				String dir = this.getClass().getClassLoader().getResource("/").getPath() + "../../";
-				File img = new File(dir + image.getPath());
-				if (img.exists()) {
-					img.delete();
-					System.out.println("file:" + dir + image.getPath() + "   deleted!!!");
+	public boolean deleteImage(String bulkImageId) {
+		for (String imageId : bulkImageId.split(",")) {
+			if (StringUtils.isNotBlank(imageId.trim())) {
+				Image image = imageDao.getImage(imageId);
+				if (imageDao.delImage(imageId)) {
+					try {
+						String dir = this.getClass().getClassLoader().getResource("/").getPath() + "../../";
+						File img = new File(dir + image.getPath());
+						if (img.exists()) {
+							img.delete();
+							System.out.println("file:" + dir + image.getPath() + "   deleted!!!");
+						}
+						img = new File(dir + image.getThumbnail_path());
+						if (img.exists()) {
+							img.delete();
+						}
+						Message message = new Message();
+						message.setDescription("image " + image.getId() + " been deleted");
+						message.setTitle("new image delete");
+						message.setType(MessageType.NOTICE);
+						messageService.saveMessage(message, image.getUser().getId() + "");
+					} catch (Exception e) {
+						e.printStackTrace();
+						return false;
+					}
 				}
-				img = new File(dir + image.getThumbnail_path());
-				if (img.exists()) {
-					img.delete();
-				}
-				Message message = new Message();
-				message.setDescription("image " + image.getId() + " been deleted");
-				message.setTitle("new image delete");
-				message.setType(MessageType.NOTICE);
-				messageService.saveMessage(message, image.getUser().getId()+"");
-			} catch (Exception e) {
-				e.printStackTrace();
+
 			}
-			return true;
 		}
-		return false;
+		return true;
+
 	}
 
 	@Override
@@ -102,19 +108,19 @@ public class ImageServiceImpl implements ImageService {
 							message.setDescription("new image " + image.getId() + " passed and coins is added ");
 							message.setTitle("new image pass");
 							message.setType(MessageType.CHA_CHING);
-							messageService.saveMessage(message, image.getUser().getId()+"");
+							messageService.saveMessage(message, image.getUser().getId() + "");
 						} else if (Image.Check.FAIL.toString().equals(statu)) {
 							Message message = new Message();
 							message.setDescription("new image " + image.getId() + " been deny ");
 							message.setTitle("new image pass");
 							message.setType(MessageType.NOTICE);
-							messageService.saveMessage(message, image.getUser().getId()+"");
+							messageService.saveMessage(message, image.getUser().getId() + "");
 						}
 						return true;
 					}
 				}
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
