@@ -1,6 +1,60 @@
 $(function() {
 	addItems(1,10);
 });
+
+$("#allCheck").click(function(){
+	if($("#allCheck").attr("checked")=='checked'){
+		$("[type='checkbox']").each(function(){
+			$(this).attr("checked",'true');
+		});
+	}else{
+		$("[type='checkbox']").each(function(){
+			$(this).removeAttr("checked");
+		});
+	}
+});
+
+$("#bulk_verify").click(function() {
+	var imageids="";  
+	$("[type='checkbox']").each(function(){
+		if($(this).attr("checked")=="checked"){
+			imageids+=$(this).val()+",";  
+			$("#statu"+$(this).val()).html('<img src="img/ajax-loaders/ajax-loader-1.gif"/>');
+		}
+	}); 
+	console.log("verify:"+imageids);
+	$.get("api/image/check/" + imageids+'?statu=PASS', function(data) {
+	}).done(function(data) {
+			addItems(pageNo,pageSize);
+	});
+});
+$("#bulk_deny").click(function() {
+	var imageids="";  
+	$("[type='checkbox']").each(function(){
+		if($(this).attr("checked")=="checked"){
+			imageids+=$(this).val()+",";  
+			$("#statu"+$(this).val()).html('<img src="img/ajax-loaders/ajax-loader-1.gif"/>');
+		}
+	}); 
+	console.log("deny:"+imageids);
+	$.get("api/image/check/" + imageids+'?statu=FAIL', function(data) {
+	}).done(function(data) {
+			addItems(pageNo,pageSize);
+	});
+});
+$("#bulk_delete").click(function() {
+	var userids="";  
+	$("[type='checkbox']").each(function(){
+		if($(this).attr("checked")=="checked"){
+			userids+=$(this).val()+",";  
+		}
+	});  
+	$.get("api/image/delete/" + userids, function(data) {
+	}).done(function(data) {
+			addItems(pageNo,pageSize);
+	});
+});
+
 var pageNo,pageSize;
 function addItems(page,size){
 	pageNo = page;
@@ -8,7 +62,6 @@ function addItems(page,size){
 	var url = "api/image/list?page="+page+"&size="+size;
 	var userid = $.getUrlParam('userid');
 	if(userid==null){
-		console.log("all");
 	}else{
 		url = "api/image/list/"+userid+"?page="+page+"&size="+size;
 		console.log(userid);
@@ -25,6 +78,7 @@ function addItems(page,size){
 				statu = '<span id="statu'+value.id+'"><span class="label label-warning">Unread</span><span>';
 			}
 			var content = '<tr>'+
+				'<td><input type="checkbox" id="inlineCheckbox1" value="'+value.id+'"></td>'+
 				'<td>'+validate(value.level)+'</td>'+
 				'<td class="center"><span class="thumbnail" style="width: 100px;margin-bottom:0px !important"><a title="'+value.desc+'" href='+value.path+'><img src="'+value.thumbnail_path+'"/></a><span></td>'+
 				'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
@@ -62,7 +116,7 @@ function validateHeadPhoto(value){
 }
 function pagination(page,size,count){
 	if(page==0){
-		$(".pagination").html("");
+		$(".pagination_ul").html("");
 		return;
 	}
 	var max ;
@@ -73,17 +127,15 @@ function pagination(page,size,count){
 	}
 		var innerHtml_pre;
 		if(page>=3){
-			innerHtml_pre = '<ul>'+
-							'<li><a onclick="addItems(1,'+size+')" href="#" title="1">|<</a></li>'+
+			innerHtml_pre = '<li><a onclick="addItems(1,'+size+')" href="#" title="1">|<</a></li>'+
 							'<li><a onclick="addItems('+(page-2)+','+size+')" href="#">'+(page-2)+'</a></li>'+
 							'<li><a onclick="addItems('+(page-1)+','+size+')" href="#">'+(page-1)+'</a></li>';
 		}else{
 			if(page==1){
-				innerHtml_pre = '<ul>';
+				innerHtml_pre = '';
 			}
 			if(page==2){
-				innerHtml_pre = '<ul>'+
-				'<li><a onclick="addItems(1,'+size+')" href="#">1</a></li>';
+				innerHtml_pre = '<li><a onclick="addItems(1,'+size+')" href="#">1</a></li>';
 				
 			}
 		}
@@ -93,23 +145,20 @@ function pagination(page,size,count){
 		if(max-page>=3){
 			innerHtml_suffix = 	'<li><a onclick="addItems('+(page+1)+','+size+')" href="#">'+(page+1)+'</a></li>'+
 								'<li><a onclick="addItems('+(page+2)+','+size+')" href="#">'+(page+2)+'</a></li>'+
-								'<li><a title="'+max+'" href="#" onclick="addItems('+max+','+size+')">>|</a></li>'+
-						'</ul>';
+								'<li><a title="'+max+'" href="#" onclick="addItems('+max+','+size+')">>|</a></li>';
 		}else{
 			if(max-page==0){
-				innerHtml_suffix = '</ul>';
+				innerHtml_suffix = '';
 			}
 			if(max-page==1){
-				innerHtml_suffix = 	'<li><a onclick="addItems('+(page+1)+','+size+')" href="#">'+(page+1)+'</a></li>'+
-						'</ul>';
+				innerHtml_suffix = 	'<li><a onclick="addItems('+(page+1)+','+size+')" href="#">'+(page+1)+'</a></li>';
 			}
 			if(max-page==2){
 				innerHtml_suffix = 	'<li><a onclick="addItems('+(page+1)+','+size+')" href="#">'+(page+1)+'</a></li>'+
-									'<li><a onclick="addItems('+(page+2)+','+size+')" href="#">'+(page+2)+'</a></li>'+
-				'</ul>';
+									'<li><a onclick="addItems('+(page+2)+','+size+')" href="#">'+(page+2)+'</a></li>';
 			}
 		}
-		$(".pagination").html(innerHtml_pre+innerHtml_active+innerHtml_suffix);
+		$(".pagination_ul").html(innerHtml_pre+innerHtml_active+innerHtml_suffix);
 }
 function searchUser(){
 	var keyWord = $("#userName").val();

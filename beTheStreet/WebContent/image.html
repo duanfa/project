@@ -154,6 +154,7 @@ body {
 							<table class="table table-bordered table-striped table-condensed">
 								<thead>
 									<tr>
+										<th><input type="checkbox" id="allCheck" value="">All</th>
 										<th>Level</th>
 										<th>Prefile</th>
 										<th>Submit Time</th>
@@ -169,6 +170,16 @@ body {
 								</tbody>
 							</table>
 							<div class="pagination pagination-centered">
+							<a class="btn btn-success" id="bulk_verify" href="#">
+									<i class="icon-white icon-envelope"> </i>bulk verify
+								</a>
+							<a class="btn btn-success" id="bulk_deny" href="#">
+									<i class="icon-white icon-envelope"> </i>bulk deny
+								</a>
+							<a class="btn btn-success" id="bulk_delete" href="#">
+									<i class="icon-white icon-envelope"> </i>bulk delete
+								</a>
+								<ul class="pagination_ul"></ul>
 							</div>
 						</div>
 					</div>

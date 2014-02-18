@@ -717,7 +717,7 @@ function formatDate(date) {
         if (strDate >= 0 && strDate <= 9) {
             strDate = "0" + strDate;
         }
-        console.log(date.getFullYear());
+         
         var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
                 + " " + date.getHours() + seperator2 + date.getMinutes()
                 + seperator2 + date.getSeconds();
