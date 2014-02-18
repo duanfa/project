@@ -57,7 +57,7 @@ function addItems(page,size){
 				'<td><input type="checkbox" id="inlineCheckbox1" value="'+value.id+'"></td>'+
 				'<td>'+validate(value.nickname)+'</td>'+
 				'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
-				'<td class="center">'+validate('<span style="background-color:#E2EFD9; padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">1</span><span style="background-color:rgb(255, 243, 203); padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">2</span><span style="background-color:rgb(255, 153, 153); padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">3</span>'/*value.coins*/)+'</td>'+
+				'<td class="center">'+validatecoins(value.coins)+'</td>'+
 				'<td class="center">'+validate("1")+'</td>'+
 				'<td class="center">'+validate("4/10")+'</td>'+
 				'<td class="center">'+validate("23")+'</td>'+
@@ -83,6 +83,46 @@ function validate(value){
 	}else{
 		return value;
 	}
+}
+function validatecoins(coins){
+	var greenNum='&nbsp;&nbsp;&nbsp;&nbsp;0';
+	var yellowNum='&nbsp;&nbsp;&nbsp;&nbsp;0';
+	var redNum='&nbsp;&nbsp;&nbsp;&nbsp;0';
+	if(coins==null||coins==undefined){
+		 greenNum='&nbsp;&nbsp;&nbsp;&nbsp;0';
+		 yellowNum='&nbsp;&nbsp;&nbsp;&nbsp;0';
+		 redNum='&nbsp;&nbsp;&nbsp;&nbsp;0';
+	}else{
+		if((coins.greenNum!=null)&&(coins.greenNum!=undefined)){
+			greenNum=coins.greenNum;
+			if(greenNum>10&&greenNum<100){
+				greenNum = "&nbsp;&nbsp;"+greenNum;
+			}else if(greenNum<10){
+				greenNum = "&nbsp;&nbsp;&nbsp;&nbsp;"+greenNum;
+			}
+		}
+		if((coins.yellowNum!=null)&&(coins.yellowNum!=undefined)){
+			yellowNum=coins.yellowNum;
+			if(yellowNum>10&&yellowNum<100){
+				yellowNum = "&nbsp;&nbsp;"+yellowNum;
+			}else if(yellowNum<10){
+				yellowNum = "&nbsp;&nbsp;&nbsp;&nbsp;"+yellowNum;
+			}
+		}
+		 if((coins.redNum!=null)&&(coins.redNum!=undefined)){
+			 redNum=coins.redNum;
+			 if(redNum>10&&redNum<100){
+				 redNum = "&nbsp;&nbsp;"+redNum;
+				}else if(redNum<10){
+					redNum = "&nbsp;&nbsp;&nbsp;&nbsp;"+redNum;
+				}
+		 }
+	}
+	var spans = '<span style="background-color:#E2EFD9; padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">'+
+	greenNum+'</span><span style="background-color:rgb(255, 243, 203); padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">'+
+	yellowNum+'</span><span style="background-color:rgb(255, 153, 153); padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">'+
+	redNum+'</span>';/*value.coins*/
+	return spans;
 }
 function validateHeadPhoto(value){
 	if(value==null||value==undefined){

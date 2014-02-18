@@ -43,4 +43,6 @@ public interface GroupService {
 	public boolean manageJoinGroup(int groupid, int userid);
 
 	public List<Group> getorder(int userid);
+
+	public boolean manageLeaveGroup(int userid);
 }

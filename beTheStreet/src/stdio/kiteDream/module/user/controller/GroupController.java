@@ -108,6 +108,25 @@ public class GroupController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value = "/leave", method = { RequestMethod.POST, RequestMethod.GET })
+	public JsonVO leave(@RequestParam("userid")int userid) {
+		// 设置上下方文
+		JsonVO json = new JsonVO();
+		try {
+			if(groupService.manageLeaveGroup(userid)){
+				json.setErrorcode(Constant.OK);
+			}else{
+				json.setErrorcode(Constant.FAIL);
+			}
+			json.setUser_events(userEventService.checkEvent(userid));
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = "/category/list", method = { RequestMethod.POST, RequestMethod.GET })
 	public PageVO categoryList(@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
 		// 设置上下方文

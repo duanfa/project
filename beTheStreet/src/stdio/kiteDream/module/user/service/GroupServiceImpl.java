@@ -145,4 +145,26 @@ public class GroupServiceImpl implements GroupService {
 		}
 	}
 
+	@Override
+	public boolean manageLeaveGroup( int userid) {
+		try {
+			Group group = groupDao.getUserGroup(userid);
+			User user = userDao.getUser(userid+"");
+			List<User> users = group.getUsers();
+			if(users!=null){
+				users.remove(user);
+			}else{
+				users = new ArrayList<User>();
+			}
+			user.setGroup(null);
+			group.setUsers(users);
+			groupDao.saveGroup(group);
+			userDao.saveUser(user);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }
