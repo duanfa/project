@@ -11,6 +11,6 @@ public interface MessageService {
 	public int getUserMessageCount(int userid);
 	
 
-	public boolean saveMessage(Message message,int userid);
+	public boolean saveMessage(Message message,String bulkuserid);
 
 }

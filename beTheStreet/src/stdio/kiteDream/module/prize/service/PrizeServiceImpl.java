@@ -123,7 +123,7 @@ public class PrizeServiceImpl implements PrizeService {
 					message.setDescription("product "+prize.getTitle()+" returned success");
 					message.setTitle("new product returned approve");
 					message.setType(MessageType.NOTICE);
-					messageService.saveMessage(message, user.getId());
+					messageService.saveMessage(message, user.getId()+"");
 				}
 				break;
 			case SEND:
@@ -131,13 +131,13 @@ public class PrizeServiceImpl implements PrizeService {
 				message.setDescription("product "+order.getPrize().getTitle()+" had been posted .");
 				message.setTitle("product post");
 				message.setType(MessageType.NOTICE);
-				messageService.saveMessage(message,order.getUser().getId());
+				messageService.saveMessage(message,order.getUser().getId()+"");
 				if(oldStatu.equals(OrderStatu.CANCEL)){
 					message = new Message();
 					message.setDescription("product "+order.getPrize().getTitle()+" had been posted .sales return reject");
 					message.setTitle(" sales return reject.");
 					message.setType(MessageType.NOTICE);
-					messageService.saveMessage(message,order.getUser().getId());
+					messageService.saveMessage(message,order.getUser().getId()+"");
 				}
 				break;
 			}

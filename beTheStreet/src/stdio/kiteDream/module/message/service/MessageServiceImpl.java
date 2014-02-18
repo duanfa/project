@@ -3,6 +3,7 @@ package stdio.kiteDream.module.message.service;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,15 +31,25 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public boolean saveMessage(Message message,int userid) {
-		message.setUser(userDao.getUser(userid+""));
-		message.setCreate_time(new Date());
-		if(MessageType.BROADCAST.equals(message.getType())){
-			userEventService.updateAllUserEvent("new_message_num", 1);
-		}else{
-			userEventService.updateUserEvent(userid, "new_message_num", 1);
+	public boolean saveMessage(Message message,String bulkuserid) {
+		try {
+			for(String id :bulkuserid.split(",")){
+				if(StringUtils.isNotBlank(id.trim())){
+					message.setUser(userDao.getUser(id));
+					message.setCreate_time(new Date());
+					if(MessageType.BROADCAST.equals(message.getType())){
+						userEventService.updateAllUserEvent("new_message_num", 1);
+					}else{
+						userEventService.updateUserEvent(Integer.parseInt(id), "new_message_num", 1);
+					}
+					messageDao.saveMessage(message);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
 		}
-		return messageDao.saveMessage(message);
+		return true;
 	}
 
 	@Override
