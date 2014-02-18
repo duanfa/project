@@ -73,8 +73,17 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public boolean saveGroup(Group group) {
-		group.setCreate_time(new Date());
-		return groupDao.saveGroup(group);
+		try {
+			group.setCreate_time(new Date());
+			groupDao.saveGroup(group);
+			if(group.getCreaterid()>0){
+				manageJoinGroup(group.getId(), group.getCreaterid());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -123,6 +132,17 @@ public class GroupServiceImpl implements GroupService {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public List<Group> getorder(int userid) {
+		try {
+			Group group = groupDao.getUserGroup(userid);
+			return groupDao.getGroupByCategory(group.getGroupOrg().getCategory().getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<Group>();
+		}
 	}
 
 }

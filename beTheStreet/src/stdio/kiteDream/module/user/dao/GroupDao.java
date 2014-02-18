@@ -29,6 +29,10 @@ public interface GroupDao {
 	
 	public Group getGroup(int id);
 	
+	public Group getUserGroup(int userid);
+	
 	public List<Group> manageSearch(String keyword);
+	
+	public List<Group> getGroupByCategory(int categoryid);
 
 }

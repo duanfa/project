@@ -55,12 +55,32 @@ public class GroupController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/add", method = { RequestMethod.POST, RequestMethod.GET })
-	public JsonVO register(Group group) {
+	public JsonVO register(Group group,@RequestParam("userid")int userid) {
 		// 设置上下方文
 		JsonVO json = new JsonVO();
 		try {
+			if(group.getCreaterid()<1){
+				group.setCreaterid(userid);
+			}
 			groupService.saveGroup(group);
 			json.setErrorcode(Constant.OK);
+			json.setUser_events(userEventService.checkEvent(userid));
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/listorder", method = { RequestMethod.POST, RequestMethod.GET })
+	public JsonVO listorder(@RequestParam("userid")int userid) {
+		// 设置上下方文
+		JsonVO json = new JsonVO();
+		try {
+			json.setResult(groupService.getorder(userid));
+			json.setErrorcode(Constant.OK);
+			json.setUser_events(userEventService.checkEvent(userid));
 		} catch (Exception e) {
 			e.printStackTrace();
 			json.setErrorcode(Constant.FAIL);

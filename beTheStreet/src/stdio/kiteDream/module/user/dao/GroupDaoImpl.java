@@ -266,4 +266,35 @@ public class GroupDaoImpl implements GroupDao {
 		return true;
 	}
 
+	@Override
+	public Group getUserGroup(int userid) {
+		List<Group> list = null;
+		String hql = "select user.group from User user where user.id="+userid;
+		try {
+				Query query = getSessionFactory().getCurrentSession().createQuery(hql);
+				list = query.list();
+				if(list.size()>0){
+					return list.get(0);
+				}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<Group> getGroupByCategory(int categoryid) {
+		List<Group> list = null;
+		String hql = "from Group g where g.groupOrg.category.id="+categoryid;
+		try {
+			list =  getSessionFactory().getCurrentSession().createQuery(hql).list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(list==null){
+			list = new ArrayList<Group>();
+		}
+		return list;
+	}
+
 }
