@@ -126,6 +126,7 @@ public class GroupServiceImpl implements GroupService {
 			user.setGroup(group);
 			group.setUsers(users);
 			group.setMenberNum(users.size());
+			user.setIngroup(true);
 			groupDao.saveGroup(group);
 			userDao.saveUser(user);
 			return true;
@@ -160,6 +161,7 @@ public class GroupServiceImpl implements GroupService {
 			user.setGroup(null);
 			group.setUsers(users);
 			group.setMenberNum(users.size());
+			user.setIngroup(false);
 			groupDao.saveGroup(group);
 			userDao.saveUser(user);
 			return true;

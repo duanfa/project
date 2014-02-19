@@ -60,6 +60,8 @@ public class User implements Serializable {
 	private String cellPhone;
 
 	private boolean active;
+	
+	private boolean ingroup;
 
 	@OneToMany
 	@JoinColumn
@@ -235,6 +237,14 @@ public class User implements Serializable {
 
 	public void setCreate_time(Date create_time) {
 		this.create_time = create_time;
+	}
+
+	public boolean isIngroup() {
+		return ingroup;
+	}
+
+	public void setIngroup(boolean ingroup) {
+		this.ingroup = ingroup;
 	}
 
 }
