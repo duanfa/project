@@ -70,19 +70,21 @@ public class CoinsRuleServiceImpl implements CoinsRuleService {
 					user.setCoins(coins);
 				}
 				Group group = user.getGroup();
-				if(group.getCoins()!=null){
-					user.getCoins().setGreenNum(user.getCoins().getGreenNum()+rule.getCoins().getGreenNum());
-					user.getCoins().setRedNum(user.getCoins().getRedNum()+rule.getCoins().getRedNum());
-					user.getCoins().setYellowNum(user.getCoins().getYellowNum()+rule.getCoins().getYellowNum());
-				}else{
-					Coins coins = new Coins();
-					coins.setGreenNum(rule.getCoins().getGreenNum());
-					coins.setRedNum(rule.getCoins().getRedNum());
-					coins.setYellowNum(rule.getCoins().getYellowNum());
-					coinsDao.saveCoins(coins);
-					group.setCoins(coins);
+				if(group!=null){
+					if(group.getCoins()!=null){
+						user.getCoins().setGreenNum(user.getCoins().getGreenNum()+rule.getCoins().getGreenNum());
+						user.getCoins().setRedNum(user.getCoins().getRedNum()+rule.getCoins().getRedNum());
+						user.getCoins().setYellowNum(user.getCoins().getYellowNum()+rule.getCoins().getYellowNum());
+					}else{
+						Coins coins = new Coins();
+						coins.setGreenNum(rule.getCoins().getGreenNum());
+						coins.setRedNum(rule.getCoins().getRedNum());
+						coins.setYellowNum(rule.getCoins().getYellowNum());
+						coinsDao.saveCoins(coins);
+						group.setCoins(coins);
+					}
+					groupDao.saveGroup(group);
 				}
-				groupDao.saveGroup(group);
 				userDao.saveUser(user);
 			}else{
 				System.out.println("no such rule of level:"+level);
