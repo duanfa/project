@@ -56,7 +56,7 @@ public class MessageController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/add", method = { RequestMethod.GET, RequestMethod.POST })
-	public boolean addMessage(Message message,@RequestParam("bulkuserid") String bulkuserid) {
+	public boolean addMessage(Message message,@RequestParam(value="bulkuserid",required=false) String bulkuserid) {
 		try {
 			messageService.saveMessage(message,bulkuserid);
 			return true;

@@ -4,7 +4,7 @@ $(function() {
 
 $("#dialog-form").dialog({
 	autoOpen : false,
-	height : 500,
+	height : 530,
 	width : 330,
 	modal : true,
 	buttons : {
@@ -13,10 +13,7 @@ $("#dialog-form").dialog({
 			$("#coreIframe").contents().find("#addComicForm").submit();
 			$('#coreIframe').load(function(){  
 				try{
-					var uploadResult = JSON.parse($('#coreIframe').contents().find('body').html());
-					if('success'==uploadResult.result.toLowerCase()){
-						addItems();
-					}
+						addItems(pageNo,pageSize);
 				}catch(e){
 					console.log(e);
 				}
@@ -27,7 +24,7 @@ $("#dialog-form").dialog({
 	}
 });
 $("#create-level").click(function() {
-	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_upload.html" frameborder="0" style="height: 350px;"></iframe>');
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_upload.html" frameborder="0" style="height: 430px;"></iframe>');
 	$("#dialog-form").dialog("open");
 });
 

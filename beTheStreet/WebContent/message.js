@@ -39,7 +39,7 @@ function addItems(page,size){
 		var result = "";
 		$(data.result).each(function(index, value) {
 			var content = '<tr>'+
-				'<td class="center">'+validate(value.user.nickname)+'</td>'+
+				'<td class="center">'+validateuser(value.user)+'</td>'+
 				'<td class="center">'+validate(value.title)+'</td>'+
 				'<td class="center">'+validate(value.description)+'</td>'+
 				'<td class="center">'+
@@ -63,6 +63,18 @@ function validate(value){
 			return '';
 		} else {
 			return value;
+		}
+	} catch (e) {
+		console.log(e);
+	}
+	return '';
+}
+function validateuser(value){
+	try {
+		if (value == null || value == undefined) {
+			return 'ALL';
+		} else {
+			return value.nickname;
 		}
 	} catch (e) {
 		console.log(e);

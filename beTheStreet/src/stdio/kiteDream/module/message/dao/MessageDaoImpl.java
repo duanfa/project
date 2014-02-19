@@ -41,6 +41,7 @@ public class MessageDaoImpl implements MessageDao {
 			if(userid>0){
 				hql = hql+" where message.type=? or message.user.id="+userid;
 			}
+			hql = hql + " order by id desc";
 			Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 			if(userid>0){
 				query.setParameter(0, MessageType.BROADCAST);

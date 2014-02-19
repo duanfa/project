@@ -44,7 +44,7 @@ public class ComicController {
 	@Autowired
 	ComicService comicService;
 	
-	Comic goComic ;
+	/*Comic goComic ;*/
 
 	@ResponseBody
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -128,10 +128,10 @@ public class ComicController {
 				String path = request.getContextPath();
 				String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 				BasePathJsonParser.basePath = basePath;
-				if(goComic==null){
-					goComic = new Comic("go comic","comicDir/bethestreet_go.jpg","comicDir/thumbnail_bethestreet_go.jpg");	
-				}
 			}
+			/*if(goComic==null){
+				goComic = new Comic("go comic","comicDir/bethestreet_go.jpg","comicDir/thumbnail_bethestreet_go.jpg");	
+			}*/
 			GameLevel gameLevel = null;
 			switch (level){
 			case 1:
@@ -155,10 +155,10 @@ public class ComicController {
 			
 			jsonVO.setUser_events(userEventService.checkEvent(userid));
 			List<Comic> bonusComic = comicService.getComics(level,Level.Type.BONUS);
-			bonusComic.add(goComic);
+			//bonusComic.add(goComic);
 			gameLevel.setBonusLevel(bonusComic);
 			List<Comic> streetComic = comicService.getComics(level,Level.Type.STREET);
-			streetComic.add(goComic);
+			//streetComic.add(goComic);
 			gameLevel.setRegularLevel(streetComic);
 			List<GameLevel> comicvos = new ArrayList<GameLevel>();
 			comicvos.add(gameLevel);
