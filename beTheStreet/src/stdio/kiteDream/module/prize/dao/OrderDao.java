@@ -18,4 +18,5 @@ public interface OrderDao {
 
 	public boolean delOrder(String id);
 
+	public int getOrderCount(int userid);
 }

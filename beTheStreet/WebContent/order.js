@@ -2,96 +2,36 @@ $(function() {
 	addItems(1,10);
 });
 
-$("#allCheck").click(function(){
-	if($("#allCheck").attr("checked")=='checked'){
-		$("[type='checkbox']").each(function(){
-			$(this).attr("checked",'true');
-		});
-	}else{
-		$("[type='checkbox']").each(function(){
-			$(this).removeAttr("checked");
-		});
-	}
-});
-
-$("#bulk_verify").click(function() {
-	var imageids="";  
-	$("[type='checkbox']").each(function(){
-		if($(this).attr("checked")=="checked"){
-			imageids+=$(this).val()+",";  
-			$("#statu"+$(this).val()).html('<img src="img/ajax-loaders/ajax-loader-1.gif"/>');
-		}
-	}); 
-	console.log("verify:"+imageids);
-	$.get("api/image/check/" + imageids+'?statu=PASS', function(data) {
-	}).done(function(data) {
-			addItems(pageNo,pageSize);
-	});
-});
-$("#bulk_deny").click(function() {
-	var imageids="";  
-	$("[type='checkbox']").each(function(){
-		if($(this).attr("checked")=="checked"){
-			imageids+=$(this).val()+",";  
-			$("#statu"+$(this).val()).html('<img src="img/ajax-loaders/ajax-loader-1.gif"/>');
-		}
-	}); 
-	console.log("deny:"+imageids);
-	$.get("api/image/check/" + imageids+'?statu=FAIL', function(data) {
-	}).done(function(data) {
-			addItems(pageNo,pageSize);
-	});
-});
-$("#bulk_delete").click(function() {
-	var userids="";  
-	$("[type='checkbox']").each(function(){
-		if($(this).attr("checked")=="checked"){
-			userids+=$(this).val()+",";  
-		}
-	});  
-	$.get("api/image/delete/" + userids, function(data) {
-	}).done(function(data) {
-			addItems(pageNo,pageSize);
-	});
-});
-
 var pageNo,pageSize;
 function addItems(page,size){
 	pageNo = page;
 	pageSize = size;
-	var url = "api/image/list?page="+page+"&size="+size;
-	var userid = $.getUrlParam('userid');
-	if(userid==null){
-	}else{
-		url = "api/image/list/"+userid+"?page="+page+"&size="+size;
-		console.log(userid);
-	}
+	var url = "api/prize/order/listPage?userid=-1&page="+page+"&size="+size;
 	$.get(url, function( data ) {}).done(function(data) {
 		var result = "";
 		$(data.result).each(function(index, value) {
 			var statu = "";
-			if(value.statu=='PASS'){
-				statu = '<span id="statu'+value.id+'"><span class="label label-success">Pass</span><span>';
-			}else if(value.statu=='FAIL'){
-				statu = '<span id="statu'+value.id+'"><span class="label label-important">Deny</span><span>';
-			}else if(value.statu=='UNREAD'){
-				statu = '<span id="statu'+value.id+'"><span class="label label-warning">Unread</span><span>';
+			if(value.sellState==1){
+				statu = '<span id="statu'+value.id+'"><span class="label label-success">ONSEAL</span><span>';
+			}else{
+				statu = '<span id="statu'+value.id+'"><span class="label label-important">SALEOUT</span><span>';
 			}
 			var content = '<tr>'+
-				'<td><input type="checkbox" id="inlineCheckbox1" value="'+value.id+'"></td>'+
-				'<td>'+validate(value.level)+'</td>'+
-				'<td class="center"><span class="thumbnail" style="width: 100px;margin-bottom:0px !important"><a title="'+value.desc+'" href='+value.path+'><img src="'+value.thumbnail_path+'"/></a><span></td>'+
-				'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
-				'<td class="center">'+validate(value.gps)+'</td>'+
-				'<td class="center">'+validate(value.address)+'</td>'+
+				'<td class="center"><span class="thumbnail" style="width: 100px;margin-bottom:0px !important"><a title="'+value.prize.desc+'" href="'+value.prize.headPhoto+'"><img src="'+value.prize.thumbnail_path+'"/></a><span></td>'+
+				'<td class="center">'+validatecoins(value.coins)+'</td>'+
 				'<td class="center">'+validate(value.user.nickname)+'</td>'+
+				'<td class="center">'+validate(value.name)+'</td>'+
+				'<td class="center">'+validate(value.email)+'</td>'+
+				'<td class="center">'+validate(value.phone)+'</td>'+
+				'<td class="center">'+validate(value.address)+'</td>'+
+				'<td class="center">'+validate(value.description)+'</td>'+
+				'<td class="center">'+validate(value.statu)+'</td>'+
+				'<td class="center">'+statu+'</td>'+
 				'<td class="center">'+
 				'<a class="btn btn-success" onclick="check('+value.id+',\'PASS\')" href="#"><i class="icon icon-black icon-check"></i>Pass</a>&nbsp;'+
 				'<a class="btn btn-danger" onclick="check('+value.id+',\'FAIL\')" href="#"><i class="icon icon-black icon-close"></i>Deny</a>&nbsp;'+
 				'<a class="btn btn-info" onclick="deleteImg('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
 			'</td>'+
-				'<td class="center">'+validate(statu)+'</td>'+
-				'<td class="center">'+formatDate(new Date(value.update_time))+'</td>'+
 			'</tr>';
 			result = result+content;
 		});
@@ -160,53 +100,43 @@ function pagination(page,size,count){
 		}
 		$(".pagination_ul").html(innerHtml_pre+innerHtml_active+innerHtml_suffix);
 }
-function searchUser(){
-	var keyWord = $("#userName").val();
-
-	$.get("api/user/search?keyword="+keyWord, function( data ) {}).done(function(data) {
-		var result = "";
-		$(data.result).each(function(index, value) {
-			var statu = "";
-			if(value.active==true){
-				statu = '<span class="label label-success">Active</span>';
-			}else{
-				statu = '<span class="label label-important">Inactive</span>';
+function validatecoins(coins){
+	var greenNum='&nbsp;&nbsp;&nbsp;&nbsp;0';
+	var yellowNum='&nbsp;&nbsp;&nbsp;&nbsp;0';
+	var redNum='&nbsp;&nbsp;&nbsp;&nbsp;0';
+	if(coins==null||coins==undefined){
+		 greenNum='&nbsp;&nbsp;&nbsp;&nbsp;0';
+		 yellowNum='&nbsp;&nbsp;&nbsp;&nbsp;0';
+		 redNum='&nbsp;&nbsp;&nbsp;&nbsp;0';
+	}else{
+		if((coins.greenNum!=null)&&(coins.greenNum!=undefined)){
+			greenNum=coins.greenNum;
+			if(greenNum>10&&greenNum<100){
+				greenNum = "&nbsp;&nbsp;"+greenNum;
+			}else if(greenNum<10){
+				greenNum = "&nbsp;&nbsp;&nbsp;&nbsp;"+greenNum;
 			}
-			var content = '<tr>'+
-				'<td><img src="'+validateHeadPhoto(value.headPhoto)+'"/></img></td>'+
-				'<td>'+validate(value.name)+'</td>'+
-				'<td>'+validate(value.nickname)+'</td>'+
-				'<td class="center">'+validate(value.email)+'</td>'+
-				'<td class="center">'+validate(value.address)+'</td>'+
-				'<td class="center">'+validate(value.cellphone)+'</td>'+
-				'<td class="center">'+statu+'</td>'+
-				'<td class="center">'+
-					'<a class="btn btn-info" href="user_image.html?userid='+value.id+'"><i class="icon-picture icon-white"></i>Image</a>&nbsp;'+
-					/*'<a class="btn btn-info" href="_userImage.html?userid='+value.id+'"><i class="icon-picture icon-white"></i>Image_old</a>&nbsp;'+*/
-				'</td>'+
-			'</tr>';
-			result = result+content;
-		});
-		$("#user_tbody").html(result);
-		pagination(0,0);
-		$("#close_search").click();
-	});
-}
-
-function deleteImg(imgId){
-	$.get("api/image/delete/" + imgId, function(data) {
-	}).done(function(data) {
-		if(data.errorcode=='ok'){
-			addItems(pageNo,pageSize);
 		}
-	});
-}
-function check(imgId,statu){
-	$("#statu"+imgId).html('<img src="img/ajax-loaders/ajax-loader-1.gif"/>');
-	$.get("api/image/check/" + imgId+'?statu='+statu, function(data) {
-	}).done(function(data) {
-		if(data.errorcode=='ok'){
-			addItems(pageNo,pageSize);
+		if((coins.yellowNum!=null)&&(coins.yellowNum!=undefined)){
+			yellowNum=coins.yellowNum;
+			if(yellowNum>10&&yellowNum<100){
+				yellowNum = "&nbsp;&nbsp;"+yellowNum;
+			}else if(yellowNum<10){
+				yellowNum = "&nbsp;&nbsp;&nbsp;&nbsp;"+yellowNum;
+			}
 		}
-	});
+		 if((coins.redNum!=null)&&(coins.redNum!=undefined)){
+			 redNum=coins.redNum;
+			 if(redNum>10&&redNum<100){
+				 redNum = "&nbsp;&nbsp;"+redNum;
+				}else if(redNum<10){
+					redNum = "&nbsp;&nbsp;&nbsp;&nbsp;"+redNum;
+				}
+		 }
+	}
+	var spans = '<span style="background-color:#E2EFD9; padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">'+
+	greenNum+'</span><span style="background-color:rgb(255, 243, 203); padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">'+
+	yellowNum+'</span><span style="background-color:rgb(255, 153, 153); padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">'+
+	redNum+'</span>';/*value.coins*/
+	return spans;
 }

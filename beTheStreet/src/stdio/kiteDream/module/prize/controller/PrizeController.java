@@ -106,11 +106,43 @@ public class PrizeController {
 			@PathVariable(value = "userid") int userid,
 			@RequestParam(value = "page", required = true) int page,
 			@RequestParam(value = "size", required = true) int size) {
+		if (BasePathJsonParser.basePath == null) {
+			String path = request.getContextPath();
+			String basePath = request.getScheme() + "://"
+					+ request.getServerName() + ":" + request.getServerPort()
+					+ path + "/";
+			BasePathJsonParser.basePath = basePath;
+		}
 		JsonVO json = new JsonVO();
 		try {
 			json.setResult(prizeService.getUserOrders(userid, page, size));
 			json.setErrorcode(Constant.OK);
 			json.setUser_events(userEventService.checkEvent(userid));
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/order/listPage", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public PageVO listPage(HttpServletRequest request,
+			@RequestParam(value = "userid") int userid,
+			@RequestParam(value = "page", required = true) int page,
+			@RequestParam(value = "size", required = true) int size) {
+		if (BasePathJsonParser.basePath == null) {
+			String path = request.getContextPath();
+			String basePath = request.getScheme() + "://"
+					+ request.getServerName() + ":" + request.getServerPort()
+					+ path + "/";
+			BasePathJsonParser.basePath = basePath;
+		}
+		PageVO json = new PageVO();
+		try {
+			json.setResult(prizeService.getUserOrders(userid, page, size));
+			json.setErrorcode(Constant.OK);
+			json.setCount(prizeService.getOrderCount(userid));
 		} catch (Exception e) {
 			e.printStackTrace();
 			json.setErrorcode(Constant.FAIL);

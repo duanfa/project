@@ -149,6 +149,11 @@ public class PrizeServiceImpl implements PrizeService {
 	public int getCount() {
 		return prizeDao.getCount();
 	}
+
+	@Override
+	public int getOrderCount(int userid) {
+		return orderDao.getOrderCount(userid);
+	}
 	
 
 }

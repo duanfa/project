@@ -25,4 +25,6 @@ public interface PrizeService {
 	public boolean manageChangeOrder(int orderid, OrderStatu statu);
 
 	public int getCount();
+
+	public int getOrderCount(int userid);
 }

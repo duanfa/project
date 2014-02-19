@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import stdio.kiteDream.module.prize.bean.Prize;
-import stdio.kiteDream.module.user.bean.User;
 
 @Component
 public class PrizeDaoImpl implements PrizeDao {
@@ -92,5 +91,7 @@ public class PrizeDaoImpl implements PrizeDao {
 		}
 		return count;
 	}
+
+	
 
 }

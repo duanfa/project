@@ -1,5 +1,6 @@
 package stdio.kiteDream.module.prize.dao;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,12 +51,16 @@ public class OrderDaoImpl implements OrderDao {
 	public List<Order> getUserOrders(int pageNo, int pageSize, int userid) {
 		List<Order> list = null;
 		try {
-			if (pageNo > 0 && pageSize > 0) {
-				Query query = getSessionFactory().getCurrentSession().createQuery("from Order order where order.user.id="+userid);
-				query.setFirstResult((pageNo - 1) * pageSize);
-				query.setMaxResults(pageSize);
-				list = query.list();
+			String hql = "from Order order";
+			if(userid>0){
+				hql = hql + " where order.user.id="+userid;
 			}
+				Query query = getSessionFactory().getCurrentSession().createQuery(hql);
+				if (pageNo > 0 && pageSize > 0) {
+					query.setFirstResult((pageNo - 1) * pageSize);
+					query.setMaxResults(pageSize);
+				}
+				list = query.list();
 		} catch (Exception e) {
 			e.printStackTrace();
 			list = new ArrayList<Order>();
@@ -65,7 +70,6 @@ public class OrderDaoImpl implements OrderDao {
 
 	@Override
 	public Order getOrder(String id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -105,6 +109,23 @@ public class OrderDaoImpl implements OrderDao {
 			return list.get(0);
 		}
 		return null;
+	}
+	
+	@Override
+	public int getOrderCount(int userid) {
+		Integer count;
+		String sql = "select count(1) from prize_order";
+		if(userid>0){
+			sql = sql + " where userid="+userid;
+		}
+		try {
+			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
+			count = countRaw.intValue();
+		} catch (Exception e) {
+			Integer countRaw = (Integer) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
+			count = countRaw.intValue();
+		}
+		return count;
 	}
 
 }
