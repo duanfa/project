@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import stdio.kiteDream.module.coins.bean.Level.Type;
 import stdio.kiteDream.module.comic.bean.Comic;
 import stdio.kiteDream.module.comic.dao.ComicDao;
+import stdio.kiteDream.module.level.bean.Level.Type;
 
 @Service
 public class ComicServiceImpl implements ComicService {

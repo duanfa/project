@@ -10,8 +10,7 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import stdio.kiteDream.module.coins.bean.Level;
-import stdio.kiteDream.module.image.bean.Image;
+import stdio.kiteDream.module.level.bean.Level;
 
 @Entity
 @Table(name = "comic")

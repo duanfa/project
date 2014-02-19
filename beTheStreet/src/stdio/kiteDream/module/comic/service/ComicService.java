@@ -2,8 +2,8 @@ package stdio.kiteDream.module.comic.service;
 
 import java.util.List;
 
-import stdio.kiteDream.module.coins.bean.Level;
 import stdio.kiteDream.module.comic.bean.Comic;
+import stdio.kiteDream.module.level.bean.Level;
 
 public interface ComicService {
 

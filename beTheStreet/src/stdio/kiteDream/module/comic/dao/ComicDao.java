@@ -2,8 +2,8 @@ package stdio.kiteDream.module.comic.dao;
 
 import java.util.List;
 
-import stdio.kiteDream.module.coins.bean.Level.Type;
 import stdio.kiteDream.module.comic.bean.Comic;
+import stdio.kiteDream.module.level.bean.Level.Type;
 
 public interface ComicDao {
 
