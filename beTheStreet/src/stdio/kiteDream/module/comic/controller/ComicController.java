@@ -24,15 +24,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import stdio.kiteDream.module.coins.bean.Level;
 import stdio.kiteDream.module.comic.VO.GameLevel;
 import stdio.kiteDream.module.comic.VO.LevelState;
 import stdio.kiteDream.module.comic.VO.MissionType;
-import stdio.kiteDream.module.comic.bean.Comic;
 import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
+import stdio.kiteDream.module.comic.bean.Comic;
 import stdio.kiteDream.module.comic.service.ComicService;
 import stdio.kiteDream.module.image.bean.Image;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
-import stdio.kiteDream.module.vo.ComicVO;
 import stdio.kiteDream.module.vo.JsonVO;
 import stdio.kiteDream.util.Constant;
 import stdio.kiteDream.util.ImageUtil;
@@ -100,12 +100,12 @@ public class ComicController {
 					comic.setPath(imgPre + fileName);
 					comic.setThumbnail_path(imgPre + "thumbnail_" + fileName);
 				}
-				if(type!=null&&Image.Type.BONUS.toString().equals(type.toUpperCase())){
-					comic.setType(Image.Type.BONUS);
-				}else if(type!=null&&Image.Type.STREET.toString().equals(type.toUpperCase())){
-					comic.setType(Image.Type.STREET);
-				}else if(type!=null&&Image.Type.CHALLENGE.toString().equals(type.toUpperCase())){
-					comic.setType(Image.Type.CHALLENGE);
+				if(type!=null&&Level.Type.BONUS.toString().equals(type.toUpperCase())){
+					comic.setType(Level.Type.BONUS);
+				}else if(type!=null&&Level.Type.STREET.toString().equals(type.toUpperCase())){
+					comic.setType(Level.Type.STREET);
+				}else if(type!=null&&Level.Type.CHALLENGE.toString().equals(type.toUpperCase())){
+					comic.setType(Level.Type.CHALLENGE);
 				}
 				comic.setName(name);
 				comic.setInfo(info);
@@ -155,10 +155,10 @@ public class ComicController {
 			}
 			
 			jsonVO.setUser_events(userEventService.checkEvent(userid));
-			List<Comic> bonusComic = comicService.getComics(level,Image.Type.BONUS);
+			List<Comic> bonusComic = comicService.getComics(level,Level.Type.BONUS);
 			bonusComic.add(goComic);
 			gameLevel.setBonusLevel(bonusComic);
-			List<Comic> streetComic = comicService.getComics(level,Image.Type.STREET);
+			List<Comic> streetComic = comicService.getComics(level,Level.Type.STREET);
 			streetComic.add(goComic);
 			gameLevel.setRegularLevel(streetComic);
 			List<GameLevel> comicvos = new ArrayList<GameLevel>();

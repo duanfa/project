@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import stdio.kiteDream.module.coins.bean.Level.Type;
 import stdio.kiteDream.module.comic.bean.Comic;
-import stdio.kiteDream.module.image.bean.Image.Type;
 
 @Component
 public class ComicDaoImpl implements ComicDao {

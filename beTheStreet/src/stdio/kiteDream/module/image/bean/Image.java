@@ -25,9 +25,6 @@ public class Image implements Serializable {
 	public enum Check {
 		PASS, UNREAD, FAIL
 	}
-	public enum Type {
-		BONUS, STREET, CHALLENGE
-	}
 
 	private static final long serialVersionUID = 787921280747262572L;
 

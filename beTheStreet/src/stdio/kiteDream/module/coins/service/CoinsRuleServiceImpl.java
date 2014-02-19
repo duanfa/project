@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import stdio.kiteDream.module.coins.bean.Coins;
-import stdio.kiteDream.module.coins.bean.CoinsRule;
+import stdio.kiteDream.module.coins.bean.Level;
 import stdio.kiteDream.module.coins.dao.CoinsDao;
 import stdio.kiteDream.module.coins.dao.CoinsRuleDao;
 import stdio.kiteDream.module.user.bean.Group;
@@ -27,17 +27,17 @@ public class CoinsRuleServiceImpl implements CoinsRuleService {
 	GroupDao groupDao;
 
 	@Override
-	public CoinsRule getPrizeRule(String id) {
+	public Level getPrizeRule(String id) {
 		return coinsRuleDao.getPrizeRule(id);
 	}
 
 	@Override
-	public CoinsRule getLevelRule(int level) {
+	public Level getLevelRule(int level) {
 		return coinsRuleDao.getLevelRule(level);
 	}
 
 	@Override
-	public boolean savePrizeRule(CoinsRule rule) {
+	public boolean savePrizeRule(Level rule) {
 		return coinsRuleDao.savePrizeRule(rule);
 	}
 
@@ -47,14 +47,14 @@ public class CoinsRuleServiceImpl implements CoinsRuleService {
 	}
 
 	@Override
-	public List<CoinsRule> getLevelRules() {
+	public List<Level> getLevelRules() {
 		return coinsRuleDao.getLevelRules();
 	}
 
 	@Override
 	public boolean managePrize(int level, String userid) {
 		try {
-			CoinsRule rule = coinsRuleDao.getLevelRule(level);
+			Level rule = coinsRuleDao.getLevelRule(level);
 			if(rule!=null){
 				User user = userDao.getUser(userid);
 				if(user.getCoins()!=null){

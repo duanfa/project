@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import stdio.kiteDream.module.coins.bean.Coins;
-import stdio.kiteDream.module.coins.bean.CoinsRule;
+import stdio.kiteDream.module.coins.bean.Level;
 import stdio.kiteDream.module.coins.service.CoinsRuleService;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
 import stdio.kiteDream.module.vo.JsonVO;
@@ -42,7 +42,7 @@ public class CoinsController {
 
 	@ResponseBody
 	@RequestMapping(value = "/addrule", method = { RequestMethod.GET, RequestMethod.POST })
-	public JsonVO check(CoinsRule rule) {
+	public JsonVO check(Level rule) {
 		JsonVO json = new JsonVO();
 		try {
 			if (coinsRuleService.savePrizeRule(rule)) {

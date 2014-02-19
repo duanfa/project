@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import stdio.kiteDream.module.coins.bean.CoinsRule;
+import stdio.kiteDream.module.coins.bean.Level;
 
 @Component
 public class CoinsRuleDaoImpl implements CoinsRuleDao {
@@ -25,13 +25,13 @@ public class CoinsRuleDaoImpl implements CoinsRuleDao {
 	}
 
 	@Override
-	public CoinsRule getPrizeRule(String id) {
-		return (CoinsRule) getSessionFactory().getCurrentSession().get(CoinsRule.class, Integer.parseInt(id.trim()));
+	public Level getPrizeRule(String id) {
+		return (Level) getSessionFactory().getCurrentSession().get(Level.class, Integer.parseInt(id.trim()));
 	}
 
 	@Override
-	public CoinsRule getLevelRule(int level) {
-		List<CoinsRule> rules = getSessionFactory().getCurrentSession().createQuery("from CoinsRule rule where rule.level="+level).list();
+	public Level getLevelRule(int level) {
+		List<Level> rules = getSessionFactory().getCurrentSession().createQuery("from CoinsRule rule where rule.level="+level).list();
 		if(rules.size()>0){
 			return rules.get(0);
 		}
@@ -39,7 +39,7 @@ public class CoinsRuleDaoImpl implements CoinsRuleDao {
 	}
 
 	@Override
-	public boolean savePrizeRule(CoinsRule rule) {
+	public boolean savePrizeRule(Level rule) {
 		try {
 			getSessionFactory().getCurrentSession().saveOrUpdate(rule);
 			return true;
@@ -52,7 +52,7 @@ public class CoinsRuleDaoImpl implements CoinsRuleDao {
 	@Override
 	public boolean delPrizeRule(String id) {
 		try {
-			CoinsRule rule = (CoinsRule) getSessionFactory().getCurrentSession().get(CoinsRule.class, Integer.parseInt(id.trim()));
+			Level rule = (Level) getSessionFactory().getCurrentSession().get(Level.class, Integer.parseInt(id.trim()));
 			getSessionFactory().getCurrentSession().delete(rule);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -62,10 +62,10 @@ public class CoinsRuleDaoImpl implements CoinsRuleDao {
 	}
 
 	@Override
-	public List<CoinsRule> getLevelRules() {
-		 List<CoinsRule> list = getSessionFactory().getCurrentSession().createQuery("from CoinsRule").list();
+	public List<Level> getLevelRules() {
+		 List<Level> list = getSessionFactory().getCurrentSession().createQuery("from CoinsRule").list();
 		 if(list==null){
-			 return new ArrayList<CoinsRule>();
+			 return new ArrayList<Level>();
 		 }
 		 return list;
 		
