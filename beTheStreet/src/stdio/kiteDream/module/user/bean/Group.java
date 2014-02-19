@@ -37,6 +37,8 @@ public class Group implements Serializable {
 	
 	private Date create_time;
 	
+	private int menberNum;
+	
 	@ManyToOne
 	@JoinColumn(name = "orgid")
 	private GroupOrg groupOrg;
@@ -110,6 +112,14 @@ public class Group implements Serializable {
 
 	public void setCreaterid(int createrid) {
 		this.createrid = createrid;
+	}
+
+	public int getMenberNum() {
+		return menberNum;
+	}
+
+	public void setMenberNum(int menberNum) {
+		this.menberNum = menberNum;
 	}
 	
 }
