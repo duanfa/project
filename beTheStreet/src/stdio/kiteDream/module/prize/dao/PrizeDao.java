@@ -16,4 +16,6 @@ public interface PrizeDao {
 
 	public boolean delPrize(String id);
 
+	public int getCount();
+
 }

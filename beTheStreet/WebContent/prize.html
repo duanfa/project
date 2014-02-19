@@ -134,17 +134,19 @@ body {
 				<div>
 					<ul class="breadcrumb">
 						<li><a href="#">Home</a> <span class="divider">/</span></li>
-						<li><a href="#">product</a></li>
+						<li><a href="#">user</a></li>
 					</ul>
 				</div>
-				<div id="image_content">
+	<a class="btn btn-success" id="create-level" href="#">
+					<i class="icon icon-white icon-add"> </i>add
+			</a>
 				<div class="row-fluid sortable">
 					<div class="box span12">
 						<div class="box-header well" data-original-title>
 							<h2>App users</h2>
 							<div class="box-icon">
 								<a href="#" class="btn btn-setting btn-round"><i
-									class="icon-cog"></i></a> <a href="#"
+									class="icon-search"></i></a> <a href="#"
 									class="btn btn-minimize btn-round"><i
 									class="icon-chevron-up"></i></a> <a href="#"
 									class="btn btn-close btn-round"><i class="icon-remove"></i></a>
@@ -154,21 +156,24 @@ body {
 							<table class="table table-bordered table-striped table-condensed">
 								<thead>
 									<tr>
-										<th>Username</th>
-										<th>Email</th>
-										<th>Address</th>
-										<th>Cellphone</th>
+										<th>Image</th>
+										<th>Title</th>
+										<th>Desc</th>
+										<th>Num</th>
+										<th>Reward</th>
 										<th>Statu</th>
-										<th>Actions</th>
+										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody id="user_tbody">
 								</tbody>
 							</table>
+							<div class="pagination pagination-centered">
+								<ul class="pagination_ul"></ul>
+							</div>
 						</div>
 					</div>
 					<!--/span-->
-				</div>
 				</div>
 				<!--/row-->
 
@@ -182,15 +187,17 @@ body {
 
 		<div class="modal hide fade" id="myModal">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">×</button>
-				<h3>Settings</h3>
+				<button id="close_search" type="button" class="close" data-dismiss="modal">×</button>
+				<h3>Search user</h3>
 			</div>
 			<div class="modal-body">
-				<p>Here settings can be configured...</p>
+			<input id="userName" style="width: 410px;" />
+			<a onclick="searchUser()" href="#" class="btn btn-success">
+				<i class="icon-zoom-in icon-white"></i>  
+				search                              
+			</a>
 			</div>
 			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal">Close</a> <a href="#"
-					class="btn btn-primary">Save changes</a>
 			</div>
 		</div>
 
@@ -206,7 +213,9 @@ body {
 
 	</div>
 	<!--/.fluid-container-->
-
+<div id="dialog-form" title="challenge" style="display: none;">
+	<!-- 　<iframe id="coreIframe" name="coreIframe" src="comic_upload.html" frameborder="0"></iframe> -->
+	</div> 
 	<!-- external javascript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
@@ -279,7 +288,7 @@ body {
 	<!-- history.js for cross-browser state change on ajax -->
 	<script src="js/jquery.history.js"></script>
 	<!-- application script for Charisma demo -->
-	<script src="group_after.js"></script>
+	<script src="image_after.js"></script>
 	
 	<script src="prize.js"></script>
 

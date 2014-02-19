@@ -23,4 +23,6 @@ public interface PrizeService {
 	public int manageBuy(int userid, int prizeid, Order order);
 
 	public boolean manageChangeOrder(int orderid, OrderStatu statu);
+
+	public int getCount();
 }

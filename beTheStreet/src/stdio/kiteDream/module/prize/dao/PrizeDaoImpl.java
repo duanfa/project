@@ -1,5 +1,6 @@
 package stdio.kiteDream.module.prize.dao;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,6 +77,20 @@ public class PrizeDaoImpl implements PrizeDao {
 			list = new ArrayList<Prize>();
 		}
 		return list;
+	}
+
+	@Override
+	public int getCount() {
+		Integer count;
+		String sql = "select count(1) from prize";
+		try {
+			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
+			count = countRaw.intValue();
+		} catch (Exception e) {
+			Integer countRaw = (Integer) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
+			count = countRaw.intValue();
+		}
+		return count;
 	}
 
 }

@@ -1,5 +1,6 @@
 package stdio.kiteDream.module.level.dao;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class LevelDaoImpl implements LevelDao {
 
 	@Override
 	public Level getLevel(int level) {
-		List<Level> rules = getSessionFactory().getCurrentSession().createQuery("from CoinsRule rule where rule.level="+level).list();
+		List<Level> rules = getSessionFactory().getCurrentSession().createQuery("from Level level where level.level="+level).list();
 		if(rules.size()>0){
 			return rules.get(0);
 		}
@@ -63,12 +64,26 @@ public class LevelDaoImpl implements LevelDao {
 
 	@Override
 	public List<Level> getLevel() {
-		 List<Level> list = getSessionFactory().getCurrentSession().createQuery("from CoinsRule").list();
+		 List<Level> list = getSessionFactory().getCurrentSession().createQuery("from Level").list();
 		 if(list==null){
 			 return new ArrayList<Level>();
 		 }
 		 return list;
 		
+	}
+
+	@Override
+	public int getCount() {
+		Integer count;
+		String sql = "select count(1) from level";
+		try {
+			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
+			count = countRaw.intValue();
+		} catch (Exception e) {
+			Integer countRaw = (Integer) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
+			count = countRaw.intValue();
+		}
+		return count;
 	}
 
 }

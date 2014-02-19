@@ -29,6 +29,7 @@ import stdio.kiteDream.module.prize.bean.Prize;
 import stdio.kiteDream.module.prize.service.PrizeService;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
 import stdio.kiteDream.module.vo.JsonVO;
+import stdio.kiteDream.module.vo.PageVO;
 import stdio.kiteDream.util.Constant;
 import stdio.kiteDream.util.ImageUtil;
 
@@ -63,6 +64,34 @@ public class PrizeController {
 			}
 			json.setErrorcode(Constant.OK);
 			json.setUser_events(userEventService.checkEvent(userid));
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/listPage", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public PageVO listPage(HttpServletRequest request,
+			@RequestParam(value = "page", required = false) int page,
+			@RequestParam(value = "size", required = false) int size) {
+		if (BasePathJsonParser.basePath == null) {
+			String path = request.getContextPath();
+			String basePath = request.getScheme() + "://"
+					+ request.getServerName() + ":" + request.getServerPort()
+					+ path + "/";
+			BasePathJsonParser.basePath = basePath;
+		}
+		PageVO json = new PageVO();
+		try {
+			if (page < 1) {
+				json.setResult(prizeService.getPrizes());
+			} else {
+				json.setResult(prizeService.getPrizes(page, size));
+			}
+			json.setErrorcode(Constant.OK);
+			json.setCount(prizeService.getCount());
 		} catch (Exception e) {
 			e.printStackTrace();
 			json.setErrorcode(Constant.FAIL);

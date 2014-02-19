@@ -11,7 +11,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import stdio.kiteDream.module.coins.bean.Coins;
+import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
 
 @Entity
 @Table(name = "level")
@@ -76,7 +79,7 @@ public class Level implements Serializable {
 	public void setType(Type type) {
 		this.type = type;
 	}
-
+	@JsonSerialize(using = BasePathJsonParser.class)
 	public String getPath() {
 		return path;
 	}
@@ -108,7 +111,7 @@ public class Level implements Serializable {
 	public void setCompleteNum(int completeNum) {
 		this.completeNum = completeNum;
 	}
-
+	@JsonSerialize(using = BasePathJsonParser.class)
 	public String getThumbnail_path() {
 		return thumbnail_path;
 	}

@@ -16,4 +16,6 @@ public interface LevelDao {
 
 	public List<Level> getLevel();
 
+	public int getCount();
+
 }

@@ -9,7 +9,7 @@ public interface LevelService {
 
 public Level getPrizeRule(String id);
 	
-	public List<Level> getLevel();
+	public List<Level> getLevels();
 	
 	public Level getLevel(int level);
 	
@@ -20,5 +20,7 @@ public Level getPrizeRule(String id);
 	public boolean managePrize(int level,String userid);
 
 	public boolean deleteLevel(String id);
+
+	public int getCount();
 
 }

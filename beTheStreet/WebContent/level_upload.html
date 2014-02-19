@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Free HTML5 Bootstrap Admin Template</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
+	<meta name="author" content="Muhammad Usman">
+
+	<!-- The styles -->
+	<link id="bs-css" href="css/bootstrap-cerulean.css" rel="stylesheet">
+	<style type="text/css">
+	  body {
+		padding-bottom: 40px;
+	  }
+	  .sidebar-nav {
+		padding: 9px 0;
+	  }
+	</style>
+	<link href="css/bootstrap-responsive.css" rel="stylesheet">
+	<link href="css/charisma-app.css" rel="stylesheet">
+	<link href="css/jquery-ui-1.8.21.custom.css" rel="stylesheet">
+	<link href='css/chosen.css' rel='stylesheet'>
+	<link href='css/uniform.default.css' rel='stylesheet'>
+	<link href='css/colorbox.css' rel='stylesheet'>
+	<link href='css/jquery.cleditor.css' rel='stylesheet'>
+	<link href='css/elfinder.min.css' rel='stylesheet'>
+	<link href='css/elfinder.theme.css' rel='stylesheet'>
+	<link href='css/uploadify.css' rel='stylesheet'>
+
+	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- The fav icon -->
+	<link rel="shortcut icon" href="img/favicon.ico">
+</head>
+<body>
+		<form id="addComicForm" action="api/level/add" method="post" enctype="multipart/form-data">
+			<fieldset>
+				<label for="level">level</label>
+					<input type="text" name="level" id="level" value="" class="text ui-widget-content ui-corner-all">
+				<label for="name">title</label>
+					<input type="text" name="title" id="title" class="text ui-widget-content ui-corner-all">
+				<label for="order">desc</label>
+					<input type="text" name="desc" id="desc" value="" class="text ui-widget-content ui-corner-all">
+				<label for="order">greenNum</label>
+					<input type="text" name="coins.greenNum" id="greenNum" value="0" class="text ui-widget-content ui-corner-all">
+				<label for="order">yellowNum</label>
+					<input type="text" name="coins.yellowNum" id="yellowNum" value="0" class="text ui-widget-content ui-corner-all">
+				<label for="order">redNum</label>
+					<input type="text" name="coins.redNum" id="redNum" value="0" class="text ui-widget-content ui-corner-all">
+				<!-- <label for="type">type</label>
+					<select name="type" id="type">
+		                <option value="BONUS" selected>BONUS</option>
+		                <option value="STREET">STREET</option>
+		                <option value="CHALLENGE">CHALLENGE</option>
+		       		</select> -->
+				<label for="comic">comic</label>
+					<input type="file" name="comic" id="comic" value="" class="text ui-widget-content ui-corner-all">
+			</fieldset>
+		</form>
+			<!-- jQuery -->
+	<script src="js/jquery-1.7.2.min.js"></script>
+	<!-- jQuery UI -->
+	<script src="js/jquery-ui-1.8.21.custom.min.js"></script>
+	<script src="js/jquery.cookie.js"></script>
+
+
+	<!-- checkbox, radio, and file input styler -->
+	<script src="js/jquery.uniform.min.js"></script>
+	<!-- rich text editor library -->
+	<script src="js/jquery.cleditor.min.js"></script>
+	<!-- file manager library -->
+	<script src="js/jquery.elfinder.min.js"></script>
+	<!-- multiple file upload plugin -->
+	<script src="js/jquery.uploadify-3.1.min.js"></script>
+	<!-- history.js for cross-browser state change on ajax -->
+	<script src="js/jquery.history.js"></script>
+</body>
+</html>

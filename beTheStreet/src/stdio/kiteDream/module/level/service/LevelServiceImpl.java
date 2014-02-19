@@ -47,7 +47,7 @@ public class LevelServiceImpl implements LevelService {
 	}
 
 	@Override
-	public List<Level> getLevel() {
+	public List<Level> getLevels() {
 		return levelDao.getLevel();
 	}
 
@@ -98,6 +98,11 @@ public class LevelServiceImpl implements LevelService {
 	@Override
 	public Coins getUserCoins(int userid) {
 		return coinsDao.getUserCoins(userid+"");
+	}
+
+	@Override
+	public int getCount() {
+		return levelDao.getCount();
 	}
 	
 
