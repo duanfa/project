@@ -16,7 +16,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import stdio.kiteDream.module.user.bean.User;
 
 @Entity
-@JsonIgnoreProperties({})
+@JsonIgnoreProperties({"user"})
 @Table(name = "message")
 public class Message implements Serializable {
 
