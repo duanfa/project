@@ -72,18 +72,19 @@ public class LevelServiceImpl implements LevelService {
 				}
 				Group group = user.getGroup();
 				if(group!=null){
-					if(group.getCoins()!=null){
-						user.getCoins().setGreenNum(user.getCoins().getGreenNum()+realCoins[0]);
-						user.getCoins().setYellowNum(user.getCoins().getYellowNum()+realCoins[1]);
-						user.getCoins().setRedNum(user.getCoins().getRedNum()+realCoins[2]);
+					Coins coins = group.getCoins();
+					if(coins!=null){
+						coins.setGreenNum(coins.getGreenNum()+realCoins[0]);
+						coins.setYellowNum(coins.getYellowNum()+realCoins[1]);
+						coins.setRedNum(coins.getRedNum()+realCoins[2]);
 					}else{
-						Coins coins = new Coins();
+						coins = new Coins();
 						coins.setGreenNum(realCoins[0]);
 						coins.setYellowNum(realCoins[1]);
 						coins.setRedNum(realCoins[2]);
-						coinsDao.saveCoins(coins);
 						group.setCoins(coins);
 					}
+					coinsDao.saveCoins(coins);
 					groupDao.saveGroup(group);
 				}
 				userDao.saveUser(user);
@@ -92,8 +93,9 @@ public class LevelServiceImpl implements LevelService {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	@Override

@@ -34,21 +34,28 @@ public class MessageDaoImpl implements MessageDao {
 	}
 
 	@Override
-	public List<Message> getUserMessage(int userid,int page,int size) {
+	public List<Message> getUserMessage(int unRead,int userid,int page,int size) {
+		
 		List<Message> list = null;
 		try {
 			String hql = "from Message message";
 			if(userid>0){
-				hql = hql+" where message.type=? or message.user.id="+userid;
-			}
-			hql = hql + " order by id desc";
-			Query query = getSessionFactory().getCurrentSession().createQuery(hql);
-			if(userid>0){
+				hql = hql+" where message.type=? or message.user.id="+userid + " order by id desc";
+				Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 				query.setParameter(0, MessageType.BROADCAST);
+				query.setFirstResult((page - 1) * size);
+				query.setMaxResults(unRead);
+				list = query.list();
+				while((unRead--)>size){
+					list.remove(0);
+				}
+			}else{
+				hql = hql + " order by id desc";
+				Query query = getSessionFactory().getCurrentSession().createQuery(hql);
+				query.setFirstResult((page - 1) * size);
+				query.setMaxResults(size);
+				list = query.list();
 			}
-			query.setFirstResult((page - 1) * size);
-			query.setMaxResults(size);
-			list = query.list();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -99,5 +106,4 @@ public class MessageDaoImpl implements MessageDao {
 		}
 		return count;
 	}
-
 }

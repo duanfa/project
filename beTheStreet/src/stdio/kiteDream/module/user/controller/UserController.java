@@ -104,10 +104,10 @@ public class UserController {
 
 	@ResponseBody
 	@RequestMapping(value = "/login", method = {RequestMethod.GET,RequestMethod.POST})
-	public JsonVO login(HttpServletRequest request, @RequestParam(value = "name") String name, @RequestParam(value = "password") String password) {
+	public JsonVO login(HttpServletRequest request, @RequestParam(value = "email") String email, @RequestParam(value = "password") String password) {
 		JsonVO json = new JsonVO();
 		try {
-			User user = userService.manageLogin(name, password);
+			User user = userService.manageLogin(email, password);
 			if (user != null) {
 				json.setErrorcode(Constant.OK);
 				List<User> users = new ArrayList<User>();

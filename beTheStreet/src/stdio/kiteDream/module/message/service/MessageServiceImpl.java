@@ -11,6 +11,7 @@ import stdio.kiteDream.module.message.bean.Message;
 import stdio.kiteDream.module.message.bean.MessageType;
 import stdio.kiteDream.module.message.dao.MessageDao;
 import stdio.kiteDream.module.user.dao.UserDao;
+import stdio.kiteDream.module.userEvent.bean.UserEvent;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
 
 @Service
@@ -25,8 +26,19 @@ public class MessageServiceImpl implements MessageService {
 
 	@Override
 	public List<Message> manageGetUserMessage(int userid,int page,int size) {
-		List<Message> messages = messageDao.getUserMessage(userid, page, size);
-		userEventService.clearEvent(userid);
+		UserEvent event = userEventService.checkEvent(userid);
+		int unRead = -1;
+		if(event!=null){
+			unRead = event.getNew_message_num();
+		}
+		List<Message> messages = messageDao.getUserMessage(unRead,userid, page, size);
+		if(unRead>0){
+			if(unRead<=size){
+				userEventService.clearEvent(userid);
+			}else{
+				userEventService.setUserEvent(userid, "new_message_num", unRead-size);
+			}
+		}
 		return messages;
 	}
 

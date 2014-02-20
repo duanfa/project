@@ -98,6 +98,17 @@ public class UserEventServiceImpl implements UserEventService,
 		}
 		return true;
 	}
+	@Override
+	public boolean setUserEvent(int userId, String key, Object value) {
+		key = "new_message_num";
+		Map<String, Object> record = events.get(userId);
+		try {
+				record.put(key, value);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
 
 	@Override
 	public boolean addUserId(int userId) {

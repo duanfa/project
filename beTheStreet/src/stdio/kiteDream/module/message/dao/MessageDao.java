@@ -12,7 +12,7 @@ public interface MessageDao {
 
 	public boolean delMessage(int id);
 	
-	public List<Message> getUserMessage(int userid,int page,int size);
+	public List<Message> getUserMessage(int unRead,int userid,int page,int size);
 	
 	public int getUserMessageCount(int userid);
 	

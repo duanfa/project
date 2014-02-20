@@ -69,8 +69,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User manageLogin(String name, String password) {
-		List<User> users = userDao.getUserByParam("name", name);
+	public User manageLogin(String email, String password) {
+		List<User> users = userDao.getUserByParam("email", email);
 		if (users.size() > 0) {
 			if (password.equals(users.get(0).getPassword())) {
 				return users.get(0);

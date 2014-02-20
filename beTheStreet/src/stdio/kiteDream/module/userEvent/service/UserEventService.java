@@ -14,6 +14,8 @@ public interface UserEventService {
 	
 	public boolean updateUserEvent(int userId,String key,Object value);
 	
+	public boolean setUserEvent(int userId, String key, Object value);
+	
 	public boolean addUserId(int userId);
 	
 	public Map getEvents();

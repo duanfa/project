@@ -285,9 +285,9 @@ public class GroupDaoImpl implements GroupDao {
 	@Override
 	public List<Group> getGroupByCategory(int categoryid) {
 		List<Group> list = null;
-		String hql = "from Group g where g.groupOrg.category.id="+categoryid;
+		String hql = "from Group g where g.groupOrg.category.id="+categoryid +" order by (g.coins.greenNum+g.coins.greenNum+g.coins.greenNum) desc";
 		try {
-			list =  getSessionFactory().getCurrentSession().createQuery(hql).list();
+			list =  getSessionFactory().getCurrentSession().createQuery(hql).setMaxResults(10).list();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

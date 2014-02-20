@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import stdio.kiteDream.module.coins.bean.Coins;
+import stdio.kiteDream.module.coins.dao.CoinsDao;
 import stdio.kiteDream.module.user.bean.Group;
 import stdio.kiteDream.module.user.bean.GroupCategory;
 import stdio.kiteDream.module.user.bean.GroupOrg;
@@ -20,6 +22,8 @@ public class GroupServiceImpl implements GroupService {
 	GroupDao groupDao;
 	@Autowired
 	UserDao userDao;
+	@Autowired
+	CoinsDao coinsDao;
 
 	@Override
 	public List<GroupCategory> getGroupCategorys(int pageNo, int pageSize) {
@@ -75,6 +79,9 @@ public class GroupServiceImpl implements GroupService {
 	public boolean saveGroup(Group group) {
 		try {
 			group.setCreate_time(new Date());
+			Coins coins = new Coins();
+			coinsDao.saveCoins(coins);
+			group.setCoins(coins);
 			groupDao.saveGroup(group);
 			if(group.getCreaterid()>0){
 				manageJoinGroup(group.getId(), group.getCreaterid());

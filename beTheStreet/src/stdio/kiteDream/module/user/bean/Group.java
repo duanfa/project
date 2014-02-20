@@ -44,7 +44,7 @@ public class Group implements Serializable {
 	private GroupOrg groupOrg;
 
 	@OneToOne
-	@JoinColumn
+	@JoinColumn(name="coins_id")
 	private Coins coins;
 	
 	@OneToMany
