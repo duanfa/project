@@ -57,29 +57,30 @@ public class LevelServiceImpl implements LevelService {
 			Level rule = levelDao.getLevel(level);
 			if(rule!=null){
 				User user = userDao.getUser(userid);
+				int[] realCoins = rule.getRandomCoin();
 				if(user.getCoins()!=null){
-					user.getCoins().setGreenNum(user.getCoins().getGreenNum()+rule.getCoins().getGreenNum());
-					user.getCoins().setRedNum(user.getCoins().getRedNum()+rule.getCoins().getRedNum());
-					user.getCoins().setYellowNum(user.getCoins().getYellowNum()+rule.getCoins().getYellowNum());
+					user.getCoins().setGreenNum(user.getCoins().getGreenNum()+realCoins[0]);
+					user.getCoins().setYellowNum(user.getCoins().getYellowNum()+realCoins[1]);
+					user.getCoins().setRedNum(user.getCoins().getRedNum()+realCoins[2]);
 				}else{
 					Coins coins = new Coins();
-					coins.setGreenNum(rule.getCoins().getGreenNum());
-					coins.setRedNum(rule.getCoins().getRedNum());
-					coins.setYellowNum(rule.getCoins().getYellowNum());
+					coins.setGreenNum(realCoins[0]);
+					coins.setYellowNum(realCoins[1]);
+					coins.setRedNum(realCoins[2]);
 					coinsDao.saveCoins(coins);
 					user.setCoins(coins);
 				}
 				Group group = user.getGroup();
 				if(group!=null){
 					if(group.getCoins()!=null){
-						user.getCoins().setGreenNum(user.getCoins().getGreenNum()+rule.getCoins().getGreenNum());
-						user.getCoins().setRedNum(user.getCoins().getRedNum()+rule.getCoins().getRedNum());
-						user.getCoins().setYellowNum(user.getCoins().getYellowNum()+rule.getCoins().getYellowNum());
+						user.getCoins().setGreenNum(user.getCoins().getGreenNum()+realCoins[0]);
+						user.getCoins().setYellowNum(user.getCoins().getYellowNum()+realCoins[1]);
+						user.getCoins().setRedNum(user.getCoins().getRedNum()+realCoins[2]);
 					}else{
 						Coins coins = new Coins();
-						coins.setGreenNum(rule.getCoins().getGreenNum());
-						coins.setRedNum(rule.getCoins().getRedNum());
-						coins.setYellowNum(rule.getCoins().getYellowNum());
+						coins.setGreenNum(realCoins[0]);
+						coins.setYellowNum(realCoins[1]);
+						coins.setRedNum(realCoins[2]);
 						coinsDao.saveCoins(coins);
 						group.setCoins(coins);
 					}
