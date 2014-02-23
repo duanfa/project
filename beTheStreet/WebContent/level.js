@@ -46,7 +46,7 @@ function addItems(page,size){
 				'<td class="center">'+validatecoins(value)+'</td>'+
 				'<td class="center">'+
 				'<a class="btn btn-info" onclick="update(\''+value.id+'\',\''+value.level+'\',\''+value.title+'\',\''+value.desc+'\',\''+value.completeNum+'\',\''+value.sumcoins+'\',\''+value.greenRatio+'\',\''+value.yellowRatio+'\',\''+value.redRatio+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
-				'<a class="btn btn-danger" onclick="delete('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
+				'<a class="btn btn-danger" onclick="deleteLevel('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
 			'</td>'+
 			'</tr>';
 			result = result+content;
@@ -138,7 +138,7 @@ function validatecoins(level){
 	return spans;
 }
 
-function deletePrize(id){
+function deleteLevel(id){
 	$.get("api/level/delete/" + id, function(data) {
 	}).done(function(data) {
 		addItems(pageNo,pageSize);
