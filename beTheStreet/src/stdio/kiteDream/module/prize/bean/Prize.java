@@ -1,6 +1,7 @@
 package stdio.kiteDream.module.prize.bean;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -8,15 +9,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import stdio.kiteDream.module.coins.bean.Coins;
 import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
 
 @Entity
+@JsonIgnoreProperties({ "orders" }) 
 @Table(name = "prize")
 public class Prize implements Serializable {
 
@@ -34,9 +38,14 @@ public class Prize implements Serializable {
 	private Coins coins;
 	private int sellState;
 
-	public Prize() {
+	@OneToMany
+	@JoinColumn(name = "prizeid")
+	private List<Order> orders;
+	
+	public Prize(){
+		
 	}
-
+	
 	public Prize(int id, String headPhoto, String title, String description,
 			Coins coins, int sellState) {
 		this.id = id;
@@ -111,6 +120,14 @@ public class Prize implements Serializable {
 
 	public void setNum(int num) {
 		this.num = num;
+	}
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 }

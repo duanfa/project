@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -29,24 +30,28 @@ public class Order implements Serializable {
 
 	private int num;
 	
+	private int greenNum;
+	private int yellowNum;
+	private int redNum;
+	
 	private String name;
 	
 	private String email;
 	
 	private String phone;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "prizeid")
 	private Prize prize;
 
 	private String description;
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "userid")
 	private User user;
 
 	private OrderStatu statu;
 
-	private String addredss;
+	private String address;
 
 	public int getId() {
 		return id;
@@ -96,12 +101,12 @@ public class Order implements Serializable {
 		this.statu = statu;
 	}
 
-	public String getAddredss() {
-		return addredss;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setAddredss(String addredss) {
-		this.addredss = addredss;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public String getName() {
@@ -126,6 +131,30 @@ public class Order implements Serializable {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public int getGreenNum() {
+		return greenNum;
+	}
+
+	public void setGreenNum(int greenNum) {
+		this.greenNum = greenNum;
+	}
+
+	public int getYellowNum() {
+		return yellowNum;
+	}
+
+	public void setYellowNum(int yellowNum) {
+		this.yellowNum = yellowNum;
+	}
+
+	public int getRedNum() {
+		return redNum;
+	}
+
+	public void setRedNum(int redNum) {
+		this.redNum = redNum;
 	}
 
 }

@@ -241,6 +241,16 @@ public class PrizeController {
 			return false;
 		}
 	}
+	@ResponseBody
+	@RequestMapping(value = "/order/delete/{id}", method = RequestMethod.GET)
+	public boolean deleteOrder(@PathVariable("id") int id) {
+		try {
+			return prizeService.deleteOrder(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 	@ResponseBody
 	@RequestMapping(value = "/buy/{prizeid}", method = RequestMethod.GET)

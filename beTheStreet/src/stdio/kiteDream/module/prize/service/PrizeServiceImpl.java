@@ -89,6 +89,10 @@ public class PrizeServiceImpl implements PrizeService {
 		}else{
 			return 3;
 		}
+		order.setGreenNum(prize.getCoins().getGreenNum());
+		order.setYellowNum(prize.getCoins().getYellowNum());
+		order.setRedNum(prize.getCoins().getRedNum());
+		order.setStatu(OrderStatu.PURCHASE);
 		order.setNum(1);
 		order.setUser(user);
 		order.setPrize(prize);
@@ -167,6 +171,11 @@ public class PrizeServiceImpl implements PrizeService {
 	@Override
 	public int getOrderCount(int userid) {
 		return orderDao.getOrderCount(userid);
+	}
+
+	@Override
+	public boolean deleteOrder(int id) {
+		return orderDao.delOrder(id+"");
 	}
 	
 
