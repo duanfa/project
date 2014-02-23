@@ -81,7 +81,7 @@ function pagination(page,size,count){
 		}
 		var innerHtml_active = '<li class="active"><a onclick="addItems('+page+','+size+')" href="#">'+page+'</a></li>';
 		
-		var innerHtml_suffix ;
+		var innerHtml_suffix = '';
 		if(max-page>=3){
 			innerHtml_suffix = 	'<li><a onclick="addItems('+(page+1)+','+size+')" href="#">'+(page+1)+'</a></li>'+
 								'<li><a onclick="addItems('+(page+2)+','+size+')" href="#">'+(page+2)+'</a></li>'+

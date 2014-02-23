@@ -14,7 +14,7 @@ public interface GroupService {
 
 	public boolean saveGroupCategory(GroupCategory groupCategory);
 
-	public boolean delGroupCategory(int id);
+	public boolean deleteGroupCategory(int id);
 
 	public List<GroupOrg> getGroupOrgs(int categoryid, int pageNo, int pageSize);
 
@@ -22,7 +22,7 @@ public interface GroupService {
 
 	public boolean saveGroupOrg(GroupOrg groupOrg);
 
-	public boolean delGroupOrg(int id);
+	public boolean deleteGroupOrg(int id);
 
 	public List<Group> getGroups(int orgid, int pageNo, int pageSize);
 
@@ -30,7 +30,7 @@ public interface GroupService {
 
 	public boolean saveGroup(Group group);
 
-	public boolean delGroup(int id);
+	public boolean deleteGroup(int id);
 
 	public List<User> getGroupUsers(int pageNo, int pageSize, int groupid);
 

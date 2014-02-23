@@ -40,6 +40,24 @@ public class GroupController {
 		return json;
 	}
 	@ResponseBody
+	@RequestMapping(value = "/category/delete/{id}", method = { RequestMethod.POST, RequestMethod.GET })
+	public JsonVO deletCategory(@PathVariable("id")int id) {
+		// 设置上下方文
+		JsonVO json = new JsonVO();
+		try {
+			if(groupService.deleteGroupCategory(id)){
+				json.setErrorcode(Constant.OK);
+			}else{
+				json.setErrorcode(Constant.FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = "/org/add", method = { RequestMethod.POST, RequestMethod.GET })
 	public JsonVO addGroupOrg(GroupOrg groupOrg) {
 		// 设置上下方文
@@ -53,6 +71,25 @@ public class GroupController {
 		}
 		return json;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/org/delete/{id}", method = { RequestMethod.POST, RequestMethod.GET })
+	public JsonVO deleteGroupOrg(@PathVariable("id")int id) {
+		// 设置上下方文
+		JsonVO json = new JsonVO();
+		try {
+			if(groupService.deleteGroupOrg(id)){
+				json.setErrorcode(Constant.OK);
+			}else{
+				json.setErrorcode(Constant.FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/add", method = { RequestMethod.POST, RequestMethod.GET })
 	public JsonVO register(Group group,@RequestParam("userid")int userid) {
@@ -71,6 +108,25 @@ public class GroupController {
 		}
 		return json;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/delete/{id}", method = { RequestMethod.POST, RequestMethod.GET })
+	public JsonVO deleteGroup(@PathVariable("id")int id) {
+		// 设置上下方文
+		JsonVO json = new JsonVO();
+		try {
+			if(groupService.deleteGroup(id)){
+				json.setErrorcode(Constant.OK);
+			}else{
+				json.setErrorcode(Constant.FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
+	
 	
 	@ResponseBody
 	@RequestMapping(value = "/listorder", method = { RequestMethod.POST, RequestMethod.GET })

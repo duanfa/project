@@ -41,7 +41,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public boolean delGroupCategory(int id) {
+	public boolean deleteGroupCategory(int id) {
 		return groupDao.delGroupCategory(id);
 	}
 
@@ -61,7 +61,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public boolean delGroupOrg(int id) {
+	public boolean deleteGroupOrg(int id) {
 		return groupDao.delGroupOrg(id);
 	}
 
@@ -94,7 +94,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public boolean delGroup(int id) {
+	public boolean deleteGroup(int id) {
 		return groupDao.delGroup(id);
 	}
 

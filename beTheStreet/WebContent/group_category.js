@@ -39,8 +39,8 @@ function addItems(page,size){
 				'<td class="center">'+validate(value.info)+'</td>'+
 				'<td class="center">'+
 				'<a class="btn btn-success" href="group_org.html?categoryid='+value.id+'"><i class="icon-black icon-eye-open"></i>view orgs</a>&nbsp;'+
-				'<a class="btn btn-danger" onclick="check('+value.id+',\'FAIL\')" href="#"><i class="icon icon-black icon-edit"></i>edit</a>&nbsp;'+
-				'<a class="btn btn-info" onclick="deleteCategory('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>&nbsp;'+
+				'<a class="btn btn-danger" onclick="deleteCategory('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>&nbsp;'+
+				'<a class="btn btn-info" onclick="check('+value.id+',\'FAIL\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
 				'<a class="btn btn-success addorg" rel="'+value.id+'" href="#"><i class="icon icon-white icon-add"> </i>add org</a>'+
 			'</td>'+
 			'</tr>';
@@ -92,7 +92,7 @@ function pagination(page,size,count){
 		}
 		var innerHtml_active = '<li class="active"><a onclick="addItems('+page+','+size+')" href="#">'+page+'</a></li>';
 		
-		var innerHtml_suffix ;
+		var innerHtml_suffix  = '</ul>';
 		if(max-page>=3){
 			innerHtml_suffix = 	'<li><a onclick="addItems('+(page+1)+','+size+')" href="#">'+(page+1)+'</a></li>'+
 								'<li><a onclick="addItems('+(page+2)+','+size+')" href="#">'+(page+2)+'</a></li>'+
@@ -148,10 +148,8 @@ function searchUser(){
 }
 
 function deleteCategory(id){
-	$.get("api/image/delete/" + imgId, function(data) {
+	$.get("api/group/category/delete/" + id, function(data) {
 	}).done(function(data) {
-		if(data.errorcode=='ok'){
-			addItems(pageNo,pageSize);
-		}
+		addItems(pageNo,pageSize);
 	});
 }

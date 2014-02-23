@@ -123,7 +123,7 @@ function pagination(page,size,count){
 		}
 		var innerHtml_active = '<li class="active"><a onclick="addItems('+page+','+size+')" href="#">'+page+'</a></li>';
 		
-		var innerHtml_suffix ;
+		var innerHtml_suffix = '</ul>';
 		if(max-page>=3){
 			innerHtml_suffix = 	'<li><a onclick="addItems('+(page+1)+','+size+')" href="#">'+(page+1)+'</a></li>'+
 								'<li><a onclick="addItems('+(page+2)+','+size+')" href="#">'+(page+2)+'</a></li>'+
@@ -167,7 +167,8 @@ function searchUser(){
 				'<td class="center">'+statu+'</td>'+
 				'<td class="center">'+
 					'<a class="btn btn-info" href="user_image.html?userid='+value.id+'"><i class="icon-picture icon-white"></i>Image</a>&nbsp;'+
-					/*'<a class="btn btn-info" href="_userImage.html?userid='+value.id+'"><i class="icon-picture icon-white"></i>Image_old</a>&nbsp;'+*/
+					'<a class="btn btn-info" onclick="check('+value.id+',\'FAIL\')" href="#"><i class="icon icon-black icon-close"></i>Deny</a>&nbsp;'+
+					'<a class="btn btn-danger" onclick="deleteGroup('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>&nbsp;'+
 				'</td>'+
 			'</tr>';
 			result = result+content;
@@ -178,12 +179,10 @@ function searchUser(){
 	});
 }
 
-function deleteImg(imgId){
-	$.get("api/image/delete/" + imgId, function(data) {
+function deleteGroup(id){
+	$.get("api/group/delete/" + imgId, function(data) {
 	}).done(function(data) {
-		if(data.errorcode=='ok'){
-			addItems(pageNo,pageSize);
-		}
+		addItems(pageNo,pageSize);
 	});
 }
 function check(imgId,statu){
