@@ -27,8 +27,8 @@ function addItems(page,size){
 				'<td class="center">'+validate(value.description)+'</td>'+
 				'<td class="center">'+statu+'</td>'+
 				'<td class="center">'+
-				'<a class="btn btn-danger" onclick="check('+value.id+',\'FAIL\')" href="#"><i class="icon icon-black icon-close"></i>Deny</a>&nbsp;'+
-				'<a class="btn btn-info" onclick="deleteOrder('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
+				/*'<a class="btn btn-danger" onclick="check('+value.id+',\'FAIL\')" href="#"><i class="icon icon-black icon-close"></i>Deny</a>&nbsp;'+
+				*/'<a class="btn btn-info" onclick="deleteOrder('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
 			'</td>'+
 			'</tr>';
 			result = result+content;
