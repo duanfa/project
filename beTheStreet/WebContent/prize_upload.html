@@ -27,6 +27,25 @@
 	<link href='css/elfinder.min.css' rel='stylesheet'>
 	<link href='css/elfinder.theme.css' rel='stylesheet'>
 	<link href='css/uploadify.css' rel='stylesheet'>
+	
+			<!-- jQuery -->
+	<script src="js/jquery-1.7.2.min.js"></script>
+	<!-- jQuery UI -->
+	<script src="js/jquery-ui-1.8.21.custom.min.js"></script>
+	<script src="js/jquery.cookie.js"></script>
+
+
+	<!-- checkbox, radio, and file input styler -->
+	<script src="js/jquery.uniform.min.js"></script>
+	<!-- rich text editor library -->
+	<script src="js/jquery.cleditor.min.js"></script>
+	<!-- file manager library -->
+	<script src="js/jquery.elfinder.min.js"></script>
+	<!-- multiple file upload plugin -->
+	<script src="js/jquery.uploadify-3.1.min.js"></script>
+	<!-- history.js for cross-browser state change on ajax -->
+	<script src="js/jquery.history.js"></script>
+	<script src="js/jqueryUrlParam.js"></script>
 
 	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
@@ -35,10 +54,34 @@
 
 	<!-- The fav icon -->
 	<link rel="shortcut icon" href="img/favicon.ico">
+	
+		<script type="text/javascript">
+		$(document).ready(function(){
+			var id = $.getUrlParam("id");
+			var title = $.getUrlParam("title");
+			var description = $.getUrlParam("description");
+			var num = $.getUrlParam("num");
+			var greenNum = $.getUrlParam("greenNum");
+			var yellowNum = $.getUrlParam("yellowNum");
+			var redNum = $.getUrlParam("redNum");
+			var sellState = $.getUrlParam("sellState");
+			if(id!=null&&id!=undefined){
+				$("#id").val(id);
+				$("#title").val(title);
+				$("#description").val(description);
+				$("#num").val(num);
+				$("#greenNum").val(greenNum);
+				$("#yellowNum").val(yellowNum);
+				$("#redNum").val(redNum);
+				$("#sellState").val(sellState);
+			}
+		});
+	</script>
 </head>
 <body>
 		<form id="addComicForm" action="api/prize/upload" method="post" enctype="multipart/form-data">
 			<fieldset>
+					<input type="hidden" name="id" id="id" value="0" class="text ui-widget-content ui-corner-all">
 				<label for="name">title</label>
 					<input type="text" name="title" id="title" class="text ui-widget-content ui-corner-all">
 				<label for="order">description</label>
@@ -60,22 +103,6 @@
 					<input type="file" name="comic" id="comic" value="" class="text ui-widget-content ui-corner-all">
 			</fieldset>
 		</form>
-			<!-- jQuery -->
-	<script src="js/jquery-1.7.2.min.js"></script>
-	<!-- jQuery UI -->
-	<script src="js/jquery-ui-1.8.21.custom.min.js"></script>
-	<script src="js/jquery.cookie.js"></script>
-
-
-	<!-- checkbox, radio, and file input styler -->
-	<script src="js/jquery.uniform.min.js"></script>
-	<!-- rich text editor library -->
-	<script src="js/jquery.cleditor.min.js"></script>
-	<!-- file manager library -->
-	<script src="js/jquery.elfinder.min.js"></script>
-	<!-- multiple file upload plugin -->
-	<script src="js/jquery.uploadify-3.1.min.js"></script>
-	<!-- history.js for cross-browser state change on ajax -->
-	<script src="js/jquery.history.js"></script>
+	
 </body>
 </html>

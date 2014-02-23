@@ -12,15 +12,8 @@ $("#dialog-form").dialog({
 			$("#dialog-form").dialog("close");
 			$("#coreIframe").contents().find("#addComicForm").submit();
 			$('#coreIframe').load(function(){  
-				try{
-					var uploadResult = JSON.parse($('#coreIframe').contents().find('body').html());
-					if('success'==uploadResult.result.toLowerCase()){
-						addItems();
-					}
-				}catch(e){
-					console.log(e);
-				}
-			   });
+						addItems(pageNo,pageSize);
+			  });
 		},
 	},
 	close : function() {
@@ -53,9 +46,8 @@ function addItems(page,size){
 				'<td class="center">'+validatecoins(value.coins)+'</td>'+
 				'<td class="center">'+statu+'</td>'+
 				'<td class="center">'+
-				'<a class="btn btn-success" onclick="check('+value.id+',\'PASS\')" href="#"><i class="icon icon-black icon-check"></i>Pass</a>&nbsp;'+
-				'<a class="btn btn-danger" onclick="check('+value.id+',\'FAIL\')" href="#"><i class="icon icon-black icon-close"></i>Deny</a>&nbsp;'+
-				'<a class="btn btn-info" onclick="deleteImg('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
+				'<a class="btn btn-info" onclick="update(\''+value.id+'\',\''+value.title+'\',\''+value.description+'\',\''+value.num+'\',\''+value.coins.greenNum+'\',\''+value.coins.yellowNum+'\',\''+value.coins.redNum+'\',\''+value.sellState+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
+				'<a class="btn btn-danger" onclick="deletePrize('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
 			'</td>'+
 			'</tr>';
 			result = result+content;
@@ -68,13 +60,6 @@ function addItems(page,size){
 function validate(value){
 	if(value==null||value==undefined){
 		return '';
-	}else{
-		return value;
-	}
-}
-function validateHeadPhoto(value){
-	if(value==null||value==undefined){
-		return 'comicDir/user_portrait.jpg';
 	}else{
 		return value;
 	}
@@ -164,4 +149,14 @@ function validatecoins(coins){
 	yellowNum+'</span><span style="background-color:rgb(255, 153, 153); padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">'+
 	redNum+'</span>';/*value.coins*/
 	return spans;
+}
+function deletePrize(id){
+	$.get("api/prize/delete/" + id, function(data) {
+	}).done(function(data) {
+		addItems(pageNo,pageSize);
+	});
+}
+function update(id,title,description,num,greenNum,yellowNum,redNum,sellState){
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="prize_upload.html?id='+id+'&title='+title+'&description='+description+'&num='+num+'&greenNum='+greenNum+'&yellowNum='+yellowNum+'&redNum='+redNum+'&sellState='+sellState+'" frameborder="0" style="height: 480px;"></iframe>');
+	$("#dialog-form").dialog("open");
 }

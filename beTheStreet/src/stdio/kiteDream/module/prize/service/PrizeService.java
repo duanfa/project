@@ -18,7 +18,7 @@ public interface PrizeService {
 
 	public boolean savePrize(Prize prize);
 
-	public boolean deletePrize(String id);
+	public boolean deletePrize(String id,String realContextPath);
 
 	public int manageBuy(int userid, int prizeid, Order order);
 

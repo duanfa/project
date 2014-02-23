@@ -1,5 +1,6 @@
 package stdio.kiteDream.module.prize.service;
 
+import java.io.File;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -53,7 +54,20 @@ public class PrizeServiceImpl implements PrizeService {
 	}
 
 	@Override
-	public boolean deletePrize(String id) {
+	public boolean deletePrize(String id,String realContextPath) {
+		try {
+			Prize oldPrize = getPrize(id);
+			File oldHeadPhoto = new File(realContextPath+"/"+oldPrize.getHeadPhoto());
+			File oldThumbnail_path = new File(realContextPath+"/"+oldPrize.getThumbnail_path());
+			if(oldHeadPhoto.isFile()){
+				oldHeadPhoto.delete();
+			}
+			if(oldThumbnail_path.isFile()){
+				oldThumbnail_path.delete();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return prizeDao.delPrize(id);
 	}
 

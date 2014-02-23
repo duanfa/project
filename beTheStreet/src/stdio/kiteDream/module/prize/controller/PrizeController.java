@@ -172,10 +172,28 @@ public class PrizeController {
 					if (file != null) {
 						fileName = file.getOriginalFilename();
 						if (StringUtils.isBlank(fileName)) {
-							if (prize.getId() == 0) {
-								return "{\"result\":\"fail\",\"info\":\"must need upload the image\"}";
+							if (prize.getId()>0) {
+								Prize oldPrize = prizeService.getPrize(prize.getId()+"");
+								prize.setHeadPhoto(oldPrize.getHeadPhoto());
+								prize.setThumbnail_path(oldPrize.getThumbnail_path());
 							}
 							break;
+						}else{
+							if (prize.getId()>0) {
+								try {
+									Prize oldPrize = prizeService.getPrize(prize.getId()+"");
+									File oldHeadPhoto = new File(realContextPath+"/"+oldPrize.getHeadPhoto());
+									File oldThumbnail_path = new File(realContextPath+"/"+oldPrize.getThumbnail_path());
+									if(oldHeadPhoto.isFile()){
+										oldHeadPhoto.delete();
+									}
+									if(oldThumbnail_path.isFile()){
+										oldThumbnail_path.delete();
+									}
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
 						}
 						imgPre = Constant.COMIC_PATH_PRE;
 						File localFile = new File(realContextPath + "/"
@@ -196,11 +214,11 @@ public class PrizeController {
 						prize.setThumbnail_path(imgPre + "thumbnail_"
 								+ fileName);
 
+						prize.setHeadPhoto(imgPre + fileName);
+						prize.setThumbnail_path(imgPre + "thumbnail_" + fileName);
 					}
 
 				}
-				prize.setHeadPhoto(imgPre + fileName);
-				prize.setThumbnail_path(imgPre + "thumbnail_" + fileName);
 				prizeService.savePrize(prize);
 			}
 			return "{\"result\":\"success\",\"info\":\"none\"}";
@@ -212,10 +230,12 @@ public class PrizeController {
 
 	@ResponseBody
 	@RequestMapping(value = "/delete/{prizeid}", method = RequestMethod.GET)
-	public boolean del(HttpServletRequest request,
+	public boolean del(HttpServletRequest request, HttpSession session,
 			@PathVariable("prizeid") String prizeid) {
 		try {
-			return prizeService.deletePrize(prizeid);
+			ServletContext context = session.getServletContext();
+			String realContextPath = context.getRealPath("/");
+			return prizeService.deletePrize(prizeid,realContextPath);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
