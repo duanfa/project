@@ -12,6 +12,6 @@ public interface FeedbackService {
 
 	public boolean deleteFeedback(String id);
 
-	public long getCount();
+	public int getCount();
 
 }

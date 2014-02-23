@@ -10,6 +10,9 @@ public interface MessageService {
 	
 	public int getUserMessageCount(int userid);
 	
+	public boolean deleteMessage(int id);
+	
+	public boolean manageResendMessage(int id);
 
 	public boolean saveMessage(Message message,String bulkuserid);
 

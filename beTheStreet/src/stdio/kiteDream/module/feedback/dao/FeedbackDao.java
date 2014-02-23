@@ -12,6 +12,6 @@ public interface FeedbackDao {
 
 	public boolean delFeedback(String id);
 
-	public long getCount();
+	public int getCount();
 
 }

@@ -13,6 +13,7 @@ import stdio.kiteDream.module.feedback.bean.Feedback;
 import stdio.kiteDream.module.feedback.service.FeedbackService;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
 import stdio.kiteDream.module.vo.JsonVO;
+import stdio.kiteDream.module.vo.PageVO;
 import stdio.kiteDream.util.Constant;
 
 @Controller
@@ -26,10 +27,11 @@ public class FeedbackController {
 
 	@ResponseBody
 	@RequestMapping(value = "/list", method = { RequestMethod.GET, RequestMethod.POST })
-	public JsonVO list(ModelMap model, @RequestParam("pageNo")int pageNo,  @RequestParam("pageSize")int pageSize) {
-		JsonVO json = new JsonVO();
+	public PageVO list(ModelMap model, @RequestParam("pageNo")int pageNo,  @RequestParam("pageSize")int pageSize) {
+		PageVO json = new PageVO();
 		try {
 			json.setResult(feedbackService.getFeedbacks(pageNo, pageSize));
+			json.setCount(feedbackService.getCount());
 			json.setErrorcode(Constant.OK);
 		} catch (Exception e) {
 			e.printStackTrace();

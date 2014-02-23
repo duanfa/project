@@ -109,5 +109,12 @@ public class Message implements Serializable {
 	public void setCreate_time(Date create_time) {
 		this.create_time = create_time;
 	}
-
+	
+	public String getUserName(){
+		if(user!=null){
+			return user.getNickname();
+		}else{
+			return "";
+		}
+	}
 }

@@ -39,14 +39,12 @@ function addItems(page,size){
 		var result = "";
 		$(data.result).each(function(index, value) {
 			var content = '<tr>'+
-				'<td class="center">'+validateuser(value.user)+'</td>'+
+				'<td class="center">'+validateuser(value)+'</td>'+
 				'<td class="center">'+validate(value.title)+'</td>'+
 				'<td class="center">'+validate(value.description)+'</td>'+
 				'<td class="center">'+
-				'<a class="btn btn-success" href="group_org.html?categoryid='+value.id+'"><i class="icon-black icon-eye-open"></i>view orgs</a>&nbsp;'+
-				'<a class="btn btn-danger" onclick="check('+value.id+',\'FAIL\')" href="#"><i class="icon icon-black icon-edit"></i>edit</a>&nbsp;'+
-				'<a class="btn btn-info" onclick="deleteCategory('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>&nbsp;'+
-				'<a class="btn btn-success addorg" rel="'+value.id+'" href="#"><i class="icon icon-white icon-add"> </i>add org</a>'+
+				'<a class="btn btn-danger" onclick="deleteMessage('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>&nbsp;'+
+				'<a class="btn btn-success" onclick="reSendMessage('+value.id+')" href="#"><i class="icon-white icon-repeat"> </i>Resend</a>'+
 			'</td>'+
 			'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
 			'</tr>';
@@ -71,10 +69,10 @@ function validate(value){
 }
 function validateuser(value){
 	try {
-		if (value == null || value == undefined) {
+		if (value.type=="BROADCAST") {
 			return 'ALL';
 		} else {
-			return value.nickname;
+			return value.userName;
 		}
 	} catch (e) {
 		console.log(e);
@@ -133,11 +131,15 @@ function pagination(page,size,count){
 		$(".pagination").html(innerHtml_pre+innerHtml_active+innerHtml_suffix);
 }
 
-function deleteCategory(id){
-	$.get("api/image/delete/" + imgId, function(data) {
+function deleteMessage(id){
+	$.get("api/message/delete/" + id, function(data) {
 	}).done(function(data) {
-		if(data.errorcode=='ok'){
 			addItems(pageNo,pageSize);
-		}
+	});
+}
+function reSendMessage(id){
+	$.get("api/message/resend/" + id, function(data) {
+	}).done(function(data) {
+			addItems(pageNo,pageSize);
 	});
 }

@@ -1,8 +1,10 @@
 $(function() {
 	addItems(1,30);
 });
-
+var pageNo,pageSize;
 function addItems(page,size){
+	pageNo = page;
+	pageSize = size;
 	$.get("api/feedback/list?pageNo="+page+"&pageSize="+size, function( data ) {}).done(function(data) {
 		if(data.errorcode=='ok'){
 			var result = "";
@@ -20,7 +22,7 @@ function addItems(page,size){
 				result = result+content;
 			});
 			$("#user_tbody").html(result);
-			pagination(page,size);
+			pagination(pageNo,pageSize,data.count);
 		}
 	});
 
@@ -36,25 +38,22 @@ function validate(value){
 function deleteFeedback(id){
 	$.get("api/feedback/del/"+id, function( data ) {}).done(function(data) {
 		if(data.errorcode=='ok'){
-			addItems();
+			addItems(pageNo,pageSize);
 		}
 	});
 }
 
-function pagination(page,size){
+function pagination(page,size,count){
 	if(page==0){
 		$(".pagination").html("");
 		return;
 	}
-	$.get("api/feedback/count", function( data ) {}).done(function(data) {
 		var max ;
 		if(count%size==0){
 			max= parseInt(count/size);
 		}else{
 			max= parseInt(count/size)+1;
 		}
-		console.log(data);
-		console.log(max);
 		var innerHtml_pre;
 		if(page>=3){
 			innerHtml_pre = '<ul>'+
@@ -93,10 +92,5 @@ function pagination(page,size){
 				'</ul>';
 			}
 		}
-		console.log(innerHtml_pre);
-		console.log(innerHtml_active);
-		console.log(innerHtml_suffix);
-		
 		$(".pagination").html(innerHtml_pre+innerHtml_active+innerHtml_suffix);
-	});
 }

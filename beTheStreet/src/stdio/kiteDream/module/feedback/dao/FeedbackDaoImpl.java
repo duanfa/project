@@ -71,7 +71,7 @@ public class FeedbackDaoImpl implements FeedbackDao {
 	}
 
 	@Override
-	public long getCount() {
+	public int getCount() {
 		Integer count;
 		try {
 			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery("select count(1) from feedback").uniqueResult();

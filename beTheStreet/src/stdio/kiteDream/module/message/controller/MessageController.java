@@ -65,6 +65,30 @@ public class MessageController {
 		}
 		return false;
 	}
+	
+	@ResponseBody()
+	@RequestMapping(value = "/delete/{id}", method = { RequestMethod.GET, RequestMethod.POST })
+	public boolean deleteMessage(@PathVariable("id")int id) {
+		try {
+			messageService.deleteMessage(id);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	@ResponseBody()
+	@RequestMapping(value = "/resend/{id}", method = { RequestMethod.GET, RequestMethod.POST })
+	public boolean resendMessage(@PathVariable("id")int id) {
+		try {
+			messageService.manageResendMessage(id);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 
 }

@@ -73,4 +73,23 @@ public class MessageServiceImpl implements MessageService {
 		return messageDao.getUserMessageCount(userid);
 	}
 
+	@Override
+	public boolean deleteMessage(int id) {
+		return messageDao.delMessage(id);
+	}
+
+	@Override
+	public boolean manageResendMessage(int id) {
+		Message message = messageDao.getMessage(id);
+		message.setCreate_time(new Date());
+		if(MessageType.BROADCAST.equals(message.getType())){
+			userEventService.updateAllUserEvent("new_message_num", 1);
+		}else{
+			userEventService.updateUserEvent(message.getUser().getId(), "new_message_num", 1);
+		}
+		messageDao.saveMessage(message);
+		
+		return true;
+	}
+
 }

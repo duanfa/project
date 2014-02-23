@@ -43,7 +43,7 @@ public class MessageDaoImpl implements MessageDao {
 				if(unRead<1){
 					return new ArrayList<Message>();
 				}
-				hql = hql+" where message.type=? or message.user.id="+userid + " order by id desc";
+				hql = hql+" where message.type=? or message.user.id="+userid + " order by message.create_time desc";
 				Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 				query.setParameter(0, MessageType.BROADCAST);
 				query.setFirstResult((page - 1) * size);
@@ -53,7 +53,7 @@ public class MessageDaoImpl implements MessageDao {
 					list.remove(0);
 				}
 			}else{
-				hql = hql + " order by id desc";
+				hql = hql + " order by create_time desc";
 				Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 				query.setFirstResult((page - 1) * size);
 				query.setMaxResults(size);

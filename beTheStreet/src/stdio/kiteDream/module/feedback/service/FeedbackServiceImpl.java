@@ -30,7 +30,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 	}
 
 	@Override
-	public long getCount() {
+	public int getCount() {
 		return feedbackDao.getCount();
 	}
 
