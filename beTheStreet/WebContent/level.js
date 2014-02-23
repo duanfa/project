@@ -4,7 +4,7 @@ $(function() {
 
 $("#dialog-form").dialog({
 	autoOpen : false,
-	height : 530,
+	height : 630,
 	width : 330,
 	modal : true,
 	buttons : {
@@ -24,7 +24,7 @@ $("#dialog-form").dialog({
 	}
 });
 $("#create-level").click(function() {
-	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_upload.html" frameborder="0" style="height: 430px;"></iframe>');
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_upload.html" frameborder="0" style="height: 530px;"></iframe>');
 	$("#dialog-form").dialog("open");
 });
 
@@ -42,11 +42,11 @@ function addItems(page,size){
 				'<td class="center">'+validate(value.title)+'</td>'+
 				'<td class="center">'+validate(value.desc)+'</td>'+
 				'<td class="center">'+validate(value.completeNum)+'</td>'+
+				'<td class="center">'+validate(value.sumcoins)+'</td>'+
 				'<td class="center">'+validatecoins(value)+'</td>'+
 				'<td class="center">'+
-				'<a class="btn btn-success" onclick="check('+value.id+',\'PASS\')" href="#"><i class="icon icon-black icon-check"></i>Pass</a>&nbsp;'+
-				'<a class="btn btn-danger" onclick="check('+value.id+',\'FAIL\')" href="#"><i class="icon icon-black icon-close"></i>Deny</a>&nbsp;'+
-				'<a class="btn btn-info" onclick="deleteImg('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
+				'<a class="btn btn-info" onclick="update(\''+value.id+'\',\''+value.level+'\',\''+value.title+'\',\''+value.desc+'\',\''+value.completeNum+'\',\''+value.sumcoins+'\',\''+value.greenRatio+'\',\''+value.yellowRatio+'\',\''+value.redRatio+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
+				'<a class="btn btn-danger" onclick="delete('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
 			'</td>'+
 			'</tr>';
 			result = result+content;
@@ -59,13 +59,6 @@ function addItems(page,size){
 function validate(value){
 	if(value==null||value==undefined){
 		return '';
-	}else{
-		return value;
-	}
-}
-function validateHeadPhoto(value){
-	if(value==null||value==undefined){
-		return 'comicDir/user_portrait.jpg';
 	}else{
 		return value;
 	}
@@ -143,4 +136,15 @@ function validatecoins(level){
 	yellowNum+'</span><span style="background-color:rgb(255, 153, 153); padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">'+
 	redNum+'</span>';/*value.coins*/
 	return spans;
+}
+
+function deletePrize(id){
+	$.get("api/level/delete/" + id, function(data) {
+	}).done(function(data) {
+		addItems(pageNo,pageSize);
+	});
+}
+function update(id,level,title,desc,completeNum,sumcoins,greenRatio,yellowRatio,redRatio){
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_upload.html?id='+id+'&level='+level+'&title='+title+'&desc='+desc+'&completeNum='+completeNum+'&sumcoins='+sumcoins+'&greenRatio='+greenRatio+'&yellowRatio='+yellowRatio+'&redRatio='+redRatio+'" frameborder="0" style="height: 530px;"></iframe>');
+	$("#dialog-form").dialog("open");
 }

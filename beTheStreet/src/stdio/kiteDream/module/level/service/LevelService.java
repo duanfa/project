@@ -11,6 +11,8 @@ public Level getPrizeRule(String id);
 	
 	public List<Level> getLevels();
 	
+	public Level getLevelById(int id);
+	
 	public Level getLevel(int level);
 	
 	public Coins getUserCoins(int userid);
@@ -19,7 +21,7 @@ public Level getPrizeRule(String id);
 	
 	public boolean managePrize(int level,String userid);
 
-	public boolean deleteLevel(String id);
+	public boolean deleteLevel(String id,String realContextPath);
 
 	public int getCount();
 

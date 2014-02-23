@@ -9,11 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
 
 @Entity
+@JsonIgnoreProperties({ "randomCoin" }) 
 @Table(name = "level")
 public class Level implements Serializable {
 	
@@ -165,14 +167,5 @@ public class Level implements Serializable {
 	
 	public int getRedCoin() {
 		return redRatio;
-	}
-	public static void main(String[] args) {
-		Level l = new Level();
-		l.setGreenRatio(40);
-		l.setYellowRatio(40);
-		l.setRedRatio(20);
-		l.setSumcoins(10);
-		int[] coins = l.getRandomCoin();
-		System.out.println(coins[0]+":"+coins[1]+":"+coins[2]);
 	}
 }

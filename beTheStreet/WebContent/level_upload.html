@@ -27,44 +27,7 @@
 	<link href='css/elfinder.min.css' rel='stylesheet'>
 	<link href='css/elfinder.theme.css' rel='stylesheet'>
 	<link href='css/uploadify.css' rel='stylesheet'>
-
-	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
-	<!--[if lt IE 9]>
-	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-
-	<!-- The fav icon -->
-	<link rel="shortcut icon" href="img/favicon.ico">
-</head>
-<body>
-		<form id="addComicForm" action="api/level/add" method="post" enctype="multipart/form-data">
-			<fieldset>
-				<label for="level">level</label>
-					<input type="text" name="level" id="level" value="" class="text ui-widget-content ui-corner-all">
-				<label for="name">title</label>
-					<input type="text" name="title" id="title" class="text ui-widget-content ui-corner-all">
-				<label for="order">desc</label>
-					<input type="text" name="desc" id="desc" value="" class="text ui-widget-content ui-corner-all">
-				<label for="order">coin Num</label>
-					<input type="text" name="sumcoins" id="sumcoins" value="0" class="text ui-widget-content ui-corner-all">
-				<label for="order">green percentage</label>
-					<input type="text" name="greenRatio" id="greenRatio" value="0" class="text ui-widget-content ui-corner-all">
-				<label for="order">yellow percentage</label>
-					<input type="text" name="yellowRatio" id="yellowRatio" value="0" class="text ui-widget-content ui-corner-all">
-				<label for="order">red percentage</label>
-					<input type="text" name="redRatio" id="redRatio" value="0" class="text ui-widget-content ui-corner-all">
-				<label><font color="red">sum of percentage must be 100</font></label>
-				<!-- <label for="type">type</label>
-					<select name="type" id="type">
-		                <option value="BONUS" selected>BONUS</option>
-		                <option value="STREET">STREET</option>
-		                <option value="CHALLENGE">CHALLENGE</option>
-		       		</select> -->
-				<label for="comic">comic</label>
-					<input type="file" name="comic" id="comic" value="" class="text ui-widget-content ui-corner-all">
-			</fieldset>
-		</form>
-			<!-- jQuery -->
+	<!-- jQuery -->
 	<script src="js/jquery-1.7.2.min.js"></script>
 	<!-- jQuery UI -->
 	<script src="js/jquery-ui-1.8.21.custom.min.js"></script>
@@ -81,5 +44,65 @@
 	<script src="js/jquery.uploadify-3.1.min.js"></script>
 	<!-- history.js for cross-browser state change on ajax -->
 	<script src="js/jquery.history.js"></script>
+	<script src="js/jqueryUrlParam.js"></script>
+
+	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- The fav icon -->
+	<link rel="shortcut icon" href="img/favicon.ico">
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+		var id = $.getUrlParam("id");
+		var level = $.getUrlParam("level");
+		var title = $.getUrlParam("title");
+		var desc = $.getUrlParam("desc");
+		var completeNum = $.getUrlParam("completeNum");
+		var sumcoins = $.getUrlParam("sumcoins");
+		var greenRatio = $.getUrlParam("greenRatio");
+		var yellowRatio = $.getUrlParam("yellowRatio");
+		var redRatio = $.getUrlParam("redRatio");
+		if(id!=null&&id!=undefined){
+			$("#id").val(id);
+			$("#level").val(level);
+			$("#title").val(title);
+			$("#desc").val(desc);
+			$("#completeNum").val(completeNum);
+			$("#sumcoins").val(sumcoins);
+			$("#greenRatio").val(greenRatio);
+			$("#yellowRatio").val(yellowRatio);
+			$("#redRatio").val(redRatio);
+		}
+	});
+	</script>
+</head>
+<body>
+		<form id="addComicForm" action="api/level/add" method="post" enctype="multipart/form-data">
+			<fieldset>
+					<input type="hidden" name="id" id="id" value="0" class="text ui-widget-content ui-corner-all">
+					<input type="hidden" name="completeNum" id="completeNum" value="0" class="text ui-widget-content ui-corner-all">
+				<label for="level">level</label>
+					<input type="text" name="level" id="level" value="" class="text ui-widget-content ui-corner-all">
+				<label for="name">title</label>
+					<input type="text" name="title" id="title" class="text ui-widget-content ui-corner-all">
+				<label for="order">desc</label>
+					<input type="text" name="desc" id="desc" value="" class="text ui-widget-content ui-corner-all">
+				<label for="order">coin Num</label>
+					<input type="text" name="sumcoins" id="sumcoins" value="0" class="text ui-widget-content ui-corner-all">
+				<label for="order">green percentage</label>
+					<input type="text" name="greenRatio" id="greenRatio" value="0" class="text ui-widget-content ui-corner-all">
+				<label for="order">yellow percentage</label>
+					<input type="text" name="yellowRatio" id="yellowRatio" value="0" class="text ui-widget-content ui-corner-all">
+				<label for="order">red percentage</label>
+					<input type="text" name="redRatio" id="redRatio" value="0" class="text ui-widget-content ui-corner-all">
+				<label><font color="red">sum of percentage must be 100</font></label>
+				<label for="comic">image</label>
+					<input type="file" name="comic" id="comic" value="" class="text ui-widget-content ui-corner-all">
+			</fieldset>
+		</form>
+			
 </body>
 </html>

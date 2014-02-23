@@ -26,6 +26,7 @@ import stdio.kiteDream.module.coins.bean.Coins;
 import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
 import stdio.kiteDream.module.level.bean.Level;
 import stdio.kiteDream.module.level.service.LevelService;
+import stdio.kiteDream.module.prize.bean.Prize;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
 import stdio.kiteDream.module.vo.JsonVO;
 import stdio.kiteDream.module.vo.PageVO;
@@ -99,7 +100,28 @@ public class LevelController {
 					if (file != null) {
 						fileName = file.getOriginalFilename();
 						if (StringUtils.isBlank(fileName)) {
+							if (level.getId()>0) {
+								Level oldLevel = levelService.getLevelById(level.getId());
+								level.setPath(oldLevel.getPath());
+								level.setThumbnail_path(oldLevel.getThumbnail_path());
+							}
 							break;
+						}else{
+							if (level.getId()>0) {
+								try {
+									Level oldLevel = levelService.getLevelById(level.getId());
+									File oldHeadPhoto = new File(realContextPath+"/"+oldLevel.getPath());
+									File oldThumbnail_path = new File(realContextPath+"/"+oldLevel.getThumbnail_path());
+									if(oldHeadPhoto.isFile()){
+										oldHeadPhoto.delete();
+									}
+									if(oldThumbnail_path.isFile()){
+										oldThumbnail_path.delete();
+									}
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
 						}
 						imgPre = Constant.COMIC_PATH_PRE;
 						File localFile = new File(realContextPath + "/" + imgPre + fileName);
@@ -112,11 +134,11 @@ public class LevelController {
 						ImageUtil.createThumbnail(localFile, realContextPath + "/" + imgPre + "thumbnail_" + fileName);
 						System.out.println(localFile.getAbsolutePath());
 
+						level.setPath(imgPre + fileName);
+						level.setThumbnail_path(imgPre + "thumbnail_" + fileName);
 					}
 
 				}
-					level.setPath(imgPre + fileName);
-					level.setThumbnail_path(imgPre + "thumbnail_" + fileName);
 				levelService.saveLevel(level);
 				json.setErrorcode(Constant.OK);
 			}
@@ -129,11 +151,13 @@ public class LevelController {
 	
 
 	@ResponseBody
-	@RequestMapping(value = "/deleterule/{ruleid}", method = RequestMethod.GET)
-	public JsonVO del(HttpServletRequest request, @PathVariable("ruleid") String ruleid) {
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	public JsonVO del(HttpSession session, @PathVariable("id") String id) {
+		ServletContext context = session.getServletContext();
+		String realContextPath = context.getRealPath("/");
 		JsonVO json = new JsonVO();
 		try {
-			if (levelService.deleteLevel(ruleid)) {
+			if (levelService.deleteLevel(id,realContextPath)) {
 				json.setErrorcode(Constant.OK);
 			} else {
 				json.setErrorcode(Constant.FAIL);

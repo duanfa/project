@@ -1,5 +1,6 @@
 package stdio.kiteDream.module.level.service;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,20 @@ public class LevelServiceImpl implements LevelService {
 	}
 
 	@Override
-	public boolean deleteLevel(String id) {
+	public boolean deleteLevel(String id,String realContextPath) {
+		try {
+			Level oldLevel = levelDao.getLevel(id);
+			File oldHeadPhoto = new File(realContextPath+"/"+oldLevel.getPath());
+			File oldThumbnail_path = new File(realContextPath+"/"+oldLevel.getThumbnail_path());
+			if(oldHeadPhoto.isFile()){
+				oldHeadPhoto.delete();
+			}
+			if(oldThumbnail_path.isFile()){
+				oldThumbnail_path.delete();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return levelDao.deleteLevel(id);
 	}
 
@@ -106,6 +120,11 @@ public class LevelServiceImpl implements LevelService {
 	@Override
 	public int getCount() {
 		return levelDao.getCount();
+	}
+
+	@Override
+	public Level getLevelById(int id) {
+		return levelDao.getLevel(id+"");
 	}
 	
 
