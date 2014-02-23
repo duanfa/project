@@ -36,7 +36,7 @@ function addItems(page,size){
 				'<td class="center">'+validate(value.category.name)+'</td>'+
 				'<td class="center">'+
 				'<a class="btn btn-success" href="group.html?orgid='+value.id+'"><i class="icon-black icon-eye-open"></i>view groups</a>&nbsp;'+
-				'<a class="btn btn-info" onclick="check('+value.id+',\'FAIL\')" href="#"><i class="icon icon-black icon-close"></i>Deny</a>&nbsp;'+
+				'<a class="btn btn-info" onclick="update(\''+value.id+'\',\''+value.name+'\',\''+value.info+'\',\''+value.category.id+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
 				'<a class="btn btn-danger" onclick="deleteGroupOrg('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>&nbsp;'+
 				'<a class="btn btn-success addgroup" rel="'+value.id+'" href="#"><i class="icon icon-white icon-add"> </i>add group</a>'+
 			'</td>'+
@@ -156,12 +156,7 @@ function deleteGroupOrg(id){
 		addItems(pageNo,pageSize);
 	});
 }
-function check(imgId,statu){
-	$("#statu"+imgId).html('<img src="img/ajax-loaders/ajax-loader-1.gif"/>');
-	$.get("api/image/check/" + imgId+'?statu='+statu, function(data) {
-	}).done(function(data) {
-		if(data.errorcode=='ok'){
-			addItems(pageNo,pageSize);
-		}
-	});
+function update(id,name,info,categoryid){
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="group_org_upload.html?id='+id+'&name='+name+'&info='+info+'&categoryid='+categoryid+'" frameborder="0" style="height: 180px;"></iframe>');
+	$("#dialog-form").dialog("open");
 }

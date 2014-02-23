@@ -43,6 +43,7 @@
 	<script src="js/jquery.uploadify-3.1.min.js"></script>
 	<!-- history.js for cross-browser state change on ajax -->
 	<script src="js/jquery.history.js"></script>
+	<script src="js/jqueryUrlParam.js"></script>
 
 	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
@@ -64,19 +65,19 @@
 			</fieldset>
 		</form>
 	<script type="text/javascript">
-	(function($) {
-		$.getUrlParam = function(name) {
-			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-			var r = window.location.search.substr(1).match(reg);
-			if (r != null)
-				return unescape(r[2]);
-			return null;
-		}
-	})(jQuery);
 		$(document).ready(function(){
 			var categoryid = $.getUrlParam("categoryid");
 			$("#categoryId").val(categoryid);
+			var id = $.getUrlParam("id");
+			var name = $.getUrlParam("name");
+			var info = $.getUrlParam("info");
+			if(id!=null&&id!=undefined){
+				$("#id").val(id);
+				$("#name").val(name);
+				$("#info").val(info);
+			}
 		});
+		
 	</script>
 </body>
 </html>

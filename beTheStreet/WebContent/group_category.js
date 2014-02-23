@@ -40,7 +40,7 @@ function addItems(page,size){
 				'<td class="center">'+
 				'<a class="btn btn-success" href="group_org.html?categoryid='+value.id+'"><i class="icon-black icon-eye-open"></i>view orgs</a>&nbsp;'+
 				'<a class="btn btn-danger" onclick="deleteCategory('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>&nbsp;'+
-				'<a class="btn btn-info" onclick="check('+value.id+',\'FAIL\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
+				'<a class="btn btn-info" onclick="update(\''+value.id+'\',\''+value.name+'\',\''+value.info+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
 				'<a class="btn btn-success addorg" rel="'+value.id+'" href="#"><i class="icon icon-white icon-add"> </i>add org</a>'+
 			'</td>'+
 			'</tr>';
@@ -152,4 +152,8 @@ function deleteCategory(id){
 	}).done(function(data) {
 		addItems(pageNo,pageSize);
 	});
+}
+function update(id,name,info){
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="group_category_upload.html?id='+id+'&name='+name+'&info='+info+'" frameborder="0" style="height: 180px;"></iframe>');
+	$("#dialog-form").dialog("open");
 }

@@ -1,5 +1,22 @@
 $(function() {
 	addItems(1,30);
+	$("#dialog-form").dialog({
+		autoOpen : false,
+		height : 300,
+		width : 330,
+		modal : true,
+		buttons : {
+			"submit" : function() {
+				$("#dialog-form").dialog("close");
+				$("#coreIframe").contents().find("#addForm").submit();
+				$('#coreIframe').load(function(){
+						addItems(pageNo,pageSize);
+				   });
+			},
+		},
+		close : function() {
+		}
+	});
 });
 var pageNo,pageSize;
 function addItems(page,size){
@@ -17,18 +34,16 @@ function addItems(page,size){
 		$(data.result).each(function(index, value) {
 			var content = '<tr>'+
 				'<td class="center">'+validate(value.name)+'</td>'+
+				'<td class="center">'+validate(value.info)+'</td>'+
 				'<td class="center">'+validate(value.groupOrg.category.name)+'</td>'+
 				'<td class="center">'+validate(value.groupOrg.name)+'</td>'+
 				'<td class="center">'+validate(12/*value.users.length*/)+'</td>'+
 				'<td class="center">'+validatecoins(value.coins)+'</td>'+
 				'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
 				'<td class="center">'+validate("user1"/*value.users.length*/)+'</td>'+
-				'<td class="center">'+validate(12/*value.users.length*/)+'</td>'+
-				'<td class="center">'+validate(12/*value.users.length*/)+'</td>'+
 				'<td class="center">'+
-				'<a class="btn btn-success" onclick="check('+value.id+',\'PASS\')" href="#"><i class="icon icon-black icon-check"></i>Pass</a>&nbsp;'+
-				'<a class="btn btn-danger" onclick="check('+value.id+',\'FAIL\')" href="#"><i class="icon icon-black icon-close"></i>Deny</a>&nbsp;'+
-				'<a class="btn btn-info" onclick="deleteImg('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
+				'<a class="btn btn-info" onclick="update(\''+value.id+'\',\''+value.name+'\',\''+value.info+'\',\''+value.groupOrg.id+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
+				'<a class="btn btn-danger" onclick="deleteGroup('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
 			'</td>'+
 			'</tr>';
 			result = result+content;
@@ -180,17 +195,12 @@ function searchUser(){
 }
 
 function deleteGroup(id){
-	$.get("api/group/delete/" + imgId, function(data) {
+	$.get("api/group/delete/" + id, function(data) {
 	}).done(function(data) {
 		addItems(pageNo,pageSize);
 	});
 }
-function check(imgId,statu){
-	$("#statu"+imgId).html('<img src="img/ajax-loaders/ajax-loader-1.gif"/>');
-	$.get("api/image/check/" + imgId+'?statu='+statu, function(data) {
-	}).done(function(data) {
-		if(data.errorcode=='ok'){
-			addItems(pageNo,pageSize);
-		}
-	});
+function update(id,name,info,groupOrgid){
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="group_upload.html?id='+id+'&name='+name+'&info='+info+'&orgid='+groupOrgid+'" frameborder="0" style="height: 180px;"></iframe>');
+	$("#dialog-form").dialog("open");
 }

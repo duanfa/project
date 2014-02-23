@@ -34,17 +34,6 @@
 
 	<!-- The fav icon -->
 	<link rel="shortcut icon" href="img/favicon.ico">
-</head>
-<body>
-		<form id="addForm" action="api/group/category/add" method="post" enctype="multipart/form-data">
-			<fieldset>
-					<input type="hidden" name="id" id="id" value="0" class="text ui-widget-content ui-corner-all">
-				<label for="name">name</label>
-					<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all">
-				<label for="info">info</label>
-					<input type="text" name="info" id="info" value="" class="text ui-widget-content ui-corner-all">
-			</fieldset>
-		</form>
 			<!-- jQuery -->
 	<script src="js/jquery-1.7.2.min.js"></script>
 	<!-- jQuery UI -->
@@ -62,7 +51,30 @@
 	<script src="js/jquery.uploadify-3.1.min.js"></script>
 	<!-- history.js for cross-browser state change on ajax -->
 	<script src="js/jquery.history.js"></script>
-	<!-- application script for Charisma demo -->
-	<script src="js/charisma.js"></script>
+	<script src="js/jqueryUrlParam.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var id = $.getUrlParam("id");
+			var name = $.getUrlParam("name");
+			var info = $.getUrlParam("info");
+			if(id!=null&&id!=undefined){
+				$("#id").val(id);
+				$("#name").val(name);
+				$("#info").val(info);
+			}
+		});
+	</script>
+</head>
+<body>
+		<form id="addForm" action="api/group/category/add" method="post" enctype="multipart/form-data">
+			<fieldset>
+					<input type="hidden" name="id" id="id" value="0" class="text ui-widget-content ui-corner-all">
+				<label for="name">name</label>
+					<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all">
+				<label for="info">info</label>
+					<input type="text" name="info" id="info" value="" class="text ui-widget-content ui-corner-all">
+			</fieldset>
+		</form>
+	
 </body>
 </html>
