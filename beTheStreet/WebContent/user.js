@@ -1,6 +1,6 @@
 $(function() {
 	onReady();
-	addItems(1,10);
+	addItems(1,30);
 	$("#dialog-form").dialog({
 		autoOpen : false,
 		height : 300,
@@ -62,10 +62,10 @@ function addItems(page,size){
 				'<td class="center">'+validate("4/10")+'</td>'+
 				'<td class="center">'+validate("23")+'</td>'+
 				'<td class="center">'+validate("46:23:12")+'</td>'+
-				'<td class="center">'+validate("Music"/*value.group.type*/)+'</td>'+
-				'<td class="center">'+validate("UC Berkeley"/*value.group.org*/)+'</td>'+
-				'<td class="center">'+validate("Swim Team"/*value.group.nam*/)+'</td>'+
-				'<td class="center">'+validate("true"/*value.group.create*/)+'</td>'+
+				'<td class="center">'+validateGrouCategory(value)+'</td>'+
+				'<td class="center">'+validateGrouOrg(value)+'</td>'+
+				'<td class="center">'+validateGroup(value)+'</td>'+
+				'<td class="center">'+validateGroupCreater(value)+'</td>'+
 				'<td class="center">'+
 					'<a class="btn btn-info" href="image.html?userid='+value.id+'"><i class="icon-picture icon-white"></i>Image</a>&nbsp;'+
 				'</td>'+
@@ -124,12 +124,49 @@ function validatecoins(coins){
 	redNum+'</span>';/*value.coins*/
 	return spans;
 }
-function validateHeadPhoto(value){
-	if(value==null||value==undefined){
-		return 'comicDir/user_portrait.jpg';
-	}else{
-		return value;
+function validateGrouCategory(value){
+		try {
+			if (value.ingroup) {
+				return value.group.groupOrg.category.name;
+			}
+		} catch (e) {
+			console.log(e);
+		}
+		return "";
+}
+function validateGrouOrg(value){
+	try {
+		if (value.ingroup) {
+			return value.group.groupOrg.name;
+		}
+	} catch (e) {
+		console.log(e);
 	}
+	return "";
+}
+function validateGroup(value){
+	try {
+		if (value.ingroup) {
+			return value.group.name;
+		}
+	} catch (e) {
+		console.log(e);
+	}
+	return "";
+}
+function validateGroupCreater(value){
+	try {
+		if (value.ingroup) {
+			if(value.group.createrid==value.id){
+				return "true";
+			}else{
+				return "false";
+			}
+		}
+	} catch (e) {
+		console.log(e);
+	}
+	return "false";
 }
 function pagination(page,size,count){
 	if(page==0){

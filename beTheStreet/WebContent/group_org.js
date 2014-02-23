@@ -16,7 +16,7 @@ $(function() {
 		close : function() {
 		}
 	});
-	addItems(1,10);
+	addItems(1,30);
 });
 var pageNo,pageSize;
 function addItems(page,size){
