@@ -37,7 +37,7 @@ function addItems(page,size){
 				'<td class="center">'+validate(value.info)+'</td>'+
 				'<td class="center">'+validate(value.groupOrg.category.name)+'</td>'+
 				'<td class="center">'+validate(value.groupOrg.name)+'</td>'+
-				'<td class="center">'+validate(12/*value.users.length*/)+'</td>'+
+				'<td class="center">'+validate(value.menberNum)+'</td>'+
 				'<td class="center">'+validatecoins(value.coins)+'</td>'+
 				'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
 				'<td class="center">'+validate("user1"/*value.users.length*/)+'</td>'+

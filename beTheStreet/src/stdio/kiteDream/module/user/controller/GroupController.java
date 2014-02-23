@@ -96,7 +96,7 @@ public class GroupController {
 		// 设置上下方文
 		JsonVO json = new JsonVO();
 		try {
-			if(group.getCreaterid()<1){
+			if(group.getCreaterid()<1&&group.getId()>0){
 				group.setCreaterid(userid);
 			}
 			groupService.saveGroup(group);

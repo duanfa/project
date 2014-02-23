@@ -30,6 +30,8 @@ public class Group implements Serializable {
 	private int id;
 	
 	private int createrid;
+	
+	private String creatername;
 
 	private String name;
 	
@@ -48,6 +50,7 @@ public class Group implements Serializable {
 	private Coins coins;
 	
 	@OneToMany
+	@JoinColumn(name = "groupid")
 	private List<User> users;
 
 	public int getId() {
@@ -120,6 +123,14 @@ public class Group implements Serializable {
 
 	public void setMenberNum(int menberNum) {
 		this.menberNum = menberNum;
+	}
+
+	public String getCreatername() {
+		return creatername;
+	}
+
+	public void setCreatername(String creatername) {
+		this.creatername = creatername;
 	}
 	
 }

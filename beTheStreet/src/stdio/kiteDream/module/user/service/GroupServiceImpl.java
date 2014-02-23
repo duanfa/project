@@ -78,12 +78,19 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public boolean saveGroup(Group group) {
 		try {
+			boolean isupdate = group.getId()>0;
 			group.setCreate_time(new Date());
+			if(group.getCreaterid()>0){
+				User user = userDao.getUser(group.getCreaterid()+"");
+				if(user!=null){
+					group.setCreatername(user.getNickname());
+				}
+			}
 			Coins coins = new Coins();
 			coinsDao.saveCoins(coins);
 			group.setCoins(coins);
 			groupDao.saveGroup(group);
-			if(group.getCreaterid()>0){
+			if(group.getCreaterid()>0&&(!isupdate)){
 				manageJoinGroup(group.getId(), group.getCreaterid());
 			}
 		} catch (Exception e) {
@@ -95,6 +102,9 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public boolean deleteGroup(int id) {
+		Group group = groupDao.getGroup(id);
+		group.setUsers(null);
+		groupDao.saveGroup(group);
 		return groupDao.delGroup(id);
 	}
 

@@ -3,6 +3,7 @@ package stdio.kiteDream.module.user.bean;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,7 +38,8 @@ public class GroupOrg implements Serializable {
 	@JoinColumn(name = "categoryid")
 	private GroupCategory category;
 	
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name = "orgid")
 	private List<Group> groups;
 
 	public int getId() {
