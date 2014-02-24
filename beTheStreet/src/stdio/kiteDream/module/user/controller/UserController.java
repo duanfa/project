@@ -167,5 +167,22 @@ public class UserController {
 		}
 		return json;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/info/{userid}", method = RequestMethod.GET)
+	public JsonVO info(@PathVariable("userid") int userid) {
+		JsonVO json = new JsonVO();
+		try {
+			List<User> users = new ArrayList<User>();
+			users.add(userService.getUser(userid+""));
+			json.setResult(users);
+			json.setUser_events(userEventService.checkEvent(userid));
+			json.setErrorcode(Constant.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
 
 }

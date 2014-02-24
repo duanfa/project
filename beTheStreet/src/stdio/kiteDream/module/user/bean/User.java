@@ -43,12 +43,6 @@ public class User implements Serializable {
 
 	private String birthday;
 
-	private int blueCoinsNum;
-
-	private int redCoinsNum;
-
-	private int yellowCoinsNum;
-
 	private String headPhoto;
 
 	private String email;
@@ -189,30 +183,6 @@ public class User implements Serializable {
 
 	public void setBirthday(String birthday) {
 		this.birthday = birthday;
-	}
-
-	public int getBlueCoinsNum() {
-		return blueCoinsNum;
-	}
-
-	public void setBlueCoinsNum(int blueCoinsNum) {
-		this.blueCoinsNum = blueCoinsNum;
-	}
-
-	public int getRedCoinsNum() {
-		return redCoinsNum;
-	}
-
-	public void setRedCoinsNum(int redCoinsNum) {
-		this.redCoinsNum = redCoinsNum;
-	}
-
-	public int getYellowCoinsNum() {
-		return yellowCoinsNum;
-	}
-
-	public void setYellowCoinsNum(int yellowCoinsNum) {
-		this.yellowCoinsNum = yellowCoinsNum;
 	}
 
 	public String getHeadPhoto() {
