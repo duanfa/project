@@ -8,6 +8,7 @@ $(function() {
 		buttons : {
 			"submit" : function() {
 				$("#dialog-form").dialog("close");
+				$("#statu"+editId).html('<img src="img/ajax-loaders/ajax-loader-1.gif"/>');
 				$("#coreIframe").contents().find("#addForm").submit();
 				$('#coreIframe').load(function(){
 							addItems(pageNo,pageSize);
@@ -19,7 +20,7 @@ $(function() {
 	});
 });
 
-var pageNo,pageSize;
+var pageNo,pageSize,editId;
 function addItems(page,size){
 	pageNo = page;
 	pageSize = size;
@@ -42,7 +43,7 @@ function addItems(page,size){
 				'<td class="center">'+validate(value.phone)+'</td>'+
 				'<td class="center">'+validate(value.address)+'</td>'+
 				'<td class="center">'+validate(value.description)+'</td>'+
-				'<td class="center">'+statu+'</td>'+
+				'<td class="center" id="statu'+value.id+'">'+statu+'</td>'+
 				'<td class="center">'+
 				'<a class="btn btn-danger" onclick="update('+value.id+',\''+value.statu+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
 				'<a class="btn btn-info" onclick="deleteOrder('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
@@ -157,6 +158,7 @@ function deleteOrder(id){
 	});
 }
 function update(id,statu){
+	editId = id;
 	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="order_upload.html?id='+id+'&statu='+statu+'" frameborder="0" style="height: 130px;"></iframe>');
 	$("#dialog-form").dialog("open");
 }
