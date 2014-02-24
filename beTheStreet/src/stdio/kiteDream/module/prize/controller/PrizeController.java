@@ -301,7 +301,7 @@ public class PrizeController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/changeOrder/{orderid}", method = RequestMethod.GET)
+	@RequestMapping(value = "/changeOrder/{orderid}", method = {RequestMethod.GET,RequestMethod.POST})
 	public JsonVO changeOrder(@PathVariable("orderid") int orderid,
 			@RequestParam("statu") OrderStatu statu) {
 		JsonVO json = new JsonVO();

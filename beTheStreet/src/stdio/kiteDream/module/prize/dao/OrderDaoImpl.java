@@ -70,7 +70,7 @@ public class OrderDaoImpl implements OrderDao {
 
 	@Override
 	public Order getOrder(String id) {
-		return null;
+		return (Order) getSessionFactory().getCurrentSession().get(Order.class, Integer.parseInt(id.trim()));
 	}
 
 	@Override
