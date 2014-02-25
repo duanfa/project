@@ -77,6 +77,14 @@ function addItems(page,size){
 			}else if(value.statu=='UNREAD'){
 				statu = '<span id="statu'+value.id+'"><span class="label label-warning">Unread</span><span>';
 			}
+			var oprateButton = "";
+			if(value.type=='STREET'){
+				statu = '<span id="statu'+value.id+'"><span class="label label-success">Street Mode</span><span>';
+			}else{
+				oprateButton='<a class="btn btn-success" onclick="check('+value.id+',\'PASS\')" href="#"><i class="icon icon-black icon-check"></i>Pass</a>&nbsp;'+
+				'<a class="btn btn-danger" onclick="check('+value.id+',\'FAIL\')" href="#"><i class="icon icon-black icon-close"></i>Deny</a>&nbsp;';
+				
+			}
 			var content = '<tr>'+
 				'<td><input type="checkbox" id="inlineCheckbox1" value="'+value.id+'"></td>'+
 				'<td>'+validate(value.level)+'</td>'+
@@ -86,8 +94,7 @@ function addItems(page,size){
 				'<td class="center">'+validate(value.address)+'</td>'+
 				'<td class="center">'+validate(value.user.nickname)+'</td>'+
 				'<td class="center">'+
-				'<a class="btn btn-success" onclick="check('+value.id+',\'PASS\')" href="#"><i class="icon icon-black icon-check"></i>Pass</a>&nbsp;'+
-				'<a class="btn btn-danger" onclick="check('+value.id+',\'FAIL\')" href="#"><i class="icon icon-black icon-close"></i>Deny</a>&nbsp;'+
+				oprateButton+
 				'<a class="btn btn-info" onclick="deleteImg('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
 			'</td>'+
 				'<td class="center">'+validate(statu)+'</td>'+
