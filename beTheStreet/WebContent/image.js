@@ -92,7 +92,7 @@ function addItems(page,size){
 				'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
 				'<td class="center">'+validate(value.gps)+'</td>'+
 				'<td class="center">'+validate(value.address)+'</td>'+
-				'<td class="center">'+validate(value.user.nickname)+'</td>'+
+				'<td class="center">'+validateUser(value)+'</td>'+
 				'<td class="center">'+
 				oprateButton+
 				'<a class="btn btn-info" onclick="deleteImg('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
@@ -112,6 +112,14 @@ function validate(value){
 		return '';
 	}else{
 		return value;
+	}
+}
+function validateUser(value){
+	var user = value.user;
+	if(user==null||user==undefined){
+		return '';
+	}else{
+		return user.nickname;
 	}
 }
 function validateHeadPhoto(value){
@@ -166,38 +174,6 @@ function pagination(page,size,count){
 			}
 		}
 		$(".pagination_ul").html(innerHtml_pre+innerHtml_active+innerHtml_suffix);
-}
-function searchUser(){
-	var keyWord = $("#userName").val();
-
-	$.get("api/user/search?keyword="+keyWord, function( data ) {}).done(function(data) {
-		var result = "";
-		$(data.result).each(function(index, value) {
-			var statu = "";
-			if(value.active==true){
-				statu = '<span class="label label-success">Active</span>';
-			}else{
-				statu = '<span class="label label-important">Inactive</span>';
-			}
-			var content = '<tr>'+
-				'<td><img src="'+validateHeadPhoto(value.headPhoto)+'"/></img></td>'+
-				'<td>'+validate(value.name)+'</td>'+
-				'<td>'+validate(value.nickname)+'</td>'+
-				'<td class="center">'+validate(value.email)+'</td>'+
-				'<td class="center">'+validate(value.address)+'</td>'+
-				'<td class="center">'+validate(value.cellphone)+'</td>'+
-				'<td class="center">'+statu+'</td>'+
-				'<td class="center">'+
-					'<a class="btn btn-info" href="user_image.html?userid='+value.id+'"><i class="icon-picture icon-white"></i>Image</a>&nbsp;'+
-					/*'<a class="btn btn-info" href="_userImage.html?userid='+value.id+'"><i class="icon-picture icon-white"></i>Image_old</a>&nbsp;'+*/
-				'</td>'+
-			'</tr>';
-			result = result+content;
-		});
-		$("#user_tbody").html(result);
-		pagination(0,0);
-		$("#close_search").click();
-	});
 }
 
 function deleteImg(imgId){

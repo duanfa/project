@@ -228,17 +228,21 @@ function searchUser(){
 				statu = '<span class="label label-important">Inactive</span>';
 			}
 			var content = '<tr>'+
-				'<td><img src="'+validateHeadPhoto(value.headPhoto)+'"/></img></td>'+
-				'<td>'+validate(value.name)+'</td>'+
-				'<td>'+validate(value.nickname)+'</td>'+
-				'<td class="center">'+validate(value.email)+'</td>'+
-				'<td class="center">'+validate(value.address)+'</td>'+
-				'<td class="center">'+validate(value.cellphone)+'</td>'+
-				'<td class="center">'+statu+'</td>'+
-				'<td class="center">'+
-					'<a class="btn btn-info" href="user_image.html?userid='+value.id+'"><i class="icon-picture icon-white"></i>Image</a>&nbsp;'+
-					/*'<a class="btn btn-info" href="_userImage.html?userid='+value.id+'"><i class="icon-picture icon-white"></i>Image_old</a>&nbsp;'+*/
-				'</td>'+
+			'<td><input type="checkbox" id="inlineCheckbox1" value="'+value.id+'"></td>'+
+			'<td>'+validate(value.nickname)+'</td>'+
+			'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
+			'<td class="center">'+validatecoins(value.coins)+'</td>'+
+			'<td class="center">'+validate("1")+'</td>'+
+			'<td class="center">'+validate("4/10")+'</td>'+
+			'<td class="center">'+validate("23")+'</td>'+
+			'<td class="center">'+validate("46:23:12")+'</td>'+
+			'<td class="center">'+validateGrouCategory(value)+'</td>'+
+			'<td class="center">'+validateGrouOrg(value)+'</td>'+
+			'<td class="center">'+validateGroup(value)+'</td>'+
+			'<td class="center">'+validateGroupCreater(value)+'</td>'+
+			'<td class="center">'+
+				'<a class="btn btn-info" href="image.html?userid='+value.id+'"><i class="icon-picture icon-white"></i>Image</a>&nbsp;'+
+			'</td>'+
 			'</tr>';
 			result = result+content;
 		});
