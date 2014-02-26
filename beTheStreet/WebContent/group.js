@@ -40,7 +40,7 @@ function addItems(page,size){
 				'<td class="center">'+validate(value.menberNum)+'</td>'+
 				'<td class="center">'+validatecoins(value.coins)+'</td>'+
 				'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
-				'<td class="center">'+validate("user1"/*value.users.length*/)+'</td>'+
+				'<td class="center">'+validate(value.creatername)+'</td>'+
 				'<td class="center">'+
 				'<a class="btn btn-info" onclick="update(\''+value.id+'\',\''+value.name+'\',\''+value.info+'\',\''+value.groupOrg.id+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
 				'<a class="btn btn-danger" onclick="deleteGroup('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
