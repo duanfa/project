@@ -1,5 +1,8 @@
 package stdio.kiteDream.module.user.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import stdio.kiteDream.module.user.bean.Group;
 import stdio.kiteDream.module.user.bean.GroupCategory;
 import stdio.kiteDream.module.user.bean.GroupOrg;
+import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.user.service.GroupService;
+import stdio.kiteDream.module.user.service.UserService;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
 import stdio.kiteDream.module.vo.JsonVO;
 import stdio.kiteDream.module.vo.PageVO;
@@ -24,6 +29,8 @@ public class GroupController {
 	GroupService groupService;
 	@Autowired
 	UserEventService userEventService;
+	@Autowired
+	UserService userService;
 
 	@ResponseBody
 	@RequestMapping(value = "/category/add", method = { RequestMethod.POST, RequestMethod.GET })
@@ -95,11 +102,19 @@ public class GroupController {
 	public JsonVO register(Group group,@RequestParam("userid")int userid) {
 		// 设置上下方文
 		JsonVO json = new JsonVO();
+		boolean isCreate = false;
 		try {
-			if(group.getCreaterid()<1&&group.getId()>0){
+			if(group.getId()<1&&userid>0){
+				isCreate = true;
 				group.setCreaterid(userid);
 			}
 			groupService.saveGroup(group);
+			if(isCreate){
+				User user = userService.getUser(userid+"");
+				List<User> users = new ArrayList<User>();
+				users.add(user);
+				json.setResult(users);
+			}
 			json.setErrorcode(Constant.OK);
 			json.setUser_events(userEventService.checkEvent(userid));
 		} catch (Exception e) {
@@ -150,11 +165,11 @@ public class GroupController {
 		// 设置上下方文
 		JsonVO json = new JsonVO();
 		try {
-			if(groupService.manageJoinGroup(groupid,userid)){
-				json.setErrorcode(Constant.OK);
-			}else{
-				json.setErrorcode(Constant.FAIL);
-			}
+			User user = groupService.manageJoinGroup(groupid,userid);
+			List<User> users = new ArrayList<User>();
+			users.add(user);
+			json.setResult(users);
+			json.setErrorcode(Constant.OK);
 			json.setUser_events(userEventService.checkEvent(userid));
 		} catch (Exception e) {
 			e.printStackTrace();

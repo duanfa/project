@@ -78,6 +78,9 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public boolean saveGroup(Group group) {
 		try {
+			if(group.getGroupOrg()!=null&&group.getGroupOrg().getId()<0){
+				group.setGroupOrg(null);
+			}
 			boolean isupdate = group.getId()>0;
 			group.setCreate_time(new Date());
 			if(group.getCreaterid()>0){
@@ -129,7 +132,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public boolean manageJoinGroup(int groupid, int userid) {
+	public User manageJoinGroup(int groupid, int userid) {
 		try {
 			Group group = groupDao.getGroup(groupid);
 			User user = userDao.getUser(userid+"");
@@ -146,11 +149,11 @@ public class GroupServiceImpl implements GroupService {
 			user.setIngroup(true);
 			groupDao.saveGroup(group);
 			userDao.saveUser(user);
-			return true;
+			return user;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return false;
+		return null;
 	}
 
 	@Override

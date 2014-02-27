@@ -40,7 +40,7 @@ public interface GroupService {
 
 	public List<Group> manageSearch(String keyword);
 
-	public boolean manageJoinGroup(int groupid, int userid);
+	public User manageJoinGroup(int groupid, int userid);
 
 	public List<Group> getorder(int userid);
 

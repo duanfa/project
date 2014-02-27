@@ -32,17 +32,22 @@ function addItems(page,size){
 	$.get(url, function( data ) {}).done(function(data) {
 		var result = "";
 		$(data.result).each(function(index, value) {
+			var groupOrgid = "-1";
+			try {
+				groupOrgid = value.groupOrg.id;
+			} catch (e) {
+			}
 			var content = '<tr>'+
 				'<td class="center">'+validate(value.name)+'</td>'+
 				'<td class="center">'+validate(value.info)+'</td>'+
-				'<td class="center">'+validate(value.groupOrg.category.name)+'</td>'+
-				'<td class="center">'+validate(value.groupOrg.name)+'</td>'+
+				'<td class="center">'+validateCategory(value)+'</td>'+
+				'<td class="center">'+validateGroup(value)+'</td>'+
 				'<td class="center">'+validate(value.menberNum)+'</td>'+
 				'<td class="center">'+validatecoins(value.coins)+'</td>'+
 				'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
 				'<td class="center">'+validate(value.creatername)+'</td>'+
 				'<td class="center">'+
-				'<a class="btn btn-info" onclick="update(\''+value.id+'\',\''+value.name+'\',\''+value.info+'\',\''+value.groupOrg.id+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
+				'<a class="btn btn-info" onclick="update(\''+value.id+'\',\''+value.name+'\',\''+value.info+'\',\''+groupOrgid+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
 				'<a class="btn btn-danger" onclick="deleteGroup('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
 			'</td>'+
 			'</tr>';
@@ -95,6 +100,26 @@ function validatecoins(coins){
 	return spans;
 }
 
+function validateCategory(value){
+	var categoryName = "";
+	try {
+		categoryName = value.groupOrg.category.name;
+	} catch (e) {
+		console.log(e);
+		return 'others';
+	}
+	return categoryName;
+}
+function validateGroup(value){
+	var orgName = "";
+	try {
+		orgName = value.groupOrg.name;
+	} catch (e) {
+		console.log(e);
+		return 'others';
+	}
+	return orgName;
+}
 function validate(value){
 	if(value==null||value==undefined){
 		return '';
