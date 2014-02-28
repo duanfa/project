@@ -69,7 +69,7 @@ public class LevelServiceImpl implements LevelService {
 			for(Level level:levels){
 				if(level.getLevel()<user.getHigh_level()){
 					level.setState(LevelState.REPLAY);
-				}else if(level.getLevel()<user.getHigh_level()){
+				}else if(level.getLevel()>user.getHigh_level()){
 					level.setState(LevelState.LOCK);
 				}else{
 					level.setState(LevelState.PLAYING);

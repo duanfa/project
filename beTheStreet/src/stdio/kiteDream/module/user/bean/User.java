@@ -64,9 +64,9 @@ public class User implements Serializable {
 	
 	private boolean ingroup;
 	
-	private int high_level;
+	private int high_level=1;
 	
-	private int high_level_stage;
+	private int high_level_stage=1;
 	
 	@ElementCollection(fetch=FetchType.EAGER)
 	@Basic
