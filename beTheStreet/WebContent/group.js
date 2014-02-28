@@ -22,13 +22,7 @@ var pageNo,pageSize;
 function addItems(page,size){
 	pageNo = page;
 	pageSize = size;
-	var url = "api/group/list?page="+page+"&size="+size;
-	var orgid = $.getUrlParam('orgid');
-	if(orgid==null){
-		url = url+"&orgid="+(-1);
-	}else{
-		url = url+"&orgid="+orgid;
-	}
+	var url = "api/group/list?&orgid=-1&categoryid=-1&page="+page+"&size="+size;
 	$.get(url, function( data ) {}).done(function(data) {
 		var result = "";
 		$(data.result).each(function(index, value) {
@@ -103,7 +97,7 @@ function validatecoins(coins){
 function validateCategory(value){
 	var categoryName = "";
 	try {
-		categoryName = value.groupOrg.category.name;
+		categoryName = value.category.name;
 	} catch (e) {
 		console.log(e);
 		return 'others';

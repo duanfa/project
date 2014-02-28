@@ -229,12 +229,12 @@ public class GroupController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/list", method = { RequestMethod.POST, RequestMethod.GET })
-	public PageVO groupList(@RequestParam(value = "category") int category,@RequestParam(value = "orgid") int orgid,@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
+	public PageVO groupList(@RequestParam(value = "categoryid") int categoryid,@RequestParam(value = "orgid") int orgid,@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
 		// 设置上下方文
 				PageVO json = new PageVO();
 				try {
-					json.setResult(groupService.getGroups(category,orgid, page, size));
-					json.setCount(groupService.getGroupCount(category,orgid));
+					json.setResult(groupService.getGroups(categoryid,orgid, page, size));
+					json.setCount(groupService.getGroupCount(categoryid,orgid));
 					json.setErrorcode(Constant.OK);
 				} catch (Exception e) {
 					e.printStackTrace();

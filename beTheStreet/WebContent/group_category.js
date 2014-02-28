@@ -38,21 +38,14 @@ function addItems(page,size){
 				'<td class="center">'+validate(value.name)+'</td>'+
 				'<td class="center">'+validate(value.info)+'</td>'+
 				'<td class="center">'+
-				'<a class="btn btn-success" href="group_org.html?categoryid='+value.id+'"><i class="icon-black icon-eye-open"></i>view orgs</a>&nbsp;'+
 				'<a class="btn btn-danger" onclick="deleteCategory('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>&nbsp;'+
 				'<a class="btn btn-info" onclick="update(\''+value.id+'\',\''+value.name+'\',\''+value.info+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
-				'<a class="btn btn-success addorg" rel="'+value.id+'" href="#"><i class="icon icon-white icon-add"> </i>add org</a>'+
 			'</td>'+
 			'</tr>';
 			result = result+content;
 		});
 		$("#user_tbody").html(result);
 		pagination(page,size,data.count);
-		
-		$(".addorg").click(function() {
-			$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="group_org_upload.html?categoryid='+$(this).attr("rel")+'" frameborder="0" style="height: 180px;"></iframe>');
-			$("#dialog-form").dialog("open");
-		});
 	});
 
 }

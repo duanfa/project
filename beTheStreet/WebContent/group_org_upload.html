@@ -61,13 +61,10 @@
 					<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all">
 				<label for="info">info</label>
 					<input type="text" name="info" id="info" value="" class="text ui-widget-content ui-corner-all">
-					<input type="hidden" name="category.id" id="categoryId" value="0" class="text ui-widget-content ui-corner-all">
 			</fieldset>
 		</form>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			var categoryid = $.getUrlParam("categoryid");
-			$("#categoryId").val(categoryid);
 			var id = $.getUrlParam("id");
 			var name = $.getUrlParam("name");
 			var info = $.getUrlParam("info");

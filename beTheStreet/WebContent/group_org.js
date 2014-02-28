@@ -18,6 +18,11 @@ $(function() {
 	});
 	addItems(1,30);
 });
+
+$("#create-org").click(function() {
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="group_org_upload.html" frameborder="0" style="height: 180px;"></iframe>');
+	$("#dialog-form").dialog("open");
+});
 var pageNo,pageSize;
 function addItems(page,size){
 	pageNo = page;
@@ -33,10 +38,9 @@ function addItems(page,size){
 			var content = '<tr>'+
 				'<td class="center">'+validate(value.name)+'</td>'+
 				'<td class="center">'+validate(value.info)+'</td>'+
-				'<td class="center">'+validate(value.category.name)+'</td>'+
 				'<td class="center">'+
 				'<a class="btn btn-success" href="group.html?orgid='+value.id+'"><i class="icon-black icon-eye-open"></i>view groups</a>&nbsp;'+
-				'<a class="btn btn-info" onclick="update(\''+value.id+'\',\''+value.name+'\',\''+value.info+'\',\''+value.category.id+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
+				'<a class="btn btn-info" onclick="update(\''+value.id+'\',\''+value.name+'\',\''+value.info+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
 				'<a class="btn btn-danger" onclick="deleteGroupOrg('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>&nbsp;'+
 				'<a class="btn btn-success addgroup" rel="'+value.id+'" href="#"><i class="icon icon-white icon-add"> </i>add group</a>'+
 			'</td>'+
@@ -124,7 +128,7 @@ function deleteGroupOrg(id){
 		addItems(pageNo,pageSize);
 	});
 }
-function update(id,name,info,categoryid){
-	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="group_org_upload.html?id='+id+'&name='+name+'&info='+info+'&categoryid='+categoryid+'" frameborder="0" style="height: 180px;"></iframe>');
+function update(id,name,info){
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="group_org_upload.html?id='+id+'&name='+name+'&info='+info+'" frameborder="0" style="height: 180px;"></iframe>');
 	$("#dialog-form").dialog("open");
 }
