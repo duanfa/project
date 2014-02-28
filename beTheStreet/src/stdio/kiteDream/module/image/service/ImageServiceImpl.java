@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,22 +101,25 @@ public class ImageServiceImpl implements ImageService {
 			for (String id : imageId.split(",")) {
 				if (StringUtils.isNotBlank(id.trim())) {
 					Image image = imageDao.getImage(id);
+					User user = image.getUser();
 					image.setStatu(statu);
 					image.setUpdate_time(new Date());
 					if (imageDao.saveImage(image)) {
 						if (Image.Check.PASS.toString().equals(statu)) {
-							levelService.managePrize(image.getLevel(), image.getUser().getId() + "");
+							levelService.managePrize(image.getLevel(), user.getId() + "");
 							Message message = new Message();
 							message.setDescription("new image " + image.getId() + " passed and coins is added ");
 							message.setTitle("new image pass");
 							message.setType(MessageType.CHA_CHING);
-							messageService.saveMessage(message, image.getUser().getId() + "");
+							messageService.saveMessage(message, user.getId() + "");
+							updateBounsStatu(user,image.getLevel(),image.getLevel_stage());
+							userDao.saveUser(user);
 						} else if (Image.Check.FAIL.toString().equals(statu)) {
 							Message message = new Message();
 							message.setDescription("new image " + image.getId() + " been deny ");
 							message.setTitle("new image pass");
 							message.setType(MessageType.NOTICE);
-							messageService.saveMessage(message, image.getUser().getId() + "");
+							messageService.saveMessage(message, user.getId() + "");
 						}
 					}
 				}
@@ -126,7 +131,27 @@ public class ImageServiceImpl implements ImageService {
 		}
 		return true;
 	}
-
+	
+	private boolean updateBounsStatu(User user,int level,int level_stage){
+		try {
+			Map<Integer,Integer> bonusStatu = user.getBonusStatu();
+			Integer levelStatu = bonusStatu.get(level);
+			if(levelStatu!=null){
+				String s = (int)Math.pow(10,level_stage-1)+"";
+			 	int display = Integer.valueOf(s,2);
+				levelStatu = levelStatu|display;
+				bonusStatu.put(level, levelStatu);
+			}
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	public static void main(String[] args) {
+	 	System.out.println((2|4));
+	 	
+	}
 	@Override
 	public Integer getUserImageCount(int userId) {
 		return imageDao.getUserImageCount(userId);
@@ -142,18 +167,5 @@ public class ImageServiceImpl implements ImageService {
 		return imageDao.getImageCount();
 	}
 
-	public static void main(String[] args) {
-		String ids = ",1,2,3,4,,";
-		for (String id : ids.split(",")) {
-			if (StringUtils.isNotBlank(id.trim())) {
-				System.out.println(id.trim() + "aaa");
-			}
-		}
-		ids = "123";
-		for (String id : ids.split(",")) {
-			if (StringUtils.isNotBlank(id.trim())) {
-				System.out.println(id.trim() + "aaa");
-			}
-		}
-	}
+	
 }

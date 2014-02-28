@@ -15,6 +15,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
+import stdio.kiteDream.module.level.bean.Level.Type;
 import stdio.kiteDream.module.user.bean.User;
 
 @Entity
@@ -43,6 +44,10 @@ public class Image implements Serializable {
 	private String address;
 
 	private int level;
+	
+	private int level_stage;
+	
+	private Type levelType;
 
 	private Date create_time;
 	
@@ -173,6 +178,22 @@ public class Image implements Serializable {
 
 	public void setUpdate_time(Date update_time) {
 		this.update_time = update_time;
+	}
+
+	public Type getLevelType() {
+		return levelType;
+	}
+
+	public void setLevelType(Type levelType) {
+		this.levelType = levelType;
+	}
+
+	public int getLevel_stage() {
+		return level_stage;
+	}
+
+	public void setLevel_stage(int level_stage) {
+		this.level_stage = level_stage;
 	}
 
 }

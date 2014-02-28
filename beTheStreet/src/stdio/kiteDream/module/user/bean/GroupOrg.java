@@ -1,17 +1,11 @@
 package stdio.kiteDream.module.user.bean;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -31,16 +25,7 @@ public class GroupOrg implements Serializable {
 	
 	private String info;
 	
-	@Column(columnDefinition="int default 0 ")
 	private int createrid;
-
-	@ManyToOne
-	@JoinColumn(name = "categoryid")
-	private GroupCategory category;
-	
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name = "orgid")
-	private List<Group> groups;
 
 	public int getId() {
 		return id;
@@ -64,22 +49,6 @@ public class GroupOrg implements Serializable {
 
 	public void setInfo(String info) {
 		this.info = info;
-	}
-
-	public GroupCategory getCategory() {
-		return category;
-	}
-
-	public void setCategory(GroupCategory category) {
-		this.category = category;
-	}
-
-	public List<Group> getGroups() {
-		return groups;
-	}
-
-	public void setGroups(List<Group> groups) {
-		this.groups = groups;
 	}
 
 	public int getCreaterid() {

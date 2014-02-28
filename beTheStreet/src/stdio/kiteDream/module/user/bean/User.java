@@ -3,13 +3,19 @@ package stdio.kiteDream.module.user.bean;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -56,6 +62,14 @@ public class User implements Serializable {
 	private boolean active;
 	
 	private boolean ingroup;
+	
+	private int high_level;
+	
+	private int high_level_stage;
+	
+	@ElementCollection
+	@Basic
+ 	private Map<Integer,Integer> bonusStatu = new TreeMap<Integer,Integer>();
 
 	@OneToMany
 	@JoinColumn
@@ -79,6 +93,22 @@ public class User implements Serializable {
 
 	public List<Message> getMessages() {
 		return messages;
+	}
+
+	public int getHigh_level() {
+		return high_level;
+	}
+
+	public void setHigh_level(int high_level) {
+		this.high_level = high_level;
+	}
+
+	public int getHigh_level_stage() {
+		return high_level_stage;
+	}
+
+	public void setHigh_level_stage(int high_level_stage) {
+		this.high_level_stage = high_level_stage;
 	}
 
 	public void setMessages(List<Message> messages) {
@@ -215,6 +245,14 @@ public class User implements Serializable {
 
 	public void setIngroup(boolean ingroup) {
 		this.ingroup = ingroup;
+	}
+
+	public Map<Integer, Integer> getBonusStatu() {
+		return bonusStatu;
+	}
+
+	public void setBonusStatu(Map<Integer, Integer> bonusStatu) {
+		this.bonusStatu = bonusStatu;
 	}
 
 }

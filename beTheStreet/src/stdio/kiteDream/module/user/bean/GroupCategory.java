@@ -1,15 +1,11 @@
 package stdio.kiteDream.module.user.bean;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -28,10 +24,6 @@ public class GroupCategory implements Serializable {
 	private String name;
 	
 	private String info;
-
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name = "categoryid")
-	private List<GroupOrg> orgs;
 
 	public int getId() {
 		return id;
@@ -57,13 +49,4 @@ public class GroupCategory implements Serializable {
 		this.info = info;
 	}
 
-	public List<GroupOrg> getOrgs() {
-		return orgs;
-	}
-
-	public void setOrgs(List<GroupOrg> orgs) {
-		this.orgs = orgs;
-	}
-
-	
 }

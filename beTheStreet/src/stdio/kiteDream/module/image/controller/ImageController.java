@@ -26,6 +26,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
 import stdio.kiteDream.module.image.bean.Image;
 import stdio.kiteDream.module.image.service.ImageService;
+import stdio.kiteDream.module.level.bean.Level;
 import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.user.service.UserService;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
@@ -100,6 +101,12 @@ public class ImageController {
 				image.setIp(request.getRemoteAddr());
 				image.setAddress(address);
 				image.setType(type);
+				if(Level.Type.STREET.equals(image.getLevelType())){
+					User user = userService.getUser(userid+"");
+					user.setHigh_level(image.getLevel());
+					user.setHigh_level_stage(image.getLevel_stage());
+					userService.saveUser(user);
+				}
 				System.out.println("userid is :"+userid);
 				imageService.saveImage(image,userid);
 			}

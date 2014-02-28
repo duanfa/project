@@ -160,7 +160,7 @@ public class GroupServiceImpl implements GroupService {
 	public List<Group> getorder(int userid) {
 		try {
 			Group group = groupDao.getUserGroup(userid);
-			return groupDao.getGroupByCategory(group.getGroupOrg().getCategory().getId());
+			return groupDao.getGroupByCategory(group.getCategory().getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ArrayList<Group>();

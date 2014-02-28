@@ -44,6 +44,10 @@ public class Group implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "orgid")
 	private GroupOrg groupOrg;
+	
+	@ManyToOne
+	@JoinColumn(name = "categoryid")
+	private GroupCategory category;
 
 	@OneToOne
 	@JoinColumn(name="coins_id")
@@ -131,6 +135,14 @@ public class Group implements Serializable {
 
 	public void setCreatername(String creatername) {
 		this.creatername = creatername;
+	}
+
+	public GroupCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(GroupCategory category) {
+		this.category = category;
 	}
 	
 }
