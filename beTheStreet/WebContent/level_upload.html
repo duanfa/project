@@ -76,6 +76,13 @@
 			$("#yellowRatio").val(yellowRatio);
 			$("#redRatio").val(redRatio);
 		}
+		$("#challenge").click(function(){
+			if($("#challenge").attr("checked")=='checked'){
+				$("#task_num_span").fadeOut();
+			}else{
+				$("#task_num_span").fadeIn();
+			}
+		});
 	});
 	</script>
 </head>
@@ -93,11 +100,12 @@
 				<label for="challenge">isChallenge <input type="checkbox" name="challenge" id="challenge" value="true"></label>
 				<br>
 				<br>
-				<label for="regular_stage">regular task</label>
-					<input type="text" name="regular_stage" id="regular_stage" value="0" class="text ui-widget-content ui-corner-all">
-				<label for="bonus_stage">bonus task</label>
-					<input type="text" name="bonus_stage" id="bonus_stage" value="0" class="text ui-widget-content ui-corner-all">
-				
+				<span id="task_num_span">
+					<label for="regular_stage">regular task</label>
+						<input type="text" name="regular_stage" id="regular_stage" value="0" class="text ui-widget-content ui-corner-all">
+					<label for="bonus_stage">bonus task</label>
+						<input type="text" name="bonus_stage" id="bonus_stage" value="0" class="text ui-widget-content ui-corner-all">
+				</span>
 			</fieldset>
 			<span  style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 			<fieldset style="float:left;">

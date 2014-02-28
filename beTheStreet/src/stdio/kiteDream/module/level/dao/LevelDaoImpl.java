@@ -64,7 +64,7 @@ public class LevelDaoImpl implements LevelDao {
 
 	@Override
 	public List<Level> getLevel() {
-		 List<Level> list = getSessionFactory().getCurrentSession().createQuery("from Level").list();
+		 List<Level> list = getSessionFactory().getCurrentSession().createQuery("from Level order by level").list();
 		 if(list==null){
 			 return new ArrayList<Level>();
 		 }

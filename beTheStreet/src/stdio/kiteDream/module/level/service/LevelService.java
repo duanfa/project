@@ -9,7 +9,7 @@ public interface LevelService {
 
 public Level getPrizeRule(String id);
 	
-	public List<Level> getLevels();
+	public List<Level> getLevels(int userid);
 	
 	public Level getLevelById(int id);
 	

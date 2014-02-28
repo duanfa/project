@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -20,7 +21,16 @@ import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
 public class Level implements Serializable {
 	
 	private static final long serialVersionUID = 5198787345729066551L;
-
+	
+	public enum LevelState {
+		REPLAY("replay", 0),PLAYING("playing", 1),LOCK("lock", 2);
+		String name;
+		int value;
+		private LevelState(String name, int value){
+			this.name = name;
+			this.value = value;
+		}
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -49,6 +59,9 @@ public class Level implements Serializable {
 	private int regular_stage;
 	
 	private int bonus_stage;
+	
+	@Transient
+	private LevelState state;
 
 	public int getId() {
 		return id;
@@ -186,6 +199,13 @@ public class Level implements Serializable {
 	public void setBonus_stage(int bonus_stage) {
 		this.bonus_stage = bonus_stage;
 	}
-	
+
+	public LevelState getState() {
+		return state;
+	}
+
+	public void setState(LevelState state) {
+		this.state = state;
+	}
 	
 }

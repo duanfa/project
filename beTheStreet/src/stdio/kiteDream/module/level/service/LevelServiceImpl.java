@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import stdio.kiteDream.module.coins.bean.Coins;
 import stdio.kiteDream.module.coins.dao.CoinsDao;
 import stdio.kiteDream.module.level.bean.Level;
+import stdio.kiteDream.module.level.bean.Level.LevelState;
 import stdio.kiteDream.module.level.dao.LevelDao;
 import stdio.kiteDream.module.user.bean.Group;
 import stdio.kiteDream.module.user.bean.User;
@@ -61,8 +62,21 @@ public class LevelServiceImpl implements LevelService {
 	}
 
 	@Override
-	public List<Level> getLevels() {
-		return levelDao.getLevel();
+	public List<Level> getLevels(int userid) {
+		List<Level> levels = levelDao.getLevel();
+		if(userid>0){
+			User user = userDao.getUser(userid+"");
+			for(Level level:levels){
+				if(level.getLevel()<user.getHigh_level()){
+					level.setState(LevelState.REPLAY);
+				}else if(level.getLevel()<user.getHigh_level()){
+					level.setState(LevelState.LOCK);
+				}else{
+					level.setState(LevelState.PLAYING);
+				}
+			}
+		}
+		return levels;
 	}
 
 	@Override

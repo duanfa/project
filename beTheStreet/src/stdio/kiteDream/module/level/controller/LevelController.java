@@ -26,7 +26,6 @@ import stdio.kiteDream.module.coins.bean.Coins;
 import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
 import stdio.kiteDream.module.level.bean.Level;
 import stdio.kiteDream.module.level.service.LevelService;
-import stdio.kiteDream.module.prize.bean.Prize;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
 import stdio.kiteDream.module.vo.JsonVO;
 import stdio.kiteDream.module.vo.PageVO;
@@ -50,7 +49,7 @@ public class LevelController {
 		}
 		JsonVO json = new JsonVO();
 		try {
-			json.setResult(levelService.getLevels());
+			json.setResult(levelService.getLevels(userid));
 			json.setUser_events(userEventService.checkEvent(userid));
 			json.setErrorcode(Constant.OK);
 		} catch (Exception e) {
@@ -69,7 +68,7 @@ public class LevelController {
 		}
 		PageVO json = new PageVO();
 		try {
-			json.setResult(levelService.getLevels());
+			json.setResult(levelService.getLevels(-1));
 			json.setCount(levelService.getCount());
 			json.setErrorcode(Constant.OK);
 		} catch (Exception e) {
