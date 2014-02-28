@@ -162,4 +162,30 @@ public class Level implements Serializable {
 	public int getRedCoin() {
 		return redRatio;
 	}
+
+	public boolean isChallenge() {
+		return isChallenge;
+	}
+
+	public void setChallenge(boolean isChallenge) {
+		this.isChallenge = isChallenge;
+	}
+
+	public int getRegular_stage() {
+		return regular_stage;
+	}
+
+	public void setRegular_stage(int regular_stage) {
+		this.regular_stage = regular_stage;
+	}
+
+	public int getBonus_stage() {
+		return bonus_stage;
+	}
+
+	public void setBonus_stage(int bonus_stage) {
+		this.bonus_stage = bonus_stage;
+	}
+	
+	
 }
