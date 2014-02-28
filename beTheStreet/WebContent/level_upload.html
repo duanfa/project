@@ -79,6 +79,8 @@
 		$("#challenge").click(function(){
 			if($("#challenge").attr("checked")=='checked'){
 				$("#task_num_span").fadeOut();
+				$("#regular_stage").val("0");
+				$("#bonus_stage").val("0");
 			}else{
 				$("#task_num_span").fadeIn();
 			}
