@@ -58,8 +58,6 @@ public class Image implements Serializable {
 
 	private String path;
 	
-	private String type;
-
 	private String thumbnail_path;
 
 	@ManyToOne(targetEntity = User.class)
@@ -165,14 +163,6 @@ public class Image implements Serializable {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	public Date getUpdate_time() {

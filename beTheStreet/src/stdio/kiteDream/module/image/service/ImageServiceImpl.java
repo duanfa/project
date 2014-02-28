@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import stdio.kiteDream.module.image.bean.Image;
+import stdio.kiteDream.module.image.bean.Image.Type;
 import stdio.kiteDream.module.image.dao.ImageDao;
+import stdio.kiteDream.module.level.bean.Level;
 import stdio.kiteDream.module.level.service.LevelService;
 import stdio.kiteDream.module.message.bean.Message;
 import stdio.kiteDream.module.message.bean.MessageType;
@@ -56,6 +57,19 @@ public class ImageServiceImpl implements ImageService {
 			images.add(image);
 		}
 		image.setUser(user);
+		if(Type.STREET.equals(image.getLevelType())){
+			Level level = levelService.getLevelById(image.getLevel());
+			if(image.getLevel_stage()>=level.getRegular_stage()){
+				user.setHigh_level(level.getLevel()+1);
+				user.setHigh_level_stage(1);
+			}else{
+				user.setHigh_level_stage(image.getLevel_stage()+1);
+			}
+		}else{
+			if(user.getHigh_level()<image.getLevel()){
+				user.setHigh_level(image.getLevel());
+			}
+		}
 		user.setImages(images);
 		userDao.saveUser(user);
 		return imageDao.saveImage(image);

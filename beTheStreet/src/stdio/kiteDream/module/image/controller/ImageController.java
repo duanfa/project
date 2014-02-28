@@ -24,8 +24,8 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
 import stdio.kiteDream.module.image.bean.Image;
+import stdio.kiteDream.module.image.bean.Image.Type;
 import stdio.kiteDream.module.image.service.ImageService;
-import stdio.kiteDream.module.level.bean.Level;
 import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.user.service.UserService;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
@@ -51,7 +51,7 @@ public class ImageController {
 			@RequestParam(value = "level", required = false) int level,
 			@RequestParam(value = "gps", required = false) String gps,
 			@RequestParam(value = "address", required = false) String address,
-			@RequestParam(value = "type", required = false) String type
+			@RequestParam(value = "levelType", required = false) Type levelType
 			) throws IllegalStateException, IOException {
 		JsonVO json = new JsonVO();
 		// 设置上下方文
@@ -99,7 +99,7 @@ public class ImageController {
 				image.setGps(gps);
 				image.setIp(request.getRemoteAddr());
 				image.setAddress(address);
-				image.setType(type);
+				image.setLevelType(levelType);
 				if(Image.Type.STREET.equals(image.getLevelType())){
 					User user = userService.getUser(userid+"");
 					user.setHigh_level(image.getLevel());
