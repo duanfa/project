@@ -17,6 +17,10 @@ $(function() {
 		close : function() {
 		}
 	});
+	$("#create-group").click(function() {
+		$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="group_upload.html?orgid='+$(this).attr("rel")+'" frameborder="0" style="height: 180px;"></iframe>');
+		$("#dialog-form").dialog("open");
+	});
 });
 var pageNo,pageSize;
 function addItems(page,size){

@@ -47,12 +47,7 @@ public class ImageController {
 	@ResponseBody
 	@RequestMapping(value = "/user/upload", method = RequestMethod.POST)
 	public JsonVO uploadImage(HttpServletRequest request, HttpSession session, @RequestParam("userid") int userid,
-			@RequestParam(value = "imgname", required = false) String imgname, @RequestParam(value = "desc", required = false) String desc,
-			@RequestParam(value = "level", required = false) int level,
-			@RequestParam(value = "gps", required = false) String gps,
-			@RequestParam(value = "address", required = false) String address,
-			@RequestParam(value = "levelType", required = false) Type levelType
-			) throws IllegalStateException, IOException {
+			Image image) throws IllegalStateException, IOException {
 		JsonVO json = new JsonVO();
 		// 设置上下方文
 		try {
@@ -88,24 +83,11 @@ public class ImageController {
 					}
 
 				}
-				Image image = new Image();
 				image.setPath(imgPre + fileName);
 				image.setThumbnail_path(imgPre + "thumbnail_" + fileName);
 				image.setCreate_time(new Date());
-				image.setDescrib(desc);
-				image.setLevel(level);
-				image.setName(fileName);
 				image.setStatu(Image.Check.UNREAD.toString());
-				image.setGps(gps);
 				image.setIp(request.getRemoteAddr());
-				image.setAddress(address);
-				image.setLevelType(levelType);
-				if(Image.Type.STREET.equals(image.getLevelType())){
-					User user = userService.getUser(userid+"");
-					user.setHigh_level(image.getLevel());
-					user.setHigh_level_stage(image.getLevel_stage());
-					userService.saveUser(user);
-				}
 				System.out.println("userid is :"+userid);
 				imageService.saveImage(image,userid);
 			}
