@@ -5,7 +5,7 @@ $(function() {
 $("#dialog-form").dialog({
 	autoOpen : false,
 	height : 630,
-	width : 330,
+	width : 530,
 	modal : true,
 	buttons : {
 		"submit" : function() {
@@ -24,7 +24,7 @@ $("#dialog-form").dialog({
 	}
 });
 $("#create-level").click(function() {
-	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_upload.html" frameborder="0" style="height: 530px;"></iframe>');
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_upload.html" frameborder="0" style="height: 530px; width: 500px;"></iframe>');
 	$("#dialog-form").dialog("open");
 });
 
@@ -41,6 +41,9 @@ function addItems(page,size){
 				'<td class="center">'+validate(value.level)+'</td>'+
 				'<td class="center">'+validate(value.title)+'</td>'+
 				'<td class="center">'+validate(value.desc)+'</td>'+
+				'<td class="center">'+validate(value.challenge)+'</td>'+
+				'<td class="center">'+validate(value.regular_stage)+'</td>'+
+				'<td class="center">'+validate(value.bonus_stage)+'</td>'+
 				'<td class="center">'+validate(value.completeNum)+'</td>'+
 				'<td class="center">'+validate(value.sumcoins)+'</td>'+
 				'<td class="center">'+validatecoins(value)+'</td>'+
@@ -145,6 +148,6 @@ function deleteLevel(id){
 	});
 }
 function update(id,level,title,desc,completeNum,sumcoins,greenRatio,yellowRatio,redRatio){
-	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_upload.html?id='+id+'&level='+level+'&title='+title+'&desc='+desc+'&completeNum='+completeNum+'&sumcoins='+sumcoins+'&greenRatio='+greenRatio+'&yellowRatio='+yellowRatio+'&redRatio='+redRatio+'" frameborder="0" style="height: 530px;"></iframe>');
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_upload.html?id='+id+'&level='+level+'&title='+title+'&desc='+desc+'&completeNum='+completeNum+'&sumcoins='+sumcoins+'&greenRatio='+greenRatio+'&yellowRatio='+yellowRatio+'&redRatio='+redRatio+'" frameborder="0" style="height: 530px; width: 500px;"></iframe>');
 	$("#dialog-form").dialog("open");
 }

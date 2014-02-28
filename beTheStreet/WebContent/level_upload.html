@@ -81,25 +81,38 @@
 </head>
 <body>
 		<form id="addComicForm" action="api/level/add" method="post" enctype="multipart/form-data">
-			<fieldset>
+			<fieldset style="float:left;">
 					<input type="hidden" name="id" id="id" value="0" class="text ui-widget-content ui-corner-all">
 					<input type="hidden" name="completeNum" id="completeNum" value="0" class="text ui-widget-content ui-corner-all">
 				<label for="level">level</label>
 					<input type="text" name="level" id="level" value="" class="text ui-widget-content ui-corner-all">
 				<label for="name">title</label>
 					<input type="text" name="title" id="title" class="text ui-widget-content ui-corner-all">
-				<label for="order">desc</label>
+				<label for="desc">desc</label>
 					<input type="text" name="desc" id="desc" value="" class="text ui-widget-content ui-corner-all">
-				<label for="order">coin Num</label>
+				<label for="challenge">isChallenge <input type="checkbox" name="challenge" id="challenge" value="true"></label>
+				<br>
+				<br>
+				<label for="regular_stage">regular task</label>
+					<input type="text" name="regular_stage" id="regular_stage" value="0" class="text ui-widget-content ui-corner-all">
+				<label for="bonus_stage">bonus task</label>
+					<input type="text" name="bonus_stage" id="bonus_stage" value="0" class="text ui-widget-content ui-corner-all">
+				
+			</fieldset>
+			<span  style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+			<fieldset style="float:left;">
+				<label for="sumcoins">coin Num</label>
 					<input type="text" name="sumcoins" id="sumcoins" value="0" class="text ui-widget-content ui-corner-all">
-				<label for="order">green percentage</label>
+				<label for="greenRatio">green percentage</label>
 					<input type="text" name="greenRatio" id="greenRatio" value="0" class="text ui-widget-content ui-corner-all">
-				<label for="order">yellow percentage</label>
+				<label for="yellowRatio">yellow percentage</label>
 					<input type="text" name="yellowRatio" id="yellowRatio" value="0" class="text ui-widget-content ui-corner-all">
-				<label for="order">red percentage</label>
+				<label for="redRatio">red percentage</label>
 					<input type="text" name="redRatio" id="redRatio" value="0" class="text ui-widget-content ui-corner-all">
 				<label><font color="red">sum of percentage must be 100</font></label>
-				<label for="comic">image</label>
+				<br>
+				<br>
+				<label for="comic">profile image</label>
 					<input type="file" name="comic" id="comic" value="" class="text ui-widget-content ui-corner-all">
 			</fieldset>
 		</form>
