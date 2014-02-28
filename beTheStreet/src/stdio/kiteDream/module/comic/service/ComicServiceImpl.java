@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import stdio.kiteDream.module.comic.bean.Comic;
 import stdio.kiteDream.module.comic.dao.ComicDao;
-import stdio.kiteDream.module.level.bean.Level.Type;
+import stdio.kiteDream.module.image.bean.Image.Type;
 
 @Service
 public class ComicServiceImpl implements ComicService {

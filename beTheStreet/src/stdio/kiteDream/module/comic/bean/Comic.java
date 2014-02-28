@@ -10,6 +10,7 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+import stdio.kiteDream.module.image.bean.Image.Type;
 import stdio.kiteDream.module.level.bean.Level;
 
 @Entity
@@ -28,7 +29,7 @@ public class Comic implements Serializable {
 
 	private String name;
 	
-	private Level.Type type;
+	private Type type;
 
 	private String path;
 	
@@ -105,11 +106,11 @@ public class Comic implements Serializable {
 		this.info = info;
 	}
 
-	public Level.Type getType() {
+	public Type getType() {
 		return type;
 	}
 
-	public void setType(Level.Type type) {
+	public void setType(Type type) {
 		this.type = type;
 	}
 

@@ -21,9 +21,6 @@ public class Level implements Serializable {
 	
 	private static final long serialVersionUID = 5198787345729066551L;
 
-	public enum Type{
-		BONUS, STREET, CHALLENGE
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,7 +28,7 @@ public class Level implements Serializable {
 
 	private int level;
 	
-	private Type type;
+	private boolean isChallenge;
 	
 	private String path;
 	
@@ -48,6 +45,10 @@ public class Level implements Serializable {
 	private int redRatio;
 	
 	private int sumcoins;
+	
+	private int regular_stage;
+	
+	private int bonus_stage;
 
 	public int getId() {
 		return id;
@@ -65,13 +66,6 @@ public class Level implements Serializable {
 		this.level = level;
 	}
 
-	public Type getType() {
-		return type;
-	}
-
-	public void setType(Type type) {
-		this.type = type;
-	}
 	@JsonSerialize(using = BasePathJsonParser.class)
 	public String getPath() {
 		return path;

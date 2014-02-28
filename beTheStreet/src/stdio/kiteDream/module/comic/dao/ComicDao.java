@@ -3,7 +3,7 @@ package stdio.kiteDream.module.comic.dao;
 import java.util.List;
 
 import stdio.kiteDream.module.comic.bean.Comic;
-import stdio.kiteDream.module.level.bean.Level.Type;
+import stdio.kiteDream.module.image.bean.Image.Type;
 
 public interface ComicDao {
 

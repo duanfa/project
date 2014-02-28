@@ -15,13 +15,16 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
-import stdio.kiteDream.module.level.bean.Level.Type;
 import stdio.kiteDream.module.user.bean.User;
 
 @Entity
 @JsonIgnoreProperties({}) 
 @Table(name = "image")
 public class Image implements Serializable {
+	
+	public enum Type{
+		BONUS, STREET, CHALLENGE
+	}
 
 	public enum Check {
 		PASS, UNREAD, FAIL

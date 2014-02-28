@@ -2,7 +2,6 @@ package stdio.kiteDream.module.image.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -101,7 +100,7 @@ public class ImageController {
 				image.setIp(request.getRemoteAddr());
 				image.setAddress(address);
 				image.setType(type);
-				if(Level.Type.STREET.equals(image.getLevelType())){
+				if(Image.Type.STREET.equals(image.getLevelType())){
 					User user = userService.getUser(userid+"");
 					user.setHigh_level(image.getLevel());
 					user.setHigh_level_stage(image.getLevel_stage());
