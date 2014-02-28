@@ -19,8 +19,8 @@ public interface GroupDao {
 	public boolean saveGroupOrg(GroupOrg groupOrg);
 	public boolean delGroupOrg(int id);
 	
-	public List<Group> getGroups(int orgid,int pageNo,int pageSize);
-	public Integer getGroupCount(int orgid);
+	public List<Group> getGroups(int categoryid,int orgid, int pageNo, int pageSize);
+	public Integer getGroupCount(int category,int orgid);
 	public boolean saveGroup(Group group);
 	public boolean delGroup(int id);
 	

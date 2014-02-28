@@ -30,11 +30,14 @@ public class GroupDaoImpl implements GroupDao {
 	}
 
 	@Override
-	public Integer getGroupCount(int orgid) {
+	public Integer getGroupCount(int category,int orgid) {
 		Integer count;
-		String sql = "select count(1) from user_group";
+		String sql = "select count(1) from user_group where 1=1 ";
+		if(category>0){
+			sql = sql+" and where categoryid="+category;
+		}
 		if(orgid>0){
-			sql = sql+" where orgid="+orgid;
+			sql = sql+" and where orgid="+orgid;
 		}
 		try {
 			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
@@ -67,12 +70,12 @@ public class GroupDaoImpl implements GroupDao {
 			hql = hql + " where user.group.id="+groupid;
 		}
 		try {
+			Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 			if (pageNo > 0 && pageSize > 0) {
-				Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 				query.setFirstResult((pageNo - 1) * pageSize);
 				query.setMaxResults(pageSize);
-				list = query.list();
 			}
+			list = query.list();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -83,19 +86,22 @@ public class GroupDaoImpl implements GroupDao {
 	}
 
 	@Override
-	public List<Group> getGroups(int orgid,int pageNo, int pageSize) {
+	public List<Group> getGroups(int categoryid,int orgid, int pageNo, int pageSize) {
 		List<Group> list = null;
-		String hql = "from Group grou";
+		String hql = "from Group grou  where 1=1";
+		if(categoryid>0){
+			hql = hql+" and grou.category.id="+categoryid;
+		}
 		if(orgid>0){
-			hql = hql+" where grou.groupOrg.id="+orgid;
+			hql = hql+" and grou.groupOrg.id="+orgid;
 		}
 		try {
+			Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 			if (pageNo > 0 && pageSize > 0) {
-				Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 				query.setFirstResult((pageNo - 1) * pageSize);
 				query.setMaxResults(pageSize);
-				list = query.list();
 			}
+			list = query.list();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -149,12 +155,12 @@ public class GroupDaoImpl implements GroupDao {
 	public List<GroupCategory> getGroupCategorys(int pageNo, int pageSize) {
 		List<GroupCategory> list = null;
 		try {
+			Query query = getSessionFactory().getCurrentSession().createQuery("from GroupCategory");
 			if (pageNo > 0 && pageSize > 0) {
-				Query query = getSessionFactory().getCurrentSession().createQuery("from GroupCategory");
 				query.setFirstResult((pageNo - 1) * pageSize);
 				query.setMaxResults(pageSize);
-				list = query.list();
 			}
+			list = query.list();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -207,12 +213,12 @@ public class GroupDaoImpl implements GroupDao {
 		List<GroupOrg> list = null;
 		String hql = "from GroupOrg org ";
 		try {
+			Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 			if (pageNo > 0 && pageSize > 0) {
-				Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 				query.setFirstResult((pageNo - 1) * pageSize);
 				query.setMaxResults(pageSize);
-				list = query.list();
 			}
+			list = query.list();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

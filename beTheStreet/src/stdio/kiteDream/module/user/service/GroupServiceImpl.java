@@ -66,13 +66,13 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public List<Group> getGroups(int orgid, int pageNo, int pageSize) {
-		return groupDao.getGroups(orgid, pageNo, pageSize);
+	public List<Group> getGroups(int categoryid,int orgid, int pageNo, int pageSize) {
+		return groupDao.getGroups(categoryid,orgid, pageNo, pageSize);
 	}
 
 	@Override
-	public Integer getGroupCount(int orgid) {
-		return groupDao.getGroupCount(orgid);
+	public Integer getGroupCount(int category,int orgid) {
+		return groupDao.getGroupCount(category,orgid);
 	}
 
 	@Override

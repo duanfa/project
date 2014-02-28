@@ -229,12 +229,12 @@ public class GroupController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/list", method = { RequestMethod.POST, RequestMethod.GET })
-	public PageVO groupList(@RequestParam(value = "orgid") int orgid,@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
+	public PageVO groupList(@RequestParam(value = "category") int category,@RequestParam(value = "orgid") int orgid,@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
 		// 设置上下方文
 				PageVO json = new PageVO();
 				try {
-					json.setResult(groupService.getGroups(orgid, page, size));
-					json.setCount(groupService.getGroupCount(orgid));
+					json.setResult(groupService.getGroups(category,orgid, page, size));
+					json.setCount(groupService.getGroupCount(category,orgid));
 					json.setErrorcode(Constant.OK);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -245,11 +245,11 @@ public class GroupController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/listcategory", method = { RequestMethod.POST, RequestMethod.GET })
-	public JsonVO listcategory(@RequestParam(value = "page") int page, @RequestParam(value = "size") int size,@RequestParam(value = "userid") int userid ) {
+	public JsonVO listcategory(@RequestParam(value = "userid") int userid ) {
 		// 设置上下方文
 		JsonVO json = new JsonVO();
 		try {
-			json.setResult(groupService.getGroupCategorys(page, size));
+			json.setResult(groupService.getGroupCategorys(-1, -1));
 			json.setUser_events(userEventService.checkEvent(userid));
 			json.setErrorcode(Constant.OK);
 		} catch (Exception e) {
@@ -260,11 +260,11 @@ public class GroupController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/listorg", method = { RequestMethod.POST, RequestMethod.GET })
-	public JsonVO listorg(@RequestParam(value = "categoryid") int categoryid,@RequestParam(value = "page") int page, @RequestParam(value = "size") int size,@RequestParam(value = "userid") int userid) {
+	public JsonVO listorg(@RequestParam(value = "userid") int userid) {
 		// 设置上下方文
 		JsonVO json = new JsonVO();
 		try {
-			json.setResult(groupService.getGroupOrgs(page, size));
+			json.setResult(groupService.getGroupOrgs(-1, -1));
 			json.setUser_events(userEventService.checkEvent(userid));
 			json.setErrorcode(Constant.OK);
 		} catch (Exception e) {
@@ -275,11 +275,11 @@ public class GroupController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/listgroup", method = { RequestMethod.POST, RequestMethod.GET })
-	public JsonVO listgroup(@RequestParam(value = "orgid") int orgid,@RequestParam(value = "page") int page, @RequestParam(value = "size") int size,@RequestParam(value = "userid") int userid) {
+	public JsonVO listgroup(@RequestParam(value = "categoryid") int categoryid,@RequestParam(value = "orgid") int orgid,@RequestParam(value = "userid") int userid) {
 		// 设置上下方文
 		JsonVO json = new JsonVO();
 		try {
-			json.setResult(groupService.getGroups(orgid, page, size));
+			json.setResult(groupService.getGroups(categoryid, orgid, -1, -1));
 			json.setUser_events(userEventService.checkEvent(userid));
 			json.setErrorcode(Constant.OK);
 		} catch (Exception e) {
