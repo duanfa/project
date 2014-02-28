@@ -203,12 +203,9 @@ public class GroupDaoImpl implements GroupDao {
 	}
 
 	@Override
-	public List<GroupOrg> getGroupOrgs(int categoryid, int pageNo, int pageSize) {
+	public List<GroupOrg> getGroupOrgs(int pageNo, int pageSize) {
 		List<GroupOrg> list = null;
 		String hql = "from GroupOrg org ";
-		if(categoryid>0){
-			hql = hql + " where org.category.id="+categoryid;
-		}
 		try {
 			if (pageNo > 0 && pageSize > 0) {
 				Query query = getSessionFactory().getCurrentSession().createQuery(hql);
@@ -226,12 +223,9 @@ public class GroupDaoImpl implements GroupDao {
 	}
 
 	@Override
-	public Integer getGroupOrgCount(int categoryid) {
+	public Integer getGroupOrgCount() {
 		Integer count;
 		String sql = "select count(1) from group_org";
-		if(categoryid>0){
-			sql = sql +" where categoryid="+categoryid;
-		}
 		try {
 			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
 			count = countRaw.intValue();

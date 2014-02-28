@@ -214,12 +214,12 @@ public class GroupController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/org/list", method = { RequestMethod.POST, RequestMethod.GET })
-	public PageVO groupOrgList(@RequestParam(value = "categoryid") int categoryid,@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
+	public PageVO groupOrgList(@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
 		// 设置上下方文
 				PageVO json = new PageVO();
 				try {
-					json.setResult(groupService.getGroupOrgs(categoryid, page, size));
-					json.setCount(groupService.getGroupOrgCount(categoryid));
+					json.setResult(groupService.getGroupOrgs(page, size));
+					json.setCount(groupService.getGroupOrgCount());
 					json.setErrorcode(Constant.OK);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -264,7 +264,7 @@ public class GroupController {
 		// 设置上下方文
 		JsonVO json = new JsonVO();
 		try {
-			json.setResult(groupService.getGroupOrgs(categoryid, page, size));
+			json.setResult(groupService.getGroupOrgs(page, size));
 			json.setUser_events(userEventService.checkEvent(userid));
 			json.setErrorcode(Constant.OK);
 		} catch (Exception e) {

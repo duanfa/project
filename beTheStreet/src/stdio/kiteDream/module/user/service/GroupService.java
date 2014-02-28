@@ -16,9 +16,9 @@ public interface GroupService {
 
 	public boolean deleteGroupCategory(int id);
 
-	public List<GroupOrg> getGroupOrgs(int categoryid, int pageNo, int pageSize);
+	public List<GroupOrg> getGroupOrgs( int pageNo, int pageSize);
 
-	public Integer getGroupOrgCount(int categoryid);
+	public Integer getGroupOrgCount();
 
 	public boolean saveGroupOrg(GroupOrg groupOrg);
 
