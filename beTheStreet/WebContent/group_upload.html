@@ -75,6 +75,9 @@
 			var id = $.getUrlParam("id");
 			var name = $.getUrlParam("name");
 			var info = $.getUrlParam("info");
+			var categoryid = $.getUrlParam("categoryid");
+			var orgid = $.getUrlParam("orgid");
+			var info = $.getUrlParam("info");
 			if(id!=null&&id!=undefined){
 				$("#id").val(id);
 				$("#name").val(name);
@@ -88,6 +91,9 @@
 					result = result+'<option value="'+value.id+'">'+value.name+'</option>';
 				});
 				$("#categoryId").html(result);
+				if(categoryid!=null&&categoryid!=undefined){
+					$("#categoryId").val(categoryid);
+				}
 			});
 			var orgUrl = "api/group/listorg?userid=-1";
 			$.get(orgUrl, function( data ) {}).done(function(data) {
@@ -96,6 +102,9 @@
 					result = result+'<option value="'+value.id+'">'+value.name+'</option>';
 				});
 				$("#orgId").html(result);
+				if(orgid!=null&&orgid!=undefined){
+					$("#orgId").val(orgid);
+				}
 			});
 		});
 	</script>

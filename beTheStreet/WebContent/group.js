@@ -30,6 +30,11 @@ function addItems(page,size){
 	$.get(url, function( data ) {}).done(function(data) {
 		var result = "";
 		$(data.result).each(function(index, value) {
+			var categoryid = "-1";
+			try {
+				categoryid = value.category.id;
+			} catch (e) {
+			}
 			var groupOrgid = "-1";
 			try {
 				groupOrgid = value.groupOrg.id;
@@ -45,7 +50,7 @@ function addItems(page,size){
 				'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
 				'<td class="center">'+validate(value.creatername)+'</td>'+
 				'<td class="center">'+
-				'<a class="btn btn-info" onclick="update(\''+value.id+'\',\''+value.name+'\',\''+value.info+'\',\''+groupOrgid+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
+				'<a class="btn btn-info" onclick="update(\''+value.id+'\',\''+value.name+'\',\''+value.info+'\',\''+categoryid+'\',\''+groupOrgid+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
 				'<a class="btn btn-danger" onclick="deleteGroup('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
 			'</td>'+
 			'</tr>';
@@ -190,7 +195,7 @@ function deleteGroup(id){
 		addItems(pageNo,pageSize);
 	});
 }
-function update(id,name,info,groupOrgid){
-	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="group_upload.html?id='+id+'&name='+name+'&info='+info+'&orgid='+groupOrgid+'" frameborder="0" style="height: 180px;"></iframe>');
+function update(id,name,info,categoryid,groupOrgid){
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="group_upload.html?id='+id+'&name='+name+'&info='+info+'&orgid='+groupOrgid+'&categoryid='+categoryid+'" frameborder="0" style="height: 280px;"></iframe>');
 	$("#dialog-form").dialog("open");
 }
