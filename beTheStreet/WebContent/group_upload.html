@@ -62,6 +62,12 @@
 					<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all">
 				<label for="info">info</label>
 					<input type="text" name="info" id="info" value="" class="text ui-widget-content ui-corner-all">
+				<label for="category">category</label>
+				<select name="category.id" id="categoryId">
+				</select>
+				<label for="orgId">school/org</label>
+				<select name="groupOrg.id" id="orgId">
+				</select>
 			</fieldset>
 		</form>
 	<script type="text/javascript">
@@ -74,6 +80,23 @@
 				$("#name").val(name);
 				$("#info").val(info);
 			}
+			
+			var categoryUrl = "api/group/listcategory?userid=-1";
+			$.get(categoryUrl, function( data ) {}).done(function(data) {
+				var result = "";
+				$(data.result).each(function(index, value) {
+					result = result+'<option value="'+value.id+'">'+value.name+'</option>';
+				});
+				$("#categoryId").html(result);
+			});
+			var orgUrl = "api/group/listorg?userid=-1";
+			$.get(orgUrl, function( data ) {}).done(function(data) {
+				var result = "";
+				$(data.result).each(function(index, value) {
+					result = result+'<option value="'+value.id+'">'+value.name+'</option>';
+				});
+				$("#orgId").html(result);
+			});
 		});
 	</script>
 </body>

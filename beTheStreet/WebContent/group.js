@@ -2,7 +2,7 @@ $(function() {
 	addItems(1,30);
 	$("#dialog-form").dialog({
 		autoOpen : false,
-		height : 300,
+		height : 380,
 		width : 330,
 		modal : true,
 		buttons : {
@@ -18,7 +18,7 @@ $(function() {
 		}
 	});
 	$("#create-group").click(function() {
-		$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="group_upload.html?orgid='+$(this).attr("rel")+'" frameborder="0" style="height: 180px;"></iframe>');
+		$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="group_upload.html?orgid='+$(this).attr("rel")+'" frameborder="0" style="height: 280px;"></iframe>');
 		$("#dialog-form").dialog("open");
 	});
 });
