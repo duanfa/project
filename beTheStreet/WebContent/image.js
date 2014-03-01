@@ -78,7 +78,7 @@ function addItems(page,size){
 				statu = '<span id="statu'+value.id+'"><span class="label label-warning">Unread</span><span>';
 			}
 			var oprateButton = "";
-			if(value.type=='STREET'){
+			if(value.levelType=='STREET'){
 				statu = '<span id="statu'+value.id+'"><span class="label label-success">Street Mode</span><span>';
 			}else{
 				oprateButton='<a class="btn btn-success" onclick="check('+value.id+',\'PASS\')" href="#"><i class="icon icon-black icon-check"></i>Pass</a>&nbsp;'+
