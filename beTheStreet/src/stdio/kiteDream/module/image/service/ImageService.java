@@ -3,6 +3,7 @@ package stdio.kiteDream.module.image.service;
 import java.util.List;
 
 import stdio.kiteDream.module.image.bean.Image;
+import stdio.kiteDream.module.image.bean.Image.Check;
 
 public interface ImageService {
 
@@ -20,6 +21,6 @@ public interface ImageService {
 
 	public boolean deleteImage(String imageId);
 
-	public boolean updateImageStatu(String imageId, String statu);
+	public boolean updateImageStatu(String imageId, Check statu);
 
 }

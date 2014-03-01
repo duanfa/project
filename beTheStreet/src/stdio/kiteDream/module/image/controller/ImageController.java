@@ -24,9 +24,8 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
 import stdio.kiteDream.module.image.bean.Image;
-import stdio.kiteDream.module.image.bean.Image.Type;
+import stdio.kiteDream.module.image.bean.Image.Check;
 import stdio.kiteDream.module.image.service.ImageService;
-import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.user.service.UserService;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
 import stdio.kiteDream.module.vo.JsonVO;
@@ -86,7 +85,7 @@ public class ImageController {
 				image.setPath(imgPre + fileName);
 				image.setThumbnail_path(imgPre + "thumbnail_" + fileName);
 				image.setCreate_time(new Date());
-				image.setStatu(Image.Check.UNREAD.toString());
+				image.setStatu(Image.Check.UNREAD);
 				image.setIp(request.getRemoteAddr());
 				System.out.println("userid is :"+userid);
 				imageService.saveImage(image,userid);
@@ -143,7 +142,7 @@ public class ImageController {
 
 	@ResponseBody
 	@RequestMapping(value = "/check/{imageid}", method = RequestMethod.GET)
-	public JsonVO check(HttpServletRequest request, @PathVariable("imageid") String imageid, @RequestParam("statu") String statu) {
+	public JsonVO check(HttpServletRequest request, @PathVariable("imageid") String imageid, @RequestParam("statu") Check statu) {
 		JsonVO json = new JsonVO();
 		try {
 			if (imageService.updateImageStatu(imageid, statu)) {

@@ -52,9 +52,9 @@ public class Image implements Serializable {
 	
 	private Type levelType;
 
-	private Date create_time;
+	private Date create_time = new Date();
 	
-	private Date update_time;
+	private Date update_time = new Date();
 
 	private String path;
 	
@@ -64,7 +64,7 @@ public class Image implements Serializable {
 	@JoinColumn(name = "userid")
 	private User user;
 
-	private String statu;
+	private Check statu;
 
 	public int getId() {
 		return id;
@@ -107,11 +107,12 @@ public class Image implements Serializable {
 		this.user = user;
 	}
 
-	public String getStatu() {
+
+	public Check getStatu() {
 		return statu;
 	}
 
-	public void setStatu(String statu) {
+	public void setStatu(Check statu) {
 		this.statu = statu;
 	}
 

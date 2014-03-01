@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import stdio.kiteDream.module.image.bean.Image;
+import stdio.kiteDream.module.image.bean.Image.Check;
 import stdio.kiteDream.module.image.bean.Image.Type;
 import stdio.kiteDream.module.image.dao.ImageDao;
 import stdio.kiteDream.module.level.bean.Level;
@@ -110,7 +111,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public boolean updateImageStatu(String imageId, String statu) {
+	public boolean updateImageStatu(String imageId, Check statu) {
 		try {
 			for (String id : imageId.split(",")) {
 				if (StringUtils.isNotBlank(id.trim())) {

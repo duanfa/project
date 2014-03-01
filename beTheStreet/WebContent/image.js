@@ -87,8 +87,9 @@ function addItems(page,size){
 			}
 			var content = '<tr>'+
 				'<td><input type="checkbox" id="inlineCheckbox1" value="'+value.id+'"></td>'+
-				'<td>'+validate(value.level)+'</td>'+
 				'<td class="center"><span class="thumbnail" style="width: 100px;margin-bottom:0px !important"><a title="'+value.desc+'" href='+value.path+'><img src="'+value.thumbnail_path+'"/></a><span></td>'+
+				'<td>'+validate(value.level)+'</td>'+
+				'<td>'+validate(value.level_stage)+'</td>'+
 				'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
 				'<td class="center">'+validate(value.gps)+'</td>'+
 				'<td class="center">'+validate(value.address)+'</td>'+
