@@ -172,17 +172,19 @@ public class GroupServiceImpl implements GroupService {
 		try {
 			Group group = groupDao.getUserGroup(userid);
 			User user = userDao.getUser(userid+"");
-			List<User> users = group.getUsers();
-			if(users!=null){
-				users.remove(user);
-			}else{
-				users = new ArrayList<User>();
+			if(group!=null){
+				List<User> users = group.getUsers();
+				group.setUsers(users);
+				group.setMenberNum(users.size());
+				if(users!=null){
+					users.remove(user);
+				}else{
+					group.setUsers(new ArrayList<User>());
+				}
+				groupDao.saveGroup(group);
 			}
 			user.setGroup(null);
-			group.setUsers(users);
-			group.setMenberNum(users.size());
 			user.setIngroup(false);
-			groupDao.saveGroup(group);
 			userDao.saveUser(user);
 			return true;
 		} catch (Exception e) {

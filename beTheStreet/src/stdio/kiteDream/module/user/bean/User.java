@@ -64,6 +64,8 @@ public class User implements Serializable {
 	
 	private boolean ingroup;
 	
+	private boolean readyChallenge;
+	
 	private int high_level=1;
 	
 	private int high_level_stage=1;
@@ -254,6 +256,14 @@ public class User implements Serializable {
 
 	public void setBonusStatu(Map<Integer, Integer> bonusStatu) {
 		this.bonusStatu = bonusStatu;
+	}
+
+	public boolean isReadyChallenge() {
+		return readyChallenge;
+	}
+
+	public void setReadyChallenge(boolean readyChallenge) {
+		this.readyChallenge = readyChallenge;
 	}
 
 }

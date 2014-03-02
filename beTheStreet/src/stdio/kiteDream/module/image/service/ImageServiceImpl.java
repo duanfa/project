@@ -120,7 +120,7 @@ public class ImageServiceImpl implements ImageService {
 					image.setStatu(statu);
 					image.setUpdate_time(new Date());
 					if (imageDao.saveImage(image)) {
-						if (Image.Check.PASS.toString().equals(statu)) {
+						if (Image.Check.PASS.equals(statu)) {
 							levelService.managePrize(image.getLevel(), user.getId() + "");
 							Message message = new Message();
 							message.setDescription("new image " + image.getId() + " passed and coins is added ");
@@ -129,7 +129,8 @@ public class ImageServiceImpl implements ImageService {
 							messageService.saveMessage(message, user.getId() + "");
 							updateBounsStatu(user,image.getLevel(),image.getLevel_stage());
 							userDao.saveUser(user);
-						} else if (Image.Check.FAIL.toString().equals(statu)) {
+							levelService.getChallenge(user.getId());
+						} else if (Image.Check.FAIL.equals(statu)) {
 							Message message = new Message();
 							message.setDescription("new image " + image.getId() + " been deny ");
 							message.setTitle("new image pass");

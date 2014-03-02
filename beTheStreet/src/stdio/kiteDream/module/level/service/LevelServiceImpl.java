@@ -1,6 +1,7 @@
 package stdio.kiteDream.module.level.service;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +9,20 @@ import org.springframework.stereotype.Service;
 
 import stdio.kiteDream.module.coins.bean.Coins;
 import stdio.kiteDream.module.coins.dao.CoinsDao;
+import stdio.kiteDream.module.image.bean.Image;
+import stdio.kiteDream.module.image.bean.Image.Check;
+import stdio.kiteDream.module.image.dao.ImageDao;
 import stdio.kiteDream.module.level.bean.Level;
 import stdio.kiteDream.module.level.bean.Level.LevelState;
 import stdio.kiteDream.module.level.dao.LevelDao;
+import stdio.kiteDream.module.message.bean.Message;
+import stdio.kiteDream.module.message.bean.MessageType;
+import stdio.kiteDream.module.message.service.MessageService;
 import stdio.kiteDream.module.user.bean.Group;
 import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.user.dao.GroupDao;
 import stdio.kiteDream.module.user.dao.UserDao;
+import stdio.kiteDream.util.Constant;
 
 @Service
 public class LevelServiceImpl implements LevelService {
@@ -27,6 +35,10 @@ public class LevelServiceImpl implements LevelService {
 	CoinsDao coinsDao;
 	@Autowired
 	GroupDao groupDao;
+	@Autowired
+	ImageDao imageDao;
+	@Autowired
+	MessageService messageService;
 
 	@Override
 	public Level getPrizeRule(String id) {
@@ -139,6 +151,46 @@ public class LevelServiceImpl implements LevelService {
 	@Override
 	public Level getLevelById(int id) {
 		return levelDao.getLevel(id+"");
+	}
+
+	@Override
+	public String getChallenge(int userid) {
+		User user = userDao.getUser(userid+"");
+		user.setReadyChallenge(true);
+		userDao.saveUser(user);
+		if(user.isIngroup()){
+			List<Image> images = imageDao.getUserBonusImage(userid);
+			if(images.size()>3){
+				int count = 0;
+				for(Image image:images){
+					if(Check.PASS.equals(image.getStatu())){
+						count++;
+					}
+				}
+				if(count>=2){
+					//send message;
+					Message message = new Message();
+					message.setCreate_time(new Date());
+					message.setDescription("you can play you challenge level!!!");
+					message.setTitle("unlocl challenge!");
+					message.setType(MessageType.NOTICE);
+					messageService.saveMessage(message, userid+"");
+					return Constant.OK;
+				}else{
+					Message message = new Message();
+					message.setCreate_time(new Date());
+					message.setDescription("please wait 1 day,administrator will check you image!!!");
+					message.setTitle("please waiting!!!");
+					message.setType(MessageType.NOTICE);
+					messageService.saveMessage(message, userid+"");
+					return "wait";
+				}
+			}else{
+				return "skip";
+			}
+		}else{
+			return "join";
+		}
 	}
 	
 

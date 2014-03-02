@@ -184,5 +184,19 @@ public class LevelController {
 		}
 		return json;
 	}
+	@ResponseBody
+	@RequestMapping(value = "/getChallenge/{userid}", method = RequestMethod.GET)
+	public JsonVO getChallenge(HttpServletRequest request, @PathVariable("userid") int userid) {
+		JsonVO json = new JsonVO();
+		try {
+			;
+			json.setErrorcode(levelService.getChallenge(userid));
+			json.setUser_events(userEventService.checkEvent(userid));
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
 
 }

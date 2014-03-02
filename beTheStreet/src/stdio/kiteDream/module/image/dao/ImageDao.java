@@ -20,4 +20,6 @@ public interface ImageDao {
 
 	public boolean delImage(String imageId);
 
+	public List<Image> getUserBonusImage(int userid);
+
 }

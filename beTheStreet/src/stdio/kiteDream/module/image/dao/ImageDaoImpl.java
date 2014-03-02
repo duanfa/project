@@ -7,13 +7,12 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import stdio.kiteDream.module.image.bean.Image;
+import stdio.kiteDream.module.image.bean.Image.Type;
 
 @Component
 public class ImageDaoImpl implements ImageDao {
@@ -115,6 +114,23 @@ public class ImageDaoImpl implements ImageDao {
 			count = countRaw.intValue();
 		}
 		return count;
+	}
+
+	@Override
+	public List<Image> getUserBonusImage(int userid) {
+		List<Image> list = null;
+		try {
+			Query query = getSessionFactory().getCurrentSession().createQuery("from Image image where image.levelType=? and image.user.id=? order by image.create_time desc");
+			query.setParameter(0, Type.BONUS);
+			query.setParameter(1, userid);
+			list = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (list == null) {
+			return new ArrayList<Image>();
+		}
+		return list;
 	}
 
 }
