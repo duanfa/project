@@ -43,7 +43,6 @@ function addItems(page,size){
 				'<td class="center">'+validate(value.desc)+'</td>'+
 				'<td class="center">'+validate(value.challenge)+'</td>'+
 				'<td class="center">'+validate(value.regular_stage)+'</td>'+
-				'<td class="center">'+validate(value.bonus_stage)+'</td>'+
 				'<td class="center">'+validate(value.completeNum)+'</td>'+
 				'<td class="center">'+validate(value.sumcoins)+'</td>'+
 				'<td class="center">'+validatecoins(value)+'</td>'+

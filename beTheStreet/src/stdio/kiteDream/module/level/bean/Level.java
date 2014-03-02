@@ -58,7 +58,7 @@ public class Level implements Serializable {
 	
 	private int regular_stage;
 	
-	private int bonus_stage;
+	private int bonus_stage=1;
 	
 	@Transient
 	private LevelState state;
