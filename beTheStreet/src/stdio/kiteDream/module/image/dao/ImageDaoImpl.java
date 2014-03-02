@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import stdio.kiteDream.module.image.bean.Image;
+import stdio.kiteDream.module.image.bean.Image.Check;
 import stdio.kiteDream.module.image.bean.Image.Type;
 
 @Component
@@ -120,9 +121,10 @@ public class ImageDaoImpl implements ImageDao {
 	public List<Image> getUserBonusImage(int userid) {
 		List<Image> list = null;
 		try {
-			Query query = getSessionFactory().getCurrentSession().createQuery("from Image image where image.levelType=? and image.user.id=? order by image.create_time desc");
+			Query query = getSessionFactory().getCurrentSession().createQuery("from Image image where image.levelType=? and image.user.id=? and image.statu=? order by image.create_time desc");
 			query.setParameter(0, Type.BONUS);
 			query.setParameter(1, userid);
+			query.setParameter(2, Check.PASS);
 			list = query.list();
 		} catch (Exception e) {
 			e.printStackTrace();
