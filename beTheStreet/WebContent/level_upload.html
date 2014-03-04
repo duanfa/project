@@ -65,6 +65,7 @@
 		var greenRatio = $.getUrlParam("greenRatio");
 		var yellowRatio = $.getUrlParam("yellowRatio");
 		var redRatio = $.getUrlParam("redRatio");
+		var regular_stage = $.getUrlParam("regular_stage");
 		if(id!=null&&id!=undefined){
 			$("#id").val(id);
 			$("#level").val(level);
@@ -75,6 +76,7 @@
 			$("#greenRatio").val(greenRatio);
 			$("#yellowRatio").val(yellowRatio);
 			$("#redRatio").val(redRatio);
+			$("#regular_stage").val(regular_stage);
 		}
 		$("#challenge").click(function(){
 			if($("#challenge").attr("checked")=='checked'){

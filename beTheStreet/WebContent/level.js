@@ -47,7 +47,7 @@ function addItems(page,size){
 				'<td class="center">'+validate(value.sumcoins)+'</td>'+
 				'<td class="center">'+validatecoins(value)+'</td>'+
 				'<td class="center">'+
-				'<a class="btn btn-info" onclick="update(\''+value.id+'\',\''+value.level+'\',\''+value.title+'\',\''+value.desc+'\',\''+value.completeNum+'\',\''+value.sumcoins+'\',\''+value.greenRatio+'\',\''+value.yellowRatio+'\',\''+value.redRatio+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
+				'<a class="btn btn-info" onclick="update(\''+value.id+'\',\''+value.level+'\',\''+value.title+'\',\''+value.desc+'\',\''+value.completeNum+'\',\''+value.sumcoins+'\',\''+value.greenRatio+'\',\''+value.yellowRatio+'\',\''+value.redRatio+'\',\''+value.regular_stage+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
 				'<a class="btn btn-danger" onclick="deleteLevel('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
 			'</td>'+
 			'</tr>';
@@ -146,7 +146,7 @@ function deleteLevel(id){
 		addItems(pageNo,pageSize);
 	});
 }
-function update(id,level,title,desc,completeNum,sumcoins,greenRatio,yellowRatio,redRatio){
-	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_upload.html?id='+id+'&level='+level+'&title='+title+'&desc='+desc+'&completeNum='+completeNum+'&sumcoins='+sumcoins+'&greenRatio='+greenRatio+'&yellowRatio='+yellowRatio+'&redRatio='+redRatio+'" frameborder="0" style="height: 530px; width: 500px;"></iframe>');
+function update(id,level,title,desc,completeNum,sumcoins,greenRatio,yellowRatio,redRatio,regular_stage){
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_upload.html?id='+id+'&level='+level+'&title='+title+'&desc='+desc+'&completeNum='+completeNum+'&sumcoins='+sumcoins+'&greenRatio='+greenRatio+'&yellowRatio='+yellowRatio+'&redRatio='+redRatio+'&regular_stage='+regular_stage+'" frameborder="0" style="height: 530px; width: 500px;"></iframe>');
 	$("#dialog-form").dialog("open");
 }
