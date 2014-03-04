@@ -58,7 +58,7 @@ function addItems(page,size){
 				'<td>'+validate(value.nickname)+'</td>'+
 				'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
 				'<td class="center">'+validatecoins(value.coins)+'</td>'+
-				'<td class="center">'+validate("1")+'</td>'+
+				'<td class="center">'+validate(value.high_level)+'</td>'+
 				'<td class="center">'+validate("4/10")+'</td>'+
 				'<td class="center">'+validate("23")+'</td>'+
 				'<td class="center">'+validate("46:23:12")+'</td>'+

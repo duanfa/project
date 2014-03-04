@@ -70,6 +70,8 @@ public class User implements Serializable {
 	
 	private int high_level_stage=1;
 	
+	private int high_level_all=1;
+	
 	@ElementCollection(fetch=FetchType.EAGER)
 	@Basic
  	private Map<Integer,Integer> bonusStatu = new TreeMap<Integer,Integer>();
@@ -264,6 +266,14 @@ public class User implements Serializable {
 
 	public void setReadyChallenge(boolean readyChallenge) {
 		this.readyChallenge = readyChallenge;
+	}
+
+	public int getHigh_level_all() {
+		return high_level_all;
+	}
+
+	public void setHigh_level_all(int high_level_all) {
+		this.high_level_all = high_level_all;
 	}
 
 }
