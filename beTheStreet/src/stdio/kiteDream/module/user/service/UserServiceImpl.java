@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import stdio.kiteDream.module.level.dao.LevelDao;
 import stdio.kiteDream.module.user.bean.Group;
 import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.user.dao.GroupDao;
@@ -28,6 +29,8 @@ public class UserServiceImpl implements UserService {
 	UserDao userDao;
 	@Autowired
 	GroupDao groupDao;
+	@Autowired
+	LevelDao levelDao;
 
 	@Override
 	public List<User> getUsers() {
@@ -52,7 +55,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String saveUser(User user) {
 		try {
+			
 			user.setCreate_time(new Date());
+			user.setHigh_level_all(levelDao.getLevel(1).getRegular_stage());
 			if(userDao.saveUser(user)){
 				//userEventService.updateUserEvent(user.getId(), "new_level_comic", 31);
 			}
