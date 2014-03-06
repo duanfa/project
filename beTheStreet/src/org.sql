@@ -14,6 +14,7 @@ insert into group_org(name) values("Alternative Crossroads High");
 insert into group_org(name) values("Alternative Learning Academy at Conley-C");
 insert into group_org(name) values("Alternative Liberty High");
 insert into group_org(name) values("Alternative Placement Academy");
+
 insert into group_org(name) values("Alternative Street Academy");
 insert into group_org(name) values("Alternative Tamiscal High");
 insert into group_org(name) values("Alternative Valley Oaks High");
@@ -66,6 +67,7 @@ insert into group_org(name) values("Cloverdale High");
 insert into group_org(name) values("Cogswell Polytechnical College");
 insert into group_org(name) values("College of Alameda");
 insert into group_org(name) values("College of Marin");
+
 insert into group_org(name) values("College of San Mateo");
 insert into group_org(name) values("Community Day");
 insert into group_org(name) values("Continuation Baden High");
@@ -116,6 +118,7 @@ insert into group_org(name) values("Encinal High");
 insert into group_org(name) values("Envision Academy for Arts & Technology");
 insert into group_org(name) values("Escuela Popular/Center for Training and");
 insert into group_org(name) values("Everest Public High");
+
 insert into group_org(name) values("Evergreen Valley College");
 insert into group_org(name) values("Evergreen Valley High");
 insert into group_org(name) values("Ex'pression College for Digital Arts");
