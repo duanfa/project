@@ -12,7 +12,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "group_category")
-@JsonIgnoreProperties({"orgs"}) 
+@JsonIgnoreProperties({"alias"}) 
 public class GroupCategory implements Serializable {
 
 	private static final long serialVersionUID = -990828283870178741L;
@@ -24,6 +24,8 @@ public class GroupCategory implements Serializable {
 	private String name;
 	
 	private String info;
+	
+	private String alias;
 
 	public int getId() {
 		return id;
@@ -47,6 +49,14 @@ public class GroupCategory implements Serializable {
 
 	public void setInfo(String info) {
 		this.info = info;
+	}
+
+	public String getAlias() {
+		return alias;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
 	}
 
 }

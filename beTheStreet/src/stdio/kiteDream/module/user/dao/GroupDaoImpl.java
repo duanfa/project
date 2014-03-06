@@ -95,6 +95,7 @@ public class GroupDaoImpl implements GroupDao {
 		if(orgid>0){
 			hql = hql+" and grou.groupOrg.id="+orgid;
 		}
+		hql = hql+" order by grou.name ";
 		try {
 			Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 			if (pageNo > 0 && pageSize > 0) {
@@ -155,7 +156,7 @@ public class GroupDaoImpl implements GroupDao {
 	public List<GroupCategory> getGroupCategorys(int pageNo, int pageSize) {
 		List<GroupCategory> list = null;
 		try {
-			Query query = getSessionFactory().getCurrentSession().createQuery("from GroupCategory");
+			Query query = getSessionFactory().getCurrentSession().createQuery("from GroupCategory category  order by category.alias ");
 			if (pageNo > 0 && pageSize > 0) {
 				query.setFirstResult((pageNo - 1) * pageSize);
 				query.setMaxResults(pageSize);
@@ -211,7 +212,7 @@ public class GroupDaoImpl implements GroupDao {
 	@Override
 	public List<GroupOrg> getGroupOrgs(int pageNo, int pageSize) {
 		List<GroupOrg> list = null;
-		String hql = "from GroupOrg org ";
+		String hql = "from GroupOrg org order by org.alias";
 		try {
 			Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 			if (pageNo > 0 && pageSize > 0) {

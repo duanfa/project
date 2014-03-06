@@ -134,9 +134,9 @@ function validatecoins(level){
 				redNum = "&nbsp;&nbsp;&nbsp;&nbsp;"+redNum;
 			}
 	var spans = '<span style="background-color:#E2EFD9; padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">'+
-	greenNum+'</span><span style="background-color:rgb(255, 243, 203); padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">'+
-	yellowNum+'</span><span style="background-color:rgb(255, 153, 153); padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">'+
-	redNum+'</span>';/*value.coins*/
+	greenNum+'%</span><span style="background-color:rgb(255, 243, 203); padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">'+
+	yellowNum+'%</span><span style="background-color:rgb(255, 153, 153); padding-left: 20px; padding-top: 5px; padding-bottom: 15px;">'+
+	redNum+'%</span>';/*value.coins*/
 	return spans;
 }
 
