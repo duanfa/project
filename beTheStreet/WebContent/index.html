@@ -18,6 +18,17 @@ body {
 .sidebar-nav {
 	padding: 9px 0;
 }
+
+.box-content p {
+    text-indent: 20px;
+}
+      
+.box-content img {
+    float: left;
+    width: 120px;
+    padding-right: 10px;
+    margin-top: 30px;
+}
 </style>
 <link href="css/bootstrap-responsive.css" rel="stylesheet">
 <link href="css/charisma-app.css" rel="stylesheet">
@@ -56,7 +67,7 @@ body {
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 				</a> <a class="brand" href="index.html" style="width: 186px;"> <img alt="Charisma Logo"
-					src="img/logo20.png" /> <span>Be The Street</span></a>
+					src="img/logo20.png" /> <span style="font-size: 18px;">Be The Street</span></a>
 
 
 				<!-- user dropdown starts -->
@@ -154,26 +165,26 @@ body {
 					</ul>
 				</div>
 				<div class="sortable row-fluid">
-					<a data-rel="tooltip" title="6 new members."
-						class="well span3 top-block" href="#"> <span
+					<a data-rel="tooltip" title="users"
+						class="well span3 top-block" href="user.html"> <span
 						class="icon32 icon-red icon-user"></span>
-						<div>Total Members</div>
-						<div>507</div> <span class="notification">6</span>
-					</a> <a data-rel="tooltip" title="4 new pro members."
-						class="well span3 top-block" href="#"> <span
-						class="icon32 icon-color icon-star-on"></span>
-						<div>Pro Members</div>
-						<div>228</div> <span class="notification green">4</span>
-					</a> <a data-rel="tooltip" title="$34 new sales."
-						class="well span3 top-block" href="#"> <span
+						<div>Total users</div>
+						<div id="total_user">&nbsp;</div><!--  <span class="notification">&nbsp;</span> -->
+					</a> <a data-rel="tooltip" title="Prizes"
+						class="well span3 top-block" href="prize.html"> <span
+						class="icon32 icon-color icon-cart"></span>
+						<div>Prizes</div>
+						<div>&nbsp;</div><!--  <span class="notification green">&nbsp;</span> -->
+					</a> <a data-rel="tooltip" title="Images"
+						class="well span3 top-block" href="image.html"> <span
 						class="icon32 icon-color icon-image"></span>
 						<div>Images</div>
-						<div>13320</div> <span class="notification yellow">34</span>
-					</a> <a data-rel="tooltip" title="12 new messages."
-						class="well span3 top-block" href="#"> <span
+						<div>&nbsp;</div><!--  <span class="notification yellow">&nbsp;</span> -->
+					</a> <a data-rel="tooltip" title="Messages"
+						class="well span3 top-block" href="message.html"> <span
 						class="icon32 icon-color icon-envelope-closed"></span>
 						<div>Messages</div>
-						<div>25</div> <span class="notification red">12</span>
+						<div>&nbsp;</div><!--  <span class="notification red">&nbsp;</span> -->
 					</a>
 				</div>
 
@@ -193,7 +204,7 @@ body {
 						</div>
 						<div class="box-content">
 							<h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Be The Street <small> Mobile Application Game </small>
-							</h1>
+							</h1><img src="img/bts_loading.gif">&nbsp;&nbsp;&nbsp;
 							<p>&nbsp;&nbsp;&nbsp;This new mobile application is meant to engage a very specific target audience: 14-24 year olds living in the Bay
 Area of California. It will provide a seamless user experience that is simple to interface with, and fully branded
 with Be the Street personality (note: the prototype mock-up aims to show examples of the functionality of
@@ -215,12 +226,10 @@ app there is a message feed, where players receive invitations to challenges or 
 							</p>
 
 							<p class="center">
-								<a href="http://xxx.xxx.xxx"
-									class="btn btn-large btn-primary"><i
-									class="icon-chevron-left icon-white"></i> Back to article</a> <a
-									href="http://xxx.xxx.xxx"
-									class="btn btn-large"><i class="icon-download-alt"></i>
-									Download Page</a>
+								<a href="https://play.google.com/store"
+									class="btn"><img src="img/google_play.png" style="margin-top: 0px;"></a> 
+								<a href="https://itunes.apple.com/us/genre/ios/id36?mt=8"
+									class="btn"><img src="img/app_store.jpg" style="margin-top: 0px;width: 90px;"></a> 
 							</p>
 							<div class="clearfix"></div>
 						</div>
