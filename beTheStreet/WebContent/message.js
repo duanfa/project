@@ -72,7 +72,7 @@ function validateuser(value){
 		if (value.type=="BROADCAST") {
 			return 'ALL';
 		} else {
-			return value.userName;
+			return value.nickame;
 		}
 	} catch (e) {
 		console.log(e);
