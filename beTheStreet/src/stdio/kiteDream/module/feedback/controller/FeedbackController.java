@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import stdio.kiteDream.module.feedback.bean.Feedback;
 import stdio.kiteDream.module.feedback.service.FeedbackService;
+import stdio.kiteDream.module.user.bean.User;
+import stdio.kiteDream.module.user.service.UserService;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
 import stdio.kiteDream.module.vo.JsonVO;
 import stdio.kiteDream.module.vo.PageVO;
@@ -24,14 +26,16 @@ public class FeedbackController {
 	private FeedbackService feedbackService;
 	@Autowired
 	UserEventService userEventService;
+	@Autowired
+	UserService userService;
 
 	@ResponseBody
 	@RequestMapping(value = "/list", method = { RequestMethod.GET, RequestMethod.POST })
-	public PageVO list(ModelMap model, @RequestParam("pageNo")int pageNo,  @RequestParam("pageSize")int pageSize) {
+	public PageVO list(ModelMap model, @RequestParam("pageNo")int pageNo,  @RequestParam("pageSize")int pageSize,  @RequestParam(value="userid" ,required=false)int userid) {
 		PageVO json = new PageVO();
 		try {
-			json.setResult(feedbackService.getFeedbacks(pageNo, pageSize));
-			json.setCount(feedbackService.getCount());
+			json.setResult(feedbackService.getFeedbacks(userid,pageNo, pageSize));
+			json.setCount(feedbackService.getCount(userid));
 			json.setErrorcode(Constant.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -42,14 +46,13 @@ public class FeedbackController {
 
 	@ResponseBody
 	@RequestMapping(value = "/add",  method = { RequestMethod.GET, RequestMethod.POST })
-	public JsonVO add(ModelMap model, @RequestParam(value="title") String title, @RequestParam(value="email",required=false) String email,
-			@RequestParam(value="info",required=false) String info,@RequestParam(value="userid",required=false) int userid) {
+	public JsonVO add(ModelMap model, @RequestParam(value="info",required=false) String info,@RequestParam(value="userid",required=false) int userid) {
 		JsonVO json = new JsonVO();
 		try {
+			User user = userService.getUser(userid+"");
 			Feedback feedback = new Feedback();
 			feedback.setInfo(info);
-			feedback.setEmail(email);
-			feedback.setTitle(title);
+			feedback.setUser(user);
 			if(feedbackService.saveFeedback(feedback)){
 				json.setErrorcode(Constant.OK);
 			}
@@ -80,7 +83,7 @@ public class FeedbackController {
 	@RequestMapping(value = "/count", method = { RequestMethod.GET, RequestMethod.POST })
 	public long count() {
 		try {
-			return feedbackService.getCount();
+			return feedbackService.getCount(-1);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;

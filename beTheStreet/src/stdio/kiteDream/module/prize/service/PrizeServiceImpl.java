@@ -54,15 +54,17 @@ public class PrizeServiceImpl implements PrizeService {
 	}
 
 	@Override
-	public boolean deletePrize(String id,String realContextPath) {
+	public boolean deletePrize(String id, String realContextPath) {
 		try {
 			Prize oldPrize = getPrize(id);
-			File oldHeadPhoto = new File(realContextPath+"/"+oldPrize.getHeadPhoto());
-			File oldThumbnail_path = new File(realContextPath+"/"+oldPrize.getThumbnail_path());
-			if(oldHeadPhoto.isFile()){
+			File oldHeadPhoto = new File(realContextPath + "/"
+					+ oldPrize.getHeadPhoto());
+			File oldThumbnail_path = new File(realContextPath + "/"
+					+ oldPrize.getThumbnail_path());
+			if (oldHeadPhoto.isFile()) {
 				oldHeadPhoto.delete();
 			}
-			if(oldThumbnail_path.isFile()){
+			if (oldThumbnail_path.isFile()) {
 				oldThumbnail_path.delete();
 			}
 		} catch (Exception e) {
@@ -73,37 +75,42 @@ public class PrizeServiceImpl implements PrizeService {
 
 	@Override
 	public int manageBuy(int userid, int prizeid, Order order) {
-		Prize prize = prizeDao.getPrize(prizeid+"");
-		User user = userDao.getUser(userid+"");
-		Coins coins = coinsDao.getUserCoins(userid+"");
-		if(prize!=null&&prize.getNum()<0){
+		Prize prize = prizeDao.getPrize(prizeid + "");
+		User user = userDao.getUser(userid + "");
+		Coins coins = coinsDao.getUserCoins(userid + "");
+		if (prize != null && prize.getNum() < 0) {
 			return 2;
 		}
-		if(coins!=null&&coins.getGreenNum()>=prize.getCoins().getGreenNum()&&coins.getRedNum()>=prize.getCoins().getRedNum()&&coins.getYellowNum()>=prize.getCoins().getYellowNum()){
-			coins.setGreenNum(coins.getGreenNum()-prize.getCoins().getGreenNum());
-			coins.setRedNum(coins.getRedNum()-prize.getCoins().getRedNum());
-			coins.setYellowNum(coins.getYellowNum()-prize.getCoins().getYellowNum());
-			prize.setNum(prize.getNum()-1);
+		if (coins != null
+				&& coins.getGreenNum() >= prize.getCoins().getGreenNum()
+				&& coins.getRedNum() >= prize.getCoins().getRedNum()
+				&& coins.getYellowNum() >= prize.getCoins().getYellowNum()) {
+			coins.setGreenNum(coins.getGreenNum()
+					- prize.getCoins().getGreenNum());
+			coins.setRedNum(coins.getRedNum() - prize.getCoins().getRedNum());
+			coins.setYellowNum(coins.getYellowNum()
+					- prize.getCoins().getYellowNum());
+			prize.setNum(prize.getNum() - 1);
 			prizeDao.savePrize(prize);
 			coinsDao.saveCoins(coins);
-		}else{
+		} else {
 			return 3;
 		}
 		order.setGreenNum(prize.getCoins().getGreenNum());
 		order.setYellowNum(prize.getCoins().getYellowNum());
 		order.setRedNum(prize.getCoins().getRedNum());
-		order.setStatu(OrderStatu.PURCHASE);
+		order.setStatu(OrderStatu.PURCHASING);
 		order.setNum(1);
 		order.setUser(user);
 		order.setPrize(prize);
 		orderDao.saveOrder(order);
-		if(StringUtils.isBlank(user.getName())){
+		if (StringUtils.isBlank(user.getName())) {
 			user.setName(order.getName());
 		}
-		if(StringUtils.isBlank(user.getEmail())){
+		if (StringUtils.isBlank(user.getEmail())) {
 			user.setEmail(order.getEmail());
 		}
-		if(StringUtils.isBlank(user.getCellPhone())){
+		if (StringUtils.isBlank(user.getCellPhone())) {
 			user.setCellPhone(order.getPhone());
 		}
 		userDao.saveUser(user);
@@ -115,48 +122,45 @@ public class PrizeServiceImpl implements PrizeService {
 		return orderDao.getUserOrders(pageNo, pageSize, userid);
 	}
 
-
 	@Override
 	public boolean manageChangeOrder(int orderid, OrderStatu statu) {
-		Order order = orderDao.getOrder(orderid+"");
-		OrderStatu oldStatu = order.getStatu();
+		Order order = orderDao.getOrder(orderid + "");
 		order.setStatu(statu);
-		if(orderDao.saveOrder(order)){
-			switch(statu){
-			case CLOSE:
+		if (orderDao.saveOrder(order)) {
+			switch (statu) {
+			case CANCELLED:
 				Prize prize = order.getPrize();
 				User user = order.getUser();
-				Coins coins = coinsDao.getUserCoins(user.getId()+"");
-				if(coins!=null&&prize!=null){
-					coins.setGreenNum(coins.getGreenNum()+prize.getCoins().getGreenNum());
-					coins.setRedNum(coins.getRedNum()+prize.getCoins().getRedNum());
-					coins.setYellowNum(coins.getYellowNum()+prize.getCoins().getYellowNum());
-					prize.setNum(prize.getNum()+1);
-					order.setStatu(OrderStatu.CANCEL);
+				Coins coins = coinsDao.getUserCoins(user.getId() + "");
+				if (coins != null && prize != null) {
+					coins.setGreenNum(coins.getGreenNum()
+							+ prize.getCoins().getGreenNum());
+					coins.setRedNum(coins.getRedNum()
+							+ prize.getCoins().getRedNum());
+					coins.setYellowNum(coins.getYellowNum()
+							+ prize.getCoins().getYellowNum());
+					prize.setNum(prize.getNum() + 1);
+					order.setStatu(OrderStatu.CANCELLED);
 					prizeDao.savePrize(prize);
 					coinsDao.saveCoins(coins);
 					orderDao.saveOrder(order);
-					
+
 					Message message = new Message();
-					message.setDescription("product "+prize.getTitle()+" returned success");
+					message.setDescription("product " + prize.getTitle()
+							+ " returned success");
 					message.setTitle("new product returned approve");
 					message.setType(MessageType.NOTICE);
-					messageService.saveMessage(message, user.getId()+"");
+					messageService.saveMessage(message, user.getId() + "");
 				}
 				break;
-			case SEND:
+			case SENT:
 				Message message = new Message();
-				message.setDescription("product "+order.getPrize().getTitle()+" had been posted .");
+				message.setDescription("product " + order.getPrize().getTitle()
+						+ " had been posted .");
 				message.setTitle("product post");
 				message.setType(MessageType.NOTICE);
-				messageService.saveMessage(message,order.getUser().getId()+"");
-				if(oldStatu.equals(OrderStatu.CANCEL)){
-					message = new Message();
-					message.setDescription("product "+order.getPrize().getTitle()+" had been posted .sales return reject");
-					message.setTitle(" sales return reject.");
-					message.setType(MessageType.NOTICE);
-					messageService.saveMessage(message,order.getUser().getId()+"");
-				}
+				messageService.saveMessage(message, order.getUser().getId()
+						+ "");
 				break;
 			}
 		}
@@ -175,8 +179,7 @@ public class PrizeServiceImpl implements PrizeService {
 
 	@Override
 	public boolean deleteOrder(int id) {
-		return orderDao.delOrder(id+"");
+		return orderDao.delOrder(id + "");
 	}
-	
 
 }

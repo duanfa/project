@@ -3,6 +3,7 @@ package stdio.kiteDream.module.message.service;
 import java.util.List;
 
 import stdio.kiteDream.module.message.bean.Message;
+import stdio.kiteDream.module.vo.PageVO;
 
 public interface MessageService {
 
@@ -15,5 +16,7 @@ public interface MessageService {
 	public boolean manageResendMessage(int id);
 
 	public boolean saveMessage(Message message,String bulkuserid);
+
+	public PageVO manageDisplayUserMessage(int userid, int page, int size);
 
 }

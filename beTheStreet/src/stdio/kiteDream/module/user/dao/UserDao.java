@@ -3,6 +3,7 @@ package stdio.kiteDream.module.user.dao;
 import java.util.List;
 
 import stdio.kiteDream.module.user.bean.User;
+import stdio.kiteDream.module.vo.PageVO;
 
 public interface UserDao {
 
@@ -19,5 +20,7 @@ public interface UserDao {
 	public boolean delUser(String userId);
 
 	public List<User> manageSearch(String keyword);
+
+	public PageVO displayUserMessag(int userid, int page, int size);
 
 }

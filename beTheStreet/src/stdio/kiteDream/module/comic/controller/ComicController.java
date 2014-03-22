@@ -48,8 +48,8 @@ public class ComicController {
 
 	@ResponseBody
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addComic(HttpServletRequest request, HttpSession session, @RequestParam("name") String name, @RequestParam("level") int level, @RequestParam("order") int order,
-			@RequestParam("info") String info,@RequestParam("type") String type,@RequestParam(value="id",required=false) String id) throws IllegalStateException, IOException {
+	public String addComic(HttpServletRequest request, HttpSession session, @RequestParam("level") int level, @RequestParam("order") int order,
+			@RequestParam("type") String type,@RequestParam(value="id",required=false) String id) throws IllegalStateException, IOException {
 		// 设置上下方文
 		try {
 			CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
@@ -106,8 +106,6 @@ public class ComicController {
 				}else if(type!=null&&Type.CHALLENGE.toString().equals(type.toUpperCase())){
 					comic.setType(Type.CHALLENGE);
 				}
-				comic.setName(name);
-				comic.setInfo(info);
 				comic.setLevel(level);
 				comic.setOrderNum(order);
 				comicService.saveComic(comic);

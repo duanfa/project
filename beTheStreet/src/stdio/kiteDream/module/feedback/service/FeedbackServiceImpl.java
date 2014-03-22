@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import stdio.kiteDream.module.feedback.bean.Feedback;
 import stdio.kiteDream.module.feedback.dao.FeedbackDao;
-import stdio.kiteDream.module.helloMessage.bean.HelloMessage;
 
 @Service
 public class FeedbackServiceImpl implements FeedbackService {
@@ -15,8 +14,8 @@ public class FeedbackServiceImpl implements FeedbackService {
 	FeedbackDao feedbackDao;
 
 	@Override
-	public List<Feedback> getFeedbacks(int pageNo, int pageSize) {
-		return feedbackDao.getFeedbacks(pageNo, pageSize);
+	public List<Feedback> getFeedbacks(int userid,int pageNo, int pageSize) {
+		return feedbackDao.getFeedbacks(userid,pageNo, pageSize);
 	}
 
 	@Override
@@ -30,8 +29,8 @@ public class FeedbackServiceImpl implements FeedbackService {
 	}
 
 	@Override
-	public int getCount() {
-		return feedbackDao.getCount();
+	public int getCount(int userid) {
+		return feedbackDao.getCount(userid);
 	}
 
 }

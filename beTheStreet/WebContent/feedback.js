@@ -5,13 +5,19 @@ var pageNo,pageSize;
 function addItems(page,size){
 	pageNo = page;
 	pageSize = size;
-	$.get("api/feedback/list?pageNo="+page+"&pageSize="+size, function( data ) {}).done(function(data) {
+	var userid=$.getUrlParam("userid");
+	var url = "api/feedback/list?pageNo="+page+"&pageSize="+size;
+	if(userid==null){
+		url = url+"&userid=-1";
+	}else{
+		url = url+"&userid="+userid;
+	}
+	$.get(url, function( data ) {}).done(function(data) {
 		if(data.errorcode=='ok'){
 			var result = "";
 			$(data.result).each(function(index, value) {
 				var content = '<tr>'+
-					'<td class="center">'+validate(value.title)+'</td>'+
-					'<td class="center">'+validate(value.email)+'</td>'+
+					'<td class="center">'+validateUser(value)+'</td>'+
 					'<td class="center">'+validate(value.info)+'</td>'+
 					'<td class="center">'+
 						/*'<a class="btn btn-info" href="userImage.html?userid='+value.id+'"><i class="icon-picture icon-white"></i>Image</a>&nbsp;'+
@@ -27,8 +33,14 @@ function addItems(page,size){
 	});
 
 }
+function validateUser(value){
+	if(value.user==null||value.user==undefined){
+		return '';
+	}else{
+		return value.user.nickname;
+	}
+}
 function validate(value){
-	console.log(value);
 	if(value==null||value==undefined){
 		return '';
 	}else{

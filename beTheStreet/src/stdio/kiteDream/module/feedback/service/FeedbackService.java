@@ -6,12 +6,12 @@ import stdio.kiteDream.module.feedback.bean.Feedback;
 
 public interface FeedbackService {
 
-	public List<Feedback> getFeedbacks(int pageNo,int pageSize);
+	public List<Feedback> getFeedbacks(int userid,int pageNo,int pageSize);
 	
 	public boolean saveFeedback(Feedback feedback);
 
 	public boolean deleteFeedback(String id);
 
-	public int getCount();
+	public int getCount(int userid);
 
 }

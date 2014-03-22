@@ -14,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import stdio.kiteDream.module.message.bean.Message;
+import stdio.kiteDream.module.message.bean.MessageType;
 import stdio.kiteDream.module.user.bean.User;
+import stdio.kiteDream.module.vo.PageVO;
 
 @Component
 public class UserDaoImpl implements UserDao {
@@ -111,6 +114,41 @@ public class UserDaoImpl implements UserDao {
 			return new ArrayList<User>();
 		}
 		return list;
+	}
+
+	@Override
+	public PageVO displayUserMessag(int userid, int page, int size) {
+		PageVO pagevo = new PageVO();
+		List<Message> list = null;
+		try {
+			String hql = "from Message message";
+			if(userid>0){
+				hql = hql+" where message.user.id="+userid + " order by message.create_time desc";
+			}else{
+				hql = hql+" order by message.create_time desc";
+			}
+			Query query = getSessionFactory().getCurrentSession().createQuery(hql);
+			query.setFirstResult((page - 1) * size);
+			query.setMaxResults(size);
+			list = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		pagevo.setResult(list);
+		Integer count;
+		String sql = "select count(1) from message";
+		if(userid>0){
+			sql = sql +" where userid="+userid;
+		}
+		try {
+			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
+			count = countRaw.intValue();
+		} catch (Exception e) {
+			Integer countRaw = (Integer) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
+			count = countRaw.intValue();
+		}
+		pagevo.setCount(count);
+		return pagevo;
 	}
 
 }

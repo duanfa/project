@@ -34,9 +34,9 @@ function addItems(page,size){
 		$(data.result).each(function(index, value) {
 			var statu = "";
 			if(value.sellState==1){
-				statu = '<span id="statu'+value.id+'"><span class="label label-success">ONSEAL</span><span>';
+				statu = '<span id="statu'+value.id+'"><span class="label label-success">ON SALE</span><span>';
 			}else{
-				statu = '<span id="statu'+value.id+'"><span class="label label-important">SALEOUT</span><span>';
+				statu = '<span id="statu'+value.id+'"><span class="label label-important">SOLD OUT</span><span>';
 			}
 			var content = '<tr>'+
 				'<td class="center"><span class="thumbnail" style="width: 100px;margin-bottom:0px !important"><a title="'+value.desc+'" href="'+value.headPhoto+'"><img src="'+value.thumbnail_path+'"/></a><span></td>'+

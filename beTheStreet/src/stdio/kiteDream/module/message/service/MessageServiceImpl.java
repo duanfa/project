@@ -13,6 +13,7 @@ import stdio.kiteDream.module.message.dao.MessageDao;
 import stdio.kiteDream.module.user.dao.UserDao;
 import stdio.kiteDream.module.userEvent.bean.UserEvent;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
+import stdio.kiteDream.module.vo.PageVO;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -40,6 +41,11 @@ public class MessageServiceImpl implements MessageService {
 			}
 		}
 		return messages;
+	}
+	
+	@Override
+	public PageVO manageDisplayUserMessage(int userid,int page,int size) {
+		return userDao.displayUserMessag( userid, page, size);
 	}
 
 	@Override

@@ -29,8 +29,10 @@ function addItems(page,size){
 		var result = "";
 		$(data.result).each(function(index, value) {
 			var statu = "";
-			if(value.statu=="CANCEL"){
-				statu = '<span id="statu'+value.id+'"><span class="label label-important">CANCEL</span><span>';
+			if(value.statu=="CANCELLED"){
+				statu = '<span id="statu'+value.id+'"><span class="label label-important">CANCELLED</span><span>';
+			}else if(value.statu=="PURCHASING"){
+				statu = '<span id="statu'+value.id+'"><span class="label label-warning">'+value.statu+'</span><span>';
 			}else{
 				statu = '<span id="statu'+value.id+'"><span class="label label-success">'+value.statu+'</span><span>';
 			}

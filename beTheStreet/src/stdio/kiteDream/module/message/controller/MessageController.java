@@ -42,16 +42,12 @@ public class MessageController {
 	@ResponseBody
 	@RequestMapping(value = "/pagelist", method = { RequestMethod.GET, RequestMethod.POST })
 	public PageVO list(@RequestParam("userid") int userid,@RequestParam("page") int page,@RequestParam("size") int size) {
-		PageVO json = new PageVO();
 		try {
-			json.setResult(messageService.manageGetUserMessage( userid, page, size));
-			json.setErrorcode(Constant.OK);
-			json.setCount(messageService.getUserMessageCount(userid));
+			return messageService.manageDisplayUserMessage(userid, page, size);
 		} catch (Exception e) {
 			e.printStackTrace();
-			json.setErrorcode(Constant.FAIL);
 		}
-		return json;
+		return new PageVO();
 	}
 	
 	@ResponseBody()

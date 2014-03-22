@@ -289,7 +289,7 @@ public class PrizeController {
 			@RequestParam("userid") int userid) {
 		JsonVO json = new JsonVO();
 		try {
-			if(prizeService.manageChangeOrder(orderid, OrderStatu.CANCEL)){
+			if(prizeService.manageChangeOrder(orderid, OrderStatu.CANCELLED)){
 				json.setErrorcode(Constant.OK);
 			}
 			json.setUser_events(userEventService.checkEvent(userid));

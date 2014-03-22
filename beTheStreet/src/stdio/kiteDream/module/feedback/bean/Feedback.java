@@ -6,7 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import stdio.kiteDream.module.user.bean.User;
 
 @Entity
 @Table(name = "feedback")
@@ -18,11 +22,13 @@ public class Feedback implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	private String title;
-	
-	private String email;
-
 	private String info;
+	
+	@OneToOne
+	@JoinColumn(name="userid")
+	private User user;
+	
+	private boolean read;
 
 	public int getId() {
 		return id;
@@ -39,21 +45,21 @@ public class Feedback implements Serializable {
 	public void setInfo(String info) {
 		this.info = info;
 	}
-
-	public String getTitle() {
-		return title;
+	
+	public User getUser() {
+		return user;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public String getEmail() {
-		return email;
+	public boolean isRead() {
+		return read;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setRead(boolean read) {
+		this.read = read;
 	}
 
 }

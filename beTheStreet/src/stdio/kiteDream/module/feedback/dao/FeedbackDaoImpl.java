@@ -28,15 +28,15 @@ public class FeedbackDaoImpl implements FeedbackDao {
 	}
 
 	@Override
-	public List<Feedback> getFeedbacks(int pageNo, int pageSize) {
+	public List<Feedback> getFeedbacks(int userid,int pageNo, int pageSize) {
 		List<Feedback> list = new ArrayList<Feedback>();
 		try {
 			if (pageNo > 0 && pageSize > 0) {
-				/*int firstResult = (pageNo - 1) * pageSize;
-				int maxResult = pageNo * pageSize;
-				list = getSessionFactory().getCurrentSession().createCriteria(Feedback.class).setFirstResult(firstResult).setMaxResults(maxResult).list();
-				*/
-				Query query = getSessionFactory().getCurrentSession().createQuery("from Feedback");
+				String hql = "from Feedback feedback ";
+				if(userid>0){
+					hql = hql + " where feedback.user.id="+userid;
+				}
+				Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 				query.setFirstResult((pageNo - 1) * pageSize);
 				query.setMaxResults(pageSize);
 				list = query.list();
@@ -71,13 +71,17 @@ public class FeedbackDaoImpl implements FeedbackDao {
 	}
 
 	@Override
-	public int getCount() {
+	public int getCount(int userid) {
 		Integer count;
+		String sql = "select count(1) from feedback ";
+		if(userid>0){
+			sql = sql + " where userid="+userid;
+		}
 		try {
-			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery("select count(1) from feedback").uniqueResult();
+			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
 			count = countRaw.intValue();
 		} catch (Exception e) {
-			Integer countRaw = (Integer) getSessionFactory().getCurrentSession().createSQLQuery("select count(1) from feedback").uniqueResult();
+			Integer countRaw = (Integer) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
 			count = countRaw.intValue();
 		}
 		return count;

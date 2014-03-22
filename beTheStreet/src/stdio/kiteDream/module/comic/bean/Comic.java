@@ -11,7 +11,6 @@ import javax.persistence.Table;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import stdio.kiteDream.module.image.bean.Image.Type;
-import stdio.kiteDream.module.level.bean.Level;
 
 @Entity
 @Table(name = "comic")
@@ -26,8 +25,6 @@ public class Comic implements Serializable {
 	private int level;
 
 	private int orderNum;
-
-	private String name;
 	
 	private Type type;
 
@@ -35,13 +32,10 @@ public class Comic implements Serializable {
 	
 	private String thumbnail_path;
 	
-	private String info;
-	
 	public Comic() {
 	}
 	
-	public Comic(String name,String path,String thumbnail_path) {
-		this.name = name;
+	public Comic(String path,String thumbnail_path) {
 		this.path = path;
 		this.thumbnail_path = thumbnail_path;
 	}
@@ -80,14 +74,6 @@ public class Comic implements Serializable {
 	public void setOrderNum(int orderNum) {
 		this.orderNum = orderNum;
 	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 	
 	@JsonSerialize(using = BasePathJsonParser.class)
 	public String getPath() {
@@ -96,14 +82,6 @@ public class Comic implements Serializable {
 
 	public void setPath(String path) {
 		this.path = path;
-	}
-
-	public String getInfo() {
-		return info;
-	}
-
-	public void setInfo(String info) {
-		this.info = info;
 	}
 
 	public Type getType() {

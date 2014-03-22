@@ -2,7 +2,6 @@ package stdio.kiteDream.module.prize.bean;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,8 +17,8 @@ import stdio.kiteDream.module.user.bean.User;
 @Table(name = "prize_order")
 public class Order implements Serializable {
 
-	public enum OrderStatu {
-		PURCHASE, SEND, DONE, CANCEL, CLOSE
+	public enum OrderStatu { 
+		PURCHASING, SENT, CANCELLED
 	}
 
 	private static final long serialVersionUID = 7545666740293797326L;

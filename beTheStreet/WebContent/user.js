@@ -68,6 +68,8 @@ function addItems(page,size){
 				'<td class="center">'+validateGroupCreater(value)+'</td>'+
 				'<td class="center">'+
 					'<a class="btn btn-info" href="image.html?userid='+value.id+'"><i class="icon-picture icon-white"></i>Image</a>&nbsp;'+
+					'<a class="btn btn-warning" href="message.html?userid='+value.id+'"><i class="icon-envelope icon-white"></i>message</a>&nbsp;'+
+					'<a class="btn btn-primary" href="feedback.html?userid='+value.id+'"><i class="icon-bullhorn icon-white"></i>feedback</a>'+
 				'</td>'+
 			'</tr>';
 			result = result+content;
