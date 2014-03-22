@@ -33,4 +33,9 @@ public class FeedbackServiceImpl implements FeedbackService {
 		return feedbackDao.getCount(userid);
 	}
 
+	@Override
+	public Feedback getFeedback(int id) {
+		return feedbackDao.getFeedback(id);
+	}
+
 }

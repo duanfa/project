@@ -80,6 +80,25 @@ public class FeedbackController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value = "/read/{id}", method = { RequestMethod.GET, RequestMethod.POST })
+	public JsonVO read(ModelMap model, @PathVariable("id") int id) {
+		JsonVO json = new JsonVO();
+		try {
+			Feedback feedback = feedbackService.getFeedback(id);
+			if(feedback==null){
+				return json;
+			}
+			feedback.setRead(true);
+			feedbackService.saveFeedback(feedback);
+			json.setErrorcode(Constant.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = "/count", method = { RequestMethod.GET, RequestMethod.POST })
 	public long count() {
 		try {

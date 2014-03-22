@@ -87,6 +87,11 @@ public class FeedbackDaoImpl implements FeedbackDao {
 		return count;
 	}
 
+	@Override
+	public Feedback getFeedback(int id) {
+		return (Feedback) getSessionFactory().getCurrentSession().get(Feedback.class, id);
+	}
+
 
 
 }

@@ -14,4 +14,6 @@ public interface FeedbackDao {
 
 	public int getCount(int userid);
 
+	public Feedback getFeedback(int id);
+
 }

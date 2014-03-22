@@ -1,6 +1,29 @@
 $(function() {
 	addItems(1,30);
+	
+	$("#dialog-form").dialog({
+		autoOpen : false,
+		height : 300,
+		width : 330,
+		modal : true,
+		buttons : {
+			"submit" : function() {
+				$("#dialog-form").dialog("close");
+				$("#coreIframe").contents().find("#addForm").submit();
+				$('#coreIframe').load(function(){
+				 });
+			},
+		},
+		close : function() {
+		}
+	});
+	
 });
+
+function reply(userids){
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="user_message_upload.html?userids='+userids+'" frameborder="0" style="height: 150px;"></iframe>');
+	$("#dialog-form").dialog("open");
+}
 var pageNo,pageSize;
 function addItems(page,size){
 	pageNo = page;
@@ -16,12 +39,16 @@ function addItems(page,size){
 		if(data.errorcode=='ok'){
 			var result = "";
 			$(data.result).each(function(index, value) {
+				var read = '<span class="label label-success">read</span>&nbsp;&nbsp;';
+				if(!this.read){
+					read = '<a class="btn btn-info"  onclick="read('+this.id+')"  href="#"><i class=" icon-eye-open icon-white"></i>mark as read</a>&nbsp;'
+				}
 				var content = '<tr>'+
 					'<td class="center">'+validateUser(value)+'</td>'+
 					'<td class="center">'+validate(value.info)+'</td>'+
 					'<td class="center">'+
-						/*'<a class="btn btn-info" href="userImage.html?userid='+value.id+'"><i class="icon-picture icon-white"></i>Image</a>&nbsp;'+
-						'<a class="btn  btn-success edite-user" onclick="updateMsg('+index+')" href="#"> <i class="icon-edit icon-white"></i> Edite </a>&nbsp;'+*/
+						read+
+						'<a class="btn  btn-success edite-user" onclick="reply('+this.id+')" href="#"> <i class="icon-envelope icon-white"></i> reply </a>&nbsp;'+
 						'<a class="btn btn-danger" onclick="deleteFeedback('+this.id+')" href="#"> <i class="icon-trash icon-white"></i> Delete </a>'+
 					'</td>'+
 				'</tr>';
@@ -52,6 +79,12 @@ function deleteFeedback(id){
 		if(data.errorcode=='ok'){
 			addItems(pageNo,pageSize);
 		}
+	});
+}
+
+function read(id){
+	$.get("api/feedback/read/"+id, function( data ) {}).done(function(data) {
+			addItems(pageNo,pageSize);
 	});
 }
 
