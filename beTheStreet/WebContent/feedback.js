@@ -41,7 +41,7 @@ function addItems(page,size){
 			$(data.result).each(function(index, value) {
 				var read = '<span class="label label-success">read</span>&nbsp;&nbsp;';
 				if(!this.read){
-					read = '<a class="btn btn-info"  onclick="read('+this.id+')"  href="#"><i class=" icon-eye-open icon-white"></i>mark as read</a>&nbsp;'
+					read = '<span id="mark_'+this.id+'"><a class="btn btn-info"  onclick="read('+this.id+')"  href="#"><i class=" icon-eye-open icon-white"></i>mark as read</a></span>&nbsp;'
 				}
 				var content = '<tr>'+
 					'<td class="center">'+validateUser(value)+'</td>'+
@@ -83,6 +83,7 @@ function deleteFeedback(id){
 }
 
 function read(id){
+	$("#mark_"+id).html('<img src="img/ajax-loaders/ajax-loader-1.gif"/>');
 	$.get("api/feedback/read/"+id, function( data ) {}).done(function(data) {
 			addItems(pageNo,pageSize);
 	});
