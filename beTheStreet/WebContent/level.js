@@ -24,7 +24,7 @@ $("#dialog-form").dialog({
 	}
 });
 $("#create-level").click(function() {
-	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_upload.html" frameborder="0" style="height: 530px; width: 500px;"></iframe>');
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_challenge_upload.html" frameborder="0" style="height: 530px; width: 500px;"></iframe>');
 	$("#dialog-form").dialog("open");
 });
 
@@ -32,28 +32,49 @@ var pageNo,pageSize;
 function addItems(page,size){
 	pageNo = page;
 	pageSize = size;
-	var url = "api/level/listPage?page="+page+"&size="+size;
+	var url = "api/level/listRegularPage?page="+page+"&size="+size;
 	$.get(url, function( data ) {}).done(function(data) {
 		var result = "";
 		$(data.result).each(function(index, value) {
 			var content = '<tr>'+
-				'<td class="center"><span class="thumbnail" style="width: 100px;margin-bottom:0px !important"><a title="'+value.desc+'" href="'+value.path+'"><img src="'+value.thumbnail_path+'"/></a><span></td>'+
+				/*'<td class="center"><span class="thumbnail" style="width: 100px;margin-bottom:0px !important"><a title="'+value.desc+'" href="'+value.path+'"><img src="'+value.thumbnail_path+'"/></a><span></td>'+*/
 				'<td class="center">'+validate(value.level)+'</td>'+
 				'<td class="center">'+validate(value.title)+'</td>'+
 				'<td class="center">'+validate(value.desc)+'</td>'+
-				'<td class="center">'+validate(value.challenge)+'</td>'+
 				'<td class="center">'+validate(value.regular_stage)+'</td>'+
 				'<td class="center">'+validate(value.completeNum)+'</td>'+
+				'<td class="center">'+validate(value.title2)+'</td>'+
+				'<td class="center">'+validate(value.desc2)+'</td>'+
 				'<td class="center">'+validate(value.sumcoins)+'</td>'+
 				'<td class="center">'+validatecoins(value)+'</td>'+
 				'<td class="center">'+
-				'<a class="btn btn-info" onclick="update(\''+value.id+'\',\''+value.level+'\',\''+value.title+'\',\''+value.desc+'\',\''+value.completeNum+'\',\''+value.sumcoins+'\',\''+value.greenRatio+'\',\''+value.yellowRatio+'\',\''+value.redRatio+'\',\''+value.regular_stage+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
-				'<a class="btn btn-danger" onclick="deleteLevel('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
+				'<a class="btn btn-info" onclick="update_regular(\''+value.id+'\',\''+value.level+'\',\''+value.title+'\',\''+value.desc+'\',\''+value.title2+'\',\''+value.desc2+'\',\''+value.completeNum+'\',\''+value.sumcoins+'\',\''+value.greenRatio+'\',\''+value.yellowRatio+'\',\''+value.redRatio+'\',\''+value.regular_stage+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
 			'</td>'+
 			'</tr>';
 			result = result+content;
 		});
-		$("#user_tbody").html(result);
+		$("#regular_level_tbody").html(result);
+	});
+	var url = "api/level/listChallengePage?page="+page+"&size="+size;
+	$.get(url, function( data ) {}).done(function(data) {
+		var result = "";
+		$(data.result).each(function(index, value) {
+			var content = '<tr>'+
+			/*'<td class="center"><span class="thumbnail" style="width: 100px;margin-bottom:0px !important"><a title="'+value.desc+'" href="'+value.path+'"><img src="'+value.thumbnail_path+'"/></a><span></td>'+*/
+			'<td class="center">'+validate(value.level)+'</td>'+
+			'<td class="center">'+validate(value.title)+'</td>'+
+			'<td class="center">'+validate(value.desc)+'</td>'+
+			'<td class="center">'+validate(value.completeNum)+'</td>'+
+			'<td class="center">'+validate(value.sumcoins)+'</td>'+
+			'<td class="center">'+validatecoins(value)+'</td>'+
+			'<td class="center">'+
+			'<a class="btn btn-info" onclick="update_challenge(\''+value.id+'\',\''+value.level+'\',\''+value.title+'\',\''+value.desc+'\',\''+value.completeNum+'\',\''+value.sumcoins+'\',\''+value.greenRatio+'\',\''+value.yellowRatio+'\',\''+value.redRatio+'\',\''+value.regular_stage+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
+			'<a class="btn btn-danger" onclick="deleteLevel('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
+			'</td>'+
+			'</tr>';
+			result = result+content;
+		});
+		$("#challenge_level_tbody").html(result);
 		pagination(page,size,data.count);
 	});
 
@@ -146,7 +167,11 @@ function deleteLevel(id){
 		addItems(pageNo,pageSize);
 	});
 }
-function update(id,level,title,desc,completeNum,sumcoins,greenRatio,yellowRatio,redRatio,regular_stage){
-	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_upload.html?id='+id+'&level='+level+'&title='+title+'&desc='+desc+'&completeNum='+completeNum+'&sumcoins='+sumcoins+'&greenRatio='+greenRatio+'&yellowRatio='+yellowRatio+'&redRatio='+redRatio+'&regular_stage='+regular_stage+'" frameborder="0" style="height: 530px; width: 500px;"></iframe>');
+function update_regular(id,level,title,desc,title2,desc2,completeNum,sumcoins,greenRatio,yellowRatio,redRatio,regular_stage){
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_regular_upload.html?id='+id+'&level='+level+'&title='+title+'&desc='+desc+'&title2='+title2+'&desc2='+desc2+'&completeNum='+completeNum+'&sumcoins='+sumcoins+'&greenRatio='+greenRatio+'&yellowRatio='+yellowRatio+'&redRatio='+redRatio+'&regular_stage='+regular_stage+'" frameborder="0" style="height: 530px; width: 500px;"></iframe>');
+	$("#dialog-form").dialog("open");
+}
+function update_challenge(id,level,title,desc,completeNum,sumcoins,greenRatio,yellowRatio,redRatio,regular_stage){
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_challenge_upload.html?id='+id+'&level='+level+'&title='+title+'&desc='+desc+'&completeNum='+completeNum+'&sumcoins='+sumcoins+'&greenRatio='+greenRatio+'&yellowRatio='+yellowRatio+'&redRatio='+redRatio+'&regular_stage='+regular_stage+'" frameborder="0" style="height: 530px; width: 500px;"></iframe>');
 	$("#dialog-form").dialog("open");
 }

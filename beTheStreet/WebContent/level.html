@@ -144,13 +144,10 @@ body {
 
 			<div id="content" class="span10">
 				<!-- content starts -->
-	<a class="btn btn-success" id="create-level" href="#">
-					<i class="icon icon-white icon-add"> </i>add
-			</a>
 				<div class="row-fluid sortable">
 					<div class="box span12">
 						<div class="box-header well" data-original-title>
-							<h2>Levels</h2>
+							<h2>Base Levels</h2>
 							<div class="box-icon">
 								<a href="#"
 									class="btn btn-minimize btn-round"><i
@@ -162,19 +159,26 @@ body {
 							<table class="table table-bordered table-striped table-condensed">
 								<thead>
 									<tr>
-										<th>Image</th>
+										<td style="text-align:center"></td>
+										<td colspan="4" style="background-color:#B4CDE6;text-align:center">regular</td>
+										<td colspan="6"  style="background-color:#388BBC;text-align:center">challenge</td>
+									</tr>
+									<tr>
+										<!-- <th>Image</th> -->
 										<th>Level</th>
 										<th>Title</th>
 										<th>Desc</th>
-										<th>isChallenge</th>
 										<th>regular task num</th>
 										<th>complet Num</th>
+										<th>Title</th>
+										<th>Desc</th>
 										<th>Coins Num</th>
 										<th>Reward ratio</th>
 										<th>Action</th>
 									</tr>
+									
 								</thead>
-								<tbody id="user_tbody">
+								<tbody id="regular_level_tbody">
 								<tr>
 									<td colspan="6" style="padding-left: 300px;">
 										<img src="img/ajax-loaders/ajax-loader-6.gif"/>
@@ -182,9 +186,53 @@ body {
 									</tr>
 								</tbody>
 							</table>
-							<div class="pagination pagination-centered">
-								<ul class="pagination_ul"></ul>
+						</div>
+					</div>
+					<!--/span-->
+				</div>
+				<!--/row-->
+	
+				<div class="row-fluid sortable">
+					<div class="box span12">
+						<div class="box-header well" data-original-title>
+							<h2>challenge Levels&nbsp;&nbsp;&nbsp;
+							<a class="btn btn-success" id="create-level" href="#">
+					<i class="icon icon-white icon-add"> </i>add
+			</a>
+							</h2>
+							<div class="box-icon">
+								<a href="#"
+									class="btn btn-minimize btn-round"><i
+									class="icon-chevron-up"></i></a> <a href="#"
+									class="btn btn-close btn-round"><i class="icon-remove"></i></a>
 							</div>
+						</div>
+						<div class="box-content">
+							<table class="table table-bordered table-striped table-condensed">
+								<thead>
+									<tr>
+										<!-- <th>Image</th> -->
+										<th>Level</th>
+										<th>Title</th>
+										<th>Desc</th>
+										<th>complet Num</th>
+										<th>Coins Num</th>
+										<th>Reward ratio</th>
+										<th>Action</th>
+									</tr>
+									
+								</thead>
+								<tbody id="challenge_level_tbody">
+								<tr>
+									<td colspan="6" style="padding-left: 300px;">
+										<img src="img/ajax-loaders/ajax-loader-6.gif"/>
+									</td>
+									</tr>
+								</tbody>
+							</table>
+							<!-- <div class="pagination pagination-centered">
+								<ul class="pagination_ul"></ul>
+							</div> -->
 						</div>
 					</div>
 					<!--/span-->

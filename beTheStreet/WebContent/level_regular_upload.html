@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Free HTML5 Bootstrap Admin Template</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
+	<meta name="author" content="Muhammad Usman">
+
+	<!-- The styles -->
+	<link id="bs-css" href="css/bootstrap-cerulean.css" rel="stylesheet">
+	<style type="text/css">
+	  body {
+		padding-bottom: 40px;
+	  }
+	  .sidebar-nav {
+		padding: 9px 0;
+	  }
+	</style>
+	<link href="css/bootstrap-responsive.css" rel="stylesheet">
+	<link href="css/charisma-app.css" rel="stylesheet">
+	<link href="css/jquery-ui-1.8.21.custom.css" rel="stylesheet">
+	<link href='css/chosen.css' rel='stylesheet'>
+	<link href='css/uniform.default.css' rel='stylesheet'>
+	<link href='css/colorbox.css' rel='stylesheet'>
+	<link href='css/jquery.cleditor.css' rel='stylesheet'>
+	<link href='css/elfinder.min.css' rel='stylesheet'>
+	<link href='css/elfinder.theme.css' rel='stylesheet'>
+	<link href='css/uploadify.css' rel='stylesheet'>
+	<!-- jQuery -->
+	<script src="js/jquery-1.7.2.min.js"></script>
+	<!-- jQuery UI -->
+	<script src="js/jquery-ui-1.8.21.custom.min.js"></script>
+	<script src="js/jquery.cookie.js"></script>
+
+
+	<!-- checkbox, radio, and file input styler -->
+	<script src="js/jquery.uniform.min.js"></script>
+	<!-- rich text editor library -->
+	<script src="js/jquery.cleditor.min.js"></script>
+	<!-- file manager library -->
+	<script src="js/jquery.elfinder.min.js"></script>
+	<!-- multiple file upload plugin -->
+	<script src="js/jquery.uploadify-3.1.min.js"></script>
+	<!-- history.js for cross-browser state change on ajax -->
+	<script src="js/jquery.history.js"></script>
+	<script src="js/jqueryUrlParam.js"></script>
+
+	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- The fav icon -->
+	<link rel="shortcut icon" href="img/favicon.ico">
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+		var id = $.getUrlParam("id");
+		var level = $.getUrlParam("level");
+		var title = $.getUrlParam("title");
+		var desc = $.getUrlParam("desc");
+		var completeNum = $.getUrlParam("completeNum");
+		var sumcoins = $.getUrlParam("sumcoins");
+		var greenRatio = $.getUrlParam("greenRatio");
+		var yellowRatio = $.getUrlParam("yellowRatio");
+		var redRatio = $.getUrlParam("redRatio");
+		var regular_stage = $.getUrlParam("regular_stage");
+		var title2 = $.getUrlParam("title2");
+		var desc2 = $.getUrlParam("desc2");
+		if(id!=null&&id!=undefined){
+			$("#id").val(id);
+			$("#level").val(level);
+			$("#title").val(title);
+			$("#desc").val(desc);
+			$("#completeNum").val(completeNum);
+			$("#sumcoins").val(sumcoins);
+			$("#greenRatio").val(greenRatio);
+			$("#yellowRatio").val(yellowRatio);
+			$("#redRatio").val(redRatio);
+			$("#regular_stage").val(regular_stage);
+			$("#title2").val(title2);
+			$("#desc2").val(desc2);
+		}
+	});
+	</script>
+</head>
+<body>
+		<form id="addComicForm" action="api/level/add" method="post" enctype="multipart/form-data">
+			<fieldset style="float:left;">
+					<input type="hidden" name="id" id="id" value="0" class="text ui-widget-content ui-corner-all">
+					<input type="hidden" name="completeNum" id="completeNum" value="0" class="text ui-widget-content ui-corner-all">
+				<label for="level">level</label>
+					<input type="text" name="level" id="level" value="" class="text ui-widget-content ui-corner-all">
+				<label for="name">title</label>
+					<input type="text" name="title" id="title" class="text ui-widget-content ui-corner-all">
+				<label for="desc">desc</label>
+					<input type="text" name="desc" id="desc" value="" class="text ui-widget-content ui-corner-all">
+				<label for="regular_stage">regular task</label>
+					<input type="text" name="regular_stage" id="regular_stage" value="0" class="text ui-widget-content ui-corner-all">
+			<!-- </fieldset>
+			<span  style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+			<fieldset style="float:left;"> -->
+			---------------------challenge--------------------------
+				<label for="name">title</label>
+					<input type="text" name="title2" id="title2" class="text ui-widget-content ui-corner-all">
+				<label for="desc">desc</label>
+					<input type="text" name="desc2" id="desc2" value="" class="text ui-widget-content ui-corner-all">
+				<label for="sumcoins">coin Num</label>
+					<input type="text" name="sumcoins" id="sumcoins" value="0" class="text ui-widget-content ui-corner-all">
+				<label for="greenRatio">green percentage</label>
+					<input type="text" name="greenRatio" id="greenRatio" value="0" class="text ui-widget-content ui-corner-all">%
+				<label for="yellowRatio">yellow percentage</label>
+					<input type="text" name="yellowRatio" id="yellowRatio" value="0" class="text ui-widget-content ui-corner-all">%
+				<label for="redRatio">red percentage</label>
+					<input type="text" name="redRatio" id="redRatio" value="0" class="text ui-widget-content ui-corner-all">%
+				<label><font color="red">sum of percentage must be 100</font></label>
+				<!-- <label for="comic">profile image</label>
+					<input type="file" name="comic" id="comic" value="" class="text ui-widget-content ui-corner-all">
+			 --></fieldset>
+		</form>
+			
+</body>
+</html>

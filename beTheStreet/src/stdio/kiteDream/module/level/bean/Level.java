@@ -46,6 +46,10 @@ public class Level implements Serializable {
 	
 	private String desc;
 	
+	private String title2;
+	
+	private String desc2;
+	
 	private int completeNum;
 	
 	private String thumbnail_path;
@@ -102,6 +106,22 @@ public class Level implements Serializable {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+
+	public String getTitle2() {
+		return title2;
+	}
+
+	public void setTitle2(String title2) {
+		this.title2 = title2;
+	}
+
+	public String getDesc2() {
+		return desc2;
+	}
+
+	public void setDesc2(String desc2) {
+		this.desc2 = desc2;
 	}
 
 	public int getCompleteNum() {

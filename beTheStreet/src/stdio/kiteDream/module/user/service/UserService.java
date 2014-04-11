@@ -45,6 +45,8 @@ public interface UserService {
 	public boolean saveGroup(Group group);
 
 	public boolean delGroup(String id);
+	
+	public boolean login(String username,String password);
 
 	public List<Group> manageSearchGroup(String keyword);
 }

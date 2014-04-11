@@ -65,7 +65,6 @@
 		var greenRatio = $.getUrlParam("greenRatio");
 		var yellowRatio = $.getUrlParam("yellowRatio");
 		var redRatio = $.getUrlParam("redRatio");
-		var regular_stage = $.getUrlParam("regular_stage");
 		if(id!=null&&id!=undefined){
 			$("#id").val(id);
 			$("#level").val(level);
@@ -76,16 +75,7 @@
 			$("#greenRatio").val(greenRatio);
 			$("#yellowRatio").val(yellowRatio);
 			$("#redRatio").val(redRatio);
-			$("#regular_stage").val(regular_stage);
 		}
-		$("#challenge").click(function(){
-			if($("#challenge").attr("checked")=='checked'){
-				$("#task_num_span").fadeOut();
-				$("#regular_stage").val("0");
-			}else{
-				$("#task_num_span").fadeIn();
-			}
-		});
 	});
 	</script>
 </head>
@@ -100,16 +90,10 @@
 					<input type="text" name="title" id="title" class="text ui-widget-content ui-corner-all">
 				<label for="desc">desc</label>
 					<input type="text" name="desc" id="desc" value="" class="text ui-widget-content ui-corner-all">
-				<label for="challenge">isChallenge <input type="checkbox" name="challenge" id="challenge" value="true"></label>
-				<br>
-				<br>
-				<span id="task_num_span">
-					<label for="regular_stage">regular task</label>
-						<input type="text" name="regular_stage" id="regular_stage" value="0" class="text ui-widget-content ui-corner-all">
-				</span>
-			</fieldset>
+				<input type="hidden" name="challenge" id="challenge" value="true">
+			<!-- </fieldset>
 			<span  style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-			<fieldset style="float:left;">
+			<fieldset style="float:left;"> -->
 				<label for="sumcoins">coin Num</label>
 					<input type="text" name="sumcoins" id="sumcoins" value="0" class="text ui-widget-content ui-corner-all">
 				<label for="greenRatio">green percentage</label>
@@ -119,10 +103,8 @@
 				<label for="redRatio">red percentage</label>
 					<input type="text" name="redRatio" id="redRatio" value="0" class="text ui-widget-content ui-corner-all">%
 				<label><font color="red">sum of percentage must be 100</font></label>
-				<br>
-				<br>
-				<label for="comic">profile image</label>
-					<input type="file" name="comic" id="comic" value="" class="text ui-widget-content ui-corner-all">
+				<!-- <label for="comic">profile image</label>
+					<input type="file" name="comic" id="comic" value="" class="text ui-widget-content ui-corner-all"> -->
 			</fieldset>
 		</form>
 			

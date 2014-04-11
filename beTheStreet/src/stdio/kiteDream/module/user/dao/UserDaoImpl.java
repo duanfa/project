@@ -151,4 +151,11 @@ public class UserDaoImpl implements UserDao {
 		return pagevo;
 	}
 
+	@Override
+	public boolean login(String username, String password) {
+		List<User> list = getSessionFactory().getCurrentSession().createQuery("from User user where user.nickname = '"+username+"'").list();
+		
+		return false;
+	}
+
 }

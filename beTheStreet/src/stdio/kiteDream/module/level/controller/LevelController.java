@@ -58,7 +58,7 @@ public class LevelController {
 		}
 		return json;
 	}
-	@ResponseBody
+	/*@ResponseBody
 	@RequestMapping(value = "/listPage", method = { RequestMethod.GET, RequestMethod.POST })
 	public PageVO listPage(HttpServletRequest request, HttpSession session,@RequestParam("page")int page,@RequestParam("size")int size) {
 		if (BasePathJsonParser.basePath == null) {
@@ -69,6 +69,58 @@ public class LevelController {
 		PageVO json = new PageVO();
 		try {
 			json.setResult(levelService.getLevels(-1));
+			json.setCount(levelService.getCount());
+			json.setErrorcode(Constant.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}*/
+	
+	@ResponseBody
+	@RequestMapping(value = "/listRegularPage", method = { RequestMethod.GET, RequestMethod.POST })
+	public PageVO listRegularPage(HttpServletRequest request) {
+		if (BasePathJsonParser.basePath == null) {
+			String path = request.getContextPath();
+			String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+			BasePathJsonParser.basePath = basePath;
+		}
+		PageVO json = new PageVO();
+		try {
+			List<Level> levels = new ArrayList<Level>();
+			for(Level l:levelService.getLevels(-1)){
+				if(!l.isChallenge()){
+					levels.add(l);
+				}
+			}
+			json.setResult(levels);
+			json.setCount(levelService.getCount());
+			json.setErrorcode(Constant.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/listChallengePage", method = { RequestMethod.GET, RequestMethod.POST })
+	public PageVO listChallengePage(HttpServletRequest request, HttpSession session,@RequestParam("page")int page,@RequestParam("size")int size) {
+		if (BasePathJsonParser.basePath == null) {
+			String path = request.getContextPath();
+			String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+			BasePathJsonParser.basePath = basePath;
+		}
+		PageVO json = new PageVO();
+		try {
+			List<Level> levels = new ArrayList<Level>();
+			for(Level l:levelService.getLevels(-1)){
+				if(l.isChallenge()){
+					levels.add(l);
+				}
+			}
+			json.setResult(levels);
 			json.setCount(levelService.getCount());
 			json.setErrorcode(Constant.OK);
 		} catch (Exception e) {
@@ -189,7 +241,6 @@ public class LevelController {
 	public JsonVO getChallenge(HttpServletRequest request, @PathVariable("userid") int userid) {
 		JsonVO json = new JsonVO();
 		try {
-			;
 			json.setErrorcode(levelService.getChallenge(userid));
 			json.setUser_events(userEventService.checkEvent(userid));
 		} catch (Exception e) {
