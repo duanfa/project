@@ -59,6 +59,7 @@
 		var id = $.getUrlParam("id");
 		var level = $.getUrlParam("level");
 		var title = $.getUrlParam("title");
+		var shortdesc = $.getUrlParam("shortdesc");
 		var desc = $.getUrlParam("desc");
 		var completeNum = $.getUrlParam("completeNum");
 		var sumcoins = $.getUrlParam("sumcoins");
@@ -67,11 +68,13 @@
 		var redRatio = $.getUrlParam("redRatio");
 		var regular_stage = $.getUrlParam("regular_stage");
 		var title2 = $.getUrlParam("title2");
+		var shortdesc2 = $.getUrlParam("shortdesc2");
 		var desc2 = $.getUrlParam("desc2");
 		if(id!=null&&id!=undefined){
 			$("#id").val(id);
 			$("#level").val(level);
 			$("#title").val(title);
+			$("#shortdesc").val(shortdesc);
 			$("#desc").val(desc);
 			$("#completeNum").val(completeNum);
 			$("#sumcoins").val(sumcoins);
@@ -80,6 +83,7 @@
 			$("#redRatio").val(redRatio);
 			$("#regular_stage").val(regular_stage);
 			$("#title2").val(title2);
+			$("#shortdesc2").val(shortdesc2);
 			$("#desc2").val(desc2);
 		}
 	});
@@ -94,7 +98,9 @@
 					<input type="text" name="level" id="level" value="" class="text ui-widget-content ui-corner-all">
 				<label for="name">title</label>
 					<input type="text" name="title" id="title" class="text ui-widget-content ui-corner-all">
-				<label for="desc">desc</label>
+				<label for="desc">short description</label>
+					<input type="text" name="shortdesc" id="shortdesc" value="" class="text ui-widget-content ui-corner-all">
+				<label for="desc">description</label>
 					<input type="text" name="desc" id="desc" value="" class="text ui-widget-content ui-corner-all">
 				<label for="regular_stage">regular task</label>
 					<input type="text" name="regular_stage" id="regular_stage" value="0" class="text ui-widget-content ui-corner-all">
@@ -104,7 +110,9 @@
 			---------------------challenge--------------------------
 				<label for="name">title</label>
 					<input type="text" name="title2" id="title2" class="text ui-widget-content ui-corner-all">
-				<label for="desc">desc</label>
+				<label for="desc">short description</label>
+					<input type="text" name="shortdesc2" id="shortdesc2" value="" class="text ui-widget-content ui-corner-all">
+				<label for="desc">description</label>
 					<input type="text" name="desc2" id="desc2" value="" class="text ui-widget-content ui-corner-all">
 				<label for="sumcoins">coin Num</label>
 					<input type="text" name="sumcoins" id="sumcoins" value="0" class="text ui-widget-content ui-corner-all">

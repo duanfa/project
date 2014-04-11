@@ -59,6 +59,7 @@
 		var id = $.getUrlParam("id");
 		var level = $.getUrlParam("level");
 		var title = $.getUrlParam("title");
+		var shortdesc = $.getUrlParam("shortdesc");
 		var desc = $.getUrlParam("desc");
 		var completeNum = $.getUrlParam("completeNum");
 		var sumcoins = $.getUrlParam("sumcoins");
@@ -69,6 +70,7 @@
 			$("#id").val(id);
 			$("#level").val(level);
 			$("#title").val(title);
+			$("#shortdesc").val(shortdesc);
 			$("#desc").val(desc);
 			$("#completeNum").val(completeNum);
 			$("#sumcoins").val(sumcoins);
@@ -88,7 +90,9 @@
 					<input type="text" name="level" id="level" value="" class="text ui-widget-content ui-corner-all">
 				<label for="name">title</label>
 					<input type="text" name="title" id="title" class="text ui-widget-content ui-corner-all">
-				<label for="desc">desc</label>
+				<label for="desc">short description</label>
+					<input type="text" name="shortdesc" id="shortdesc" value="" class="text ui-widget-content ui-corner-all">
+				<label for="desc">description</label>
 					<input type="text" name="desc" id="desc" value="" class="text ui-widget-content ui-corner-all">
 				<input type="hidden" name="challenge" id="challenge" value="true">
 			<!-- </fieldset>

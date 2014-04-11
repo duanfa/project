@@ -44,9 +44,14 @@ public class Level implements Serializable {
 	
 	private String title;
 	
+	private String shortdesc;
+	
 	private String desc;
 	
+	
 	private String title2;
+	
+	private String shortdesc2;
 	
 	private String desc2;
 	
@@ -122,6 +127,22 @@ public class Level implements Serializable {
 
 	public void setDesc2(String desc2) {
 		this.desc2 = desc2;
+	}
+
+	public String getShortdesc() {
+		return shortdesc;
+	}
+
+	public void setShortdesc(String shortdesc) {
+		this.shortdesc = shortdesc;
+	}
+
+	public String getShortdesc2() {
+		return shortdesc2;
+	}
+
+	public void setShortdesc2(String shortdesc2) {
+		this.shortdesc2 = shortdesc2;
 	}
 
 	public int getCompleteNum() {
