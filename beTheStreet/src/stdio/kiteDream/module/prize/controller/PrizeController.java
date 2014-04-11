@@ -151,7 +151,7 @@ public class PrizeController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/upload", method = { RequestMethod.POST })
+	@RequestMapping(value = "/upload", method = { RequestMethod.POST },produces="text/plain;charset=UTF-8")
 	public String add(HttpServletRequest request, HttpSession session,
 			Prize prize) {
 		try {

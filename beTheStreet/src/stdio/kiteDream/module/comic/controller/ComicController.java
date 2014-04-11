@@ -47,7 +47,7 @@ public class ComicController {
 	/*Comic goComic ;*/
 
 	@ResponseBody
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/add", method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
 	public String addComic(HttpServletRequest request, HttpSession session, @RequestParam("level") int level, @RequestParam("order") int order,
 			@RequestParam("type") String type,@RequestParam(value="id",required=false) String id) throws IllegalStateException, IOException {
 		// 设置上下方文

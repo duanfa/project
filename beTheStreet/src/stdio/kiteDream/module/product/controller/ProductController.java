@@ -153,7 +153,7 @@ public class ProductController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/upload", method = { RequestMethod.POST })
+	@RequestMapping(value = "/upload", method = { RequestMethod.POST },produces="text/plain;charset=UTF-8")
 	public String add(HttpServletRequest request, HttpSession session, @RequestParam(value = "id", required = false) String id, @RequestParam("name") String name,
 			@RequestParam("categoryid") String categoryid, @RequestParam("price") float price, @RequestParam("num") int num, @RequestParam("info") String info, @RequestParam("type") Product.Type type) {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());

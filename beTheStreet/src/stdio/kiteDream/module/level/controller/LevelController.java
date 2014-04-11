@@ -131,7 +131,7 @@ public class LevelController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/add", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/add", method = { RequestMethod.GET, RequestMethod.POST },produces="text/plain;charset=UTF-8")
 	public JsonVO check(HttpServletRequest request, HttpSession session,Level level) {
 		JsonVO json = new JsonVO();
 		try {

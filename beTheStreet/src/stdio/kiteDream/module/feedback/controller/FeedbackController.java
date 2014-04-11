@@ -45,7 +45,7 @@ public class FeedbackController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/add",  method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/add",  method = { RequestMethod.GET, RequestMethod.POST },produces="text/plain;charset=UTF-8")
 	public JsonVO add(ModelMap model, @RequestParam(value="info",required=false) String info,@RequestParam(value="userid",required=false) int userid) {
 		JsonVO json = new JsonVO();
 		try {
