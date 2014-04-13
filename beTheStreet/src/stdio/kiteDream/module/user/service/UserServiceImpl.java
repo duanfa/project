@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import stdio.kiteDream.module.level.dao.LevelDao;
+import stdio.kiteDream.module.message.bean.Message;
+import stdio.kiteDream.module.message.bean.MessageType;
+import stdio.kiteDream.module.message.service.MessageService;
 import stdio.kiteDream.module.user.bean.Group;
 import stdio.kiteDream.module.user.bean.User;
 import stdio.kiteDream.module.user.dao.GroupDao;
@@ -25,6 +28,8 @@ public class UserServiceImpl implements UserService {
 	UserEventService userEventService;
 	@Autowired
 	UserEventRecordDao userEventRecordDao;
+	@Autowired
+	MessageService messageService;
 	@Autowired
 	UserDao userDao;
 	@Autowired
@@ -55,11 +60,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String saveUser(User user) {
 		try {
-			
 			user.setCreate_time(new Date());
 			user.setHigh_level_all(levelDao.getLevel(1).getRegular_stage());
 			if(userDao.saveUser(user)){
-				//userEventService.updateUserEvent(user.getId(), "new_level_comic", 31);
+				Message message = new Message();
+				message.setCreate_time(new Date());
+				message.setDescription("This inbox is where you¡¯ll hear from us, be notified about coins earned after your submitted challenge photos are verified, and be invited to take on new challenges. Good luck!");
+				message.setTitle("Welcome to Be the Street!");
+				message.setType(MessageType.NOTICE);
+				messageService.saveMessage(message, user.getId()+"");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
