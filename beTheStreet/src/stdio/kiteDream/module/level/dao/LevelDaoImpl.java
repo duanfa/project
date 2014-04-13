@@ -32,7 +32,7 @@ public class LevelDaoImpl implements LevelDao {
 
 	@Override
 	public Level getLevel(int level) {
-		List<Level> rules = getSessionFactory().getCurrentSession().createQuery("from Level level where level.level="+level).list();
+		List<Level> rules = getSessionFactory().getCurrentSession().createQuery("from Level level where level.level >= "+level +" order by level.level ").list();
 		if(rules.size()>0){
 			return rules.get(0);
 		}

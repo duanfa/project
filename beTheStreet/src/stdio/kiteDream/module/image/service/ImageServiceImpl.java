@@ -63,8 +63,10 @@ public class ImageServiceImpl implements ImageService {
 			if(image.getLevel_stage()>=level.getRegular_stage()){
 				user.setHigh_level(level.getLevel()+1);
 				user.setHigh_level_stage(1);
-				Level level_next = levelService.getLevelById((image.getLevel()+1));
-				user.setHigh_level_all(level_next.getRegular_stage());
+				Level level_next = levelService.getLevel((image.getLevel()+1));
+				if(level_next!=null){
+					user.setHigh_level_all(level_next.getRegular_stage());
+				}
 			}else{
 				user.setHigh_level_stage(image.getLevel_stage()+1);
 				user.setHigh_level_all(level.getRegular_stage());
