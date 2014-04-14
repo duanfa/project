@@ -29,15 +29,18 @@ $("#create-level").click(function() {
 });
 
 var pageNo,pageSize;
+var baselevelData;
+var challengelevelData;
 function addItems(page,size){
 	pageNo = page;
 	pageSize = size;
 	var url = "api/level/listRegularPage?page="+page+"&size="+size;
 	$.get(url, function( data ) {}).done(function(data) {
 		var result = "";
+		baselevelData = data.result;
 		$(data.result).each(function(index, value) {
 			var content = '<tr>'+
-				/*'<td class="center"><span class="thumbnail" style="width: 100px;margin-bottom:0px !important"><a title="'+value.desc+'" href="'+value.path+'"><img src="'+value.thumbnail_path+'"/></a><span></td>'+*/
+				/*'<td class="center"><span class="thumbnail" style="width: 100px;margin-bottom:0px !important"><a title="'+baselevelData[value].desc+'" href="'+value.path+'"><img src="'+value.thumbnail_path+'"/></a><span></td>'+*/
 				'<td class="center">'+validate(value.level)+'</td>'+
 				'<td class="center">'+validate(value.title)+'</td>'+
 				'<td class="center">'+validate(value.shortdesc)+'</td>'+
@@ -50,7 +53,7 @@ function addItems(page,size){
 				'<td class="center">'+validate(value.sumcoins)+'</td>'+
 				'<td class="center">'+validatecoins(value)+'</td>'+
 				'<td class="center">'+
-				'<a class="btn btn-info" onclick="update_regular(\''+value.id+'\',\''+value.level+'\',\''+value.title+'\',\''+value.shortdesc+'\',\''+value.desc+'\',\''+value.title2+'\',\''+value.shortdesc2+'\',\''+value.desc2+'\',\''+value.completeNum+'\',\''+value.sumcoins+'\',\''+value.greenRatio+'\',\''+value.yellowRatio+'\',\''+value.redRatio+'\',\''+value.regular_stage+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
+				'<a class="btn btn-info" onclick="update_regular('+index+')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
 			'</td>'+
 			'</tr>';
 			result = result+content;
@@ -60,6 +63,7 @@ function addItems(page,size){
 	var url = "api/level/listChallengePage?page="+page+"&size="+size;
 	$.get(url, function( data ) {}).done(function(data) {
 		var result = "";
+		challengelevelData = data.result;
 		$(data.result).each(function(index, value) {
 			var content = '<tr>'+
 			/*'<td class="center"><span class="thumbnail" style="width: 100px;margin-bottom:0px !important"><a title="'+value.desc+'" href="'+value.path+'"><img src="'+value.thumbnail_path+'"/></a><span></td>'+*/
@@ -71,7 +75,7 @@ function addItems(page,size){
 			'<td class="center">'+validate(value.sumcoins)+'</td>'+
 			'<td class="center">'+validatecoins(value)+'</td>'+
 			'<td class="center">'+
-			'<a class="btn btn-info" onclick="update_challenge(\''+value.id+'\',\''+value.level+'\',\''+value.title+'\',\''+value.shortdesc+'\',\''+value.desc+'\',\''+value.completeNum+'\',\''+value.sumcoins+'\',\''+value.greenRatio+'\',\''+value.yellowRatio+'\',\''+value.redRatio+'\',\''+value.regular_stage+'\')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
+			'<a class="btn btn-info" onclick="update_challenge('+index+')" href="#"><i class="icon icon-black icon-edit"></i>Edit</a>&nbsp;'+
 			'<a class="btn btn-danger" onclick="deleteLevel('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
 			'</td>'+
 			'</tr>';
@@ -170,11 +174,14 @@ function deleteLevel(id){
 		addItems(pageNo,pageSize);
 	});
 }
-function update_regular(id,level,title,shortdesc,desc,title2,shortdesc2,desc2,completeNum,sumcoins,greenRatio,yellowRatio,redRatio,regular_stage){
-	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_regular_upload.html?id='+id+'&level='+level+'&title='+title+'&shortdesc='+shortdesc+'&desc='+desc+'&title2='+title2+'&desc2='+desc2+'&shortdesc2='+shortdesc2+'&completeNum='+completeNum+'&sumcoins='+sumcoins+'&greenRatio='+greenRatio+'&yellowRatio='+yellowRatio+'&redRatio='+redRatio+'&regular_stage='+regular_stage+'" frameborder="0" style="height: 760px; width: 330px;"></iframe>');
+//function update_regular(id,level,title,shortdesc,desc,title2,shortdesc2,desc2,completeNum,sumcoins,greenRatio,yellowRatio,redRatio,regular_stage){
+function update_regular(value){
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_regular_upload.html?id='+baselevelData[value].id+'&level='+baselevelData[value].level+'&title='+baselevelData[value].title+'&shortdesc='+baselevelData[value].shortdesc+'&desc='+baselevelData[value].desc+'&title2='+baselevelData[value].title2+'&desc2='+baselevelData[value].desc2+'&shortdesc2='+baselevelData[value].shortdesc2+'&completeNum='+baselevelData[value].completeNum+'&sumcoins='+baselevelData[value].sumcoins+'&greenRatio='+baselevelData[value].greenRatio+'&yellowRatio='+baselevelData[value].yellowRatio+'&redRatio='+baselevelData[value].redRatio+'&regular_stage='+baselevelData[value].regular_stage+'" frameborder="0" style="height: 760px; width: 330px;"></iframe>');
 	$("#dialog-form").dialog("open");
 }
-function update_challenge(id,level,title,shortdesc,desc,completeNum,sumcoins,greenRatio,yellowRatio,redRatio,regular_stage){
-	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_challenge_upload.html?id='+id+'&level='+level+'&title='+title+'&shortdesc='+shortdesc+'&desc='+desc+'&completeNum='+completeNum+'&sumcoins='+sumcoins+'&greenRatio='+greenRatio+'&yellowRatio='+yellowRatio+'&redRatio='+redRatio+'&regular_stage='+regular_stage+'" frameborder="0" style="height: 530px; width: 330px;"></iframe>');
+//function update_challenge(id,level,title,shortdesc,desc,completeNum,sumcoins,greenRatio,yellowRatio,redRatio,regular_stage){
+function update_challenge(value){
+	alert(challengelevelData[value].id);
+	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_challenge_upload.html?id='+challengelevelData[value].id+'&level='+challengelevelData[value].level+'&title='+challengelevelData[value].title+'&shortdesc='+challengelevelData[value].shortdesc+'&desc='+challengelevelData[value].desc+'&completeNum='+challengelevelData[value].completeNum+'&sumcoins='+challengelevelData[value].sumcoins+'&greenRatio='+challengelevelData[value].greenRatio+'&yellowRatio='+challengelevelData[value].yellowRatio+'&redRatio='+challengelevelData[value].redRatio+'&regular_stage='+challengelevelData[value].regular_stage+'" frameborder="0" style="height: 530px; width: 330px;"></iframe>');
 	$("#dialog-form").dialog("open");
 }
