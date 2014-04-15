@@ -181,7 +181,6 @@ function update_regular(value){
 }
 //function update_challenge(id,level,title,shortdesc,desc,completeNum,sumcoins,greenRatio,yellowRatio,redRatio,regular_stage){
 function update_challenge(value){
-	alert(challengelevelData[value].id);
 	$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="level_challenge_upload.html?id='+challengelevelData[value].id+'&level='+challengelevelData[value].level+'&title='+challengelevelData[value].title+'&shortdesc='+challengelevelData[value].shortdesc+'&desc='+challengelevelData[value].desc+'&completeNum='+challengelevelData[value].completeNum+'&sumcoins='+challengelevelData[value].sumcoins+'&greenRatio='+challengelevelData[value].greenRatio+'&yellowRatio='+challengelevelData[value].yellowRatio+'&redRatio='+challengelevelData[value].redRatio+'&regular_stage='+challengelevelData[value].regular_stage+'" frameborder="0" style="height: 530px; width: 330px;"></iframe>');
 	$("#dialog-form").dialog("open");
 }
