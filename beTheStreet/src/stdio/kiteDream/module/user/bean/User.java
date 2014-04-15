@@ -62,6 +62,8 @@ public class User implements Serializable {
 	
 	private boolean ingroup;
 	
+	private boolean isadmin;
+	
 	private boolean readyChallenge;
 	
 	private int high_level=1;
@@ -272,6 +274,14 @@ public class User implements Serializable {
 
 	public void setHigh_level_all(int high_level_all) {
 		this.high_level_all = high_level_all;
+	}
+
+	public boolean isIsadmin() {
+		return isadmin;
+	}
+
+	public void setIsadmin(boolean isadmin) {
+		this.isadmin = isadmin;
 	}
 
 }

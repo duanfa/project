@@ -52,7 +52,7 @@ public class UserDaoImpl implements UserDao {
 	public List<User> getUserByParam(String param, String value) {
 		try {
 			@SuppressWarnings("unchecked")
-			List<User> list = getSessionFactory().getCurrentSession().createCriteria(User.class).add(Restrictions.eq(param.trim(), value.trim())).list();
+			List<User> list = getSessionFactory().getCurrentSession().createCriteria(User.class).add(Restrictions.eq(param.trim(), value.trim())).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
 			if (list == null) {
 				return new ArrayList<User>();
 			}
@@ -149,13 +149,6 @@ public class UserDaoImpl implements UserDao {
 		}
 		pagevo.setCount(count);
 		return pagevo;
-	}
-
-	@Override
-	public boolean login(String username, String password) {
-		List<User> list = getSessionFactory().getCurrentSession().createQuery("from User user where user.nickname = '"+username+"'").list();
-		
-		return false;
 	}
 
 }

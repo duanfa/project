@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getUsers(int pageNo, int pageSize ,int groupid) {
+	public List<User> getUsers(int pageNo, int pageSize, int groupid) {
 		return groupDao.getGroupUsers(pageNo, pageSize, groupid);
 	}
 
@@ -62,13 +62,13 @@ public class UserServiceImpl implements UserService {
 		try {
 			user.setCreate_time(new Date());
 			user.setHigh_level_all(levelDao.getLevel(1).getRegular_stage());
-			if(userDao.saveUser(user)){
+			if (userDao.saveUser(user)) {
 				Message message = new Message();
 				message.setCreate_time(new Date());
 				message.setDescription("This inbox is where you¡¯ll hear from us, be notified about coins earned after your submitted challenge photos are verified, and be invited to take on new challenges. Good luck!");
 				message.setTitle("Welcome to Be the Street!");
 				message.setType(MessageType.NOTICE);
-				messageService.saveMessage(message, user.getId()+"");
+				messageService.saveMessage(message, user.getId() + "");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -83,10 +83,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User manageLogin(String email, String password) {
-		List<User> users = userDao.getUserByParam("email", email);
+	public User manageLogin(String nickname, String password) {
+		List<User> users = userDao.getUserByParam("nickname", nickname);
 		if (users.size() > 0) {
-			if (password.equals(users.get(0).getPassword())) {
+			if (users.get(0).isIsadmin()
+					&& password.equals(users.get(0).getPassword())) {
 				return users.get(0);
 			}
 		}
@@ -98,22 +99,22 @@ public class UserServiceImpl implements UserService {
 		List<User> users = userDao.getUserByParam("nickname", name);
 		return users.size() > 0;
 	}
-	
+
 	@Override
 	public UserEventRecord getUserEventRecord() {
 		return userEventRecordDao.getUserEventRecord();
 	}
-	
+
 	@Override
 	public String saveUserEventRecord() {
 		ObjectOutputStream oos = null;
 		try {
 			UserEventRecord record = userEventRecordDao.getUserEventRecord();
-			if(record==null){
+			if (record == null) {
 				record = new UserEventRecord();
 			}
 			record.setCreateTime(new Date());
-			ByteArrayOutputStream baos =new ByteArrayOutputStream();
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			oos = new ObjectOutputStream(baos);
 			oos.writeObject(userEventService.getEvents());
 			record.setMem(baos.toByteArray());
@@ -121,7 +122,7 @@ public class UserServiceImpl implements UserService {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return Constant.FAIL;
-		}finally{
+		} finally {
 			try {
 				oos.close();
 			} catch (IOException e) {
@@ -190,7 +191,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean login(String username, String password) {
-		return userDao.login(username, password);
+	public boolean manageChangepwd(String nickname, String password) {
+		List<User> users = userDao.getUserByParam("nickname", nickname);
+		if (users.size() > 0) {
+			User user = users.get(0);
+			user.setPassword(password);
+			return userDao.saveUser(user);
+		}
+		return false;
 	}
 }

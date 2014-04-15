@@ -22,7 +22,5 @@ public interface UserDao {
 	public List<User> manageSearch(String keyword);
 
 	public PageVO displayUserMessag(int userid, int page, int size);
-	
-	public boolean login(String username,String password);
 
 }

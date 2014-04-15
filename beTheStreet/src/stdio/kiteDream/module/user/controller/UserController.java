@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
@@ -104,24 +105,43 @@ public class UserController {
 
 	@ResponseBody
 	@RequestMapping(value = "/login", method = {RequestMethod.GET,RequestMethod.POST})
-	public JsonVO login(HttpServletRequest request, @RequestParam(value = "email") String email, @RequestParam(value = "password") String password) {
-		JsonVO json = new JsonVO();
+	public void login(HttpServletRequest request,HttpServletResponse response, @RequestParam(value = "nickname") String nickname, @RequestParam(value = "password") String password) {
 		try {
-			User user = userService.manageLogin(email, password);
+			User user = userService.manageLogin(nickname, password);
 			if (user != null) {
-				json.setErrorcode(Constant.OK);
-				List<User> users = new ArrayList<User>();
-				users.add(user);
-				json.setResult(users);
-				json.setUser_events(userEventService.checkEvent(user.getId()));
-			} else {
-				json.setErrorcode(Constant.FAIL);
-			}
+				HttpSession session = request.getSession(true);
+				session.setAttribute("user", nickname);
+				response.sendRedirect(request.getContextPath() + "/index.html");
+				return ;
+			} 
+			response.sendRedirect(request.getContextPath() + "/login.html");
 		} catch (Exception e) {
 			e.printStackTrace();
-			json.setErrorcode(Constant.FAIL);
 		}
-		return json;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/logout", method = {RequestMethod.GET,RequestMethod.POST})
+	public void logout(HttpServletRequest request,HttpServletResponse response) {
+		try {
+				HttpSession session = request.getSession(true);
+				session.setAttribute("user", null);
+				response.sendRedirect(request.getContextPath() + "/index.html");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/changepwd", method = {RequestMethod.GET,RequestMethod.POST})
+	public void changepwd(HttpServletRequest request,HttpServletResponse response,@RequestParam(value = "nickname") String nickname, @RequestParam(value = "password")String password) {
+		try {
+			userService.manageChangepwd(nickname, password);
+			HttpSession session = request.getSession(true);
+			session.setAttribute("user", null);
+			response.sendRedirect(request.getContextPath() + "/index.html");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@ResponseBody
