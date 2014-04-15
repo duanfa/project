@@ -87,6 +87,10 @@ public class UserEventServiceImpl implements UserEventService,
 		key = "new_message_num";
 		Map<String, Object> record = events.get(userId);
 		try {
+			if(record==null){
+				addUserId(userId);
+				record = events.get(userId);
+			}
 			Object v = record.get(key);
 			if (v != null) {
 				record.put(key, (Integer) v + (Integer) value);

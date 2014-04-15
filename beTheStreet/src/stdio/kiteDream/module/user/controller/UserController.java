@@ -125,7 +125,7 @@ public class UserController {
 		try {
 				HttpSession session = request.getSession(true);
 				session.setAttribute("user", null);
-				response.sendRedirect(request.getContextPath() + "/index.html");
+				response.sendRedirect(request.getContextPath() + "/login.html");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
