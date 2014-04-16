@@ -52,12 +52,6 @@ public class MessageDaoImpl implements MessageDao {
 				while((unRead--)>size){
 					list.remove(0);
 				}
-			}else{
-				hql = hql + " order by create_time desc";
-				Query query = getSessionFactory().getCurrentSession().createQuery(hql);
-				query.setFirstResult((page - 1) * size);
-				query.setMaxResults(size);
-				list = query.list();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
