@@ -24,6 +24,7 @@ public class Message implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	private int level = -1;
 	private String title;
 	private String description;
 	private long receiveTime;
@@ -117,4 +118,13 @@ public class Message implements Serializable {
 			return "";
 		}
 	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	
 }
