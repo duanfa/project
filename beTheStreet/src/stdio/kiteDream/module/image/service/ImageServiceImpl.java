@@ -58,8 +58,8 @@ public class ImageServiceImpl implements ImageService {
 			images.add(image);
 		}
 		image.setUser(user);
+		Level level = levelService.getLevel(image.getLevel());
 		if(Type.STREET.equals(image.getLevelType())){
-			Level level = levelService.getLevel(image.getLevel());
 			if(image.getLevel_stage()>=level.getRegular_stage()){//升级下一个level
 				user.setHigh_level(level.getLevel()+1);
 				user.setHigh_level_stage(1);
@@ -74,6 +74,9 @@ public class ImageServiceImpl implements ImageService {
 				user.setHigh_level_stage(image.getLevel_stage()+1);
 				user.setHigh_level_all(level.getRegular_stage());
 			}
+		}else if(Type.CHALLENGE.equals(image.getLevelType())){
+			level.setCompleteNum(level.getCompleteNum()+1);
+			levelService.saveLevel(level);
 		}
 		user.setImages(images);
 		userDao.saveUser(user);
@@ -104,7 +107,7 @@ public class ImageServiceImpl implements ImageService {
 							Message message = new Message();
 							message.setDescription("new image " + image.getId() + " been deny ");
 							message.setTitle("new image pass");
-							message.setType(MessageType.NOTICE);
+							message.setType(MessageType.BROADCAST);
 							messageService.saveMessage(message, user.getId() + "");
 						}
 					}
@@ -156,7 +159,7 @@ public class ImageServiceImpl implements ImageService {
 							Message message = new Message();
 							message.setDescription("image " + image.getId() + " been deleted");
 							message.setTitle("new image delete");
-							message.setType(MessageType.NOTICE);
+							message.setType(MessageType.BROADCAST);
 							messageService.saveMessage(message, image.getUser().getId() + "");
 					}
 	

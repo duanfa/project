@@ -173,7 +173,7 @@ public class LevelServiceImpl implements LevelService {
 					message.setCreate_time(new Date());
 					message.setDescription("you can play you challenge level!!!");
 					message.setTitle("unlocl challenge!");
-					message.setType(MessageType.NOTICE);
+					message.setType(MessageType.CHALLENGE);
 					messageService.saveMessage(message, userid+"");
 					return Constant.OK;
 				}else{
@@ -181,7 +181,7 @@ public class LevelServiceImpl implements LevelService {
 					message.setCreate_time(new Date());
 					message.setDescription("please wait 1 day,administrator will check you image!!!");
 					message.setTitle("please waiting!!!");
-					message.setType(MessageType.NOTICE);
+					message.setType(MessageType.BROADCAST);
 					messageService.saveMessage(message, userid+"");
 					return "wait";
 				}
