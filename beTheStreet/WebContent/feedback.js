@@ -46,6 +46,7 @@ function addItems(page,size){
 				var content = '<tr>'+
 					'<td class="center">'+validateUser(value)+'</td>'+
 					'<td class="center">'+validate(value.info)+'</td>'+
+					'<td class="center">'+validate(value.date)+'</td>'+
 					'<td class="center">'+
 						read+
 						'<a class="btn  btn-success edite-user" onclick="reply('+this.id+')" href="#"> <i class="icon-envelope icon-white"></i> reply </a>&nbsp;'+

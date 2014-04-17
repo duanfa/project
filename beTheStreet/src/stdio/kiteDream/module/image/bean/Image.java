@@ -40,7 +40,9 @@ public class Image implements Serializable {
 
 	private String describ;
 	
-	private String gps;
+	private String latitude;
+	
+	private String  longitude;
 	
 	private String ip;
 	
@@ -142,12 +144,20 @@ public class Image implements Serializable {
 		this.create_time = create_time;
 	}
 
-	public String getGps() {
-		return gps;
+	public String getLatitude() {
+		return latitude;
 	}
 
-	public void setGps(String gps) {
-		this.gps = gps;
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
 	}
 
 	public String getIp() {

@@ -91,8 +91,8 @@ function addItems(page,size){
 				'<td>'+validate(value.level)+'</td>'+
 				'<td>'+validate(value.level_stage)+'</td>'+
 				'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
-				'<td class="center">'+validate(value.gps)+'</td>'+
-				'<td class="center">'+validate(value.address)+'</td>'+
+				'<td class="center">'+validateGps(value)+'</td>'+
+				/*'<td class="center">'+validate(value.address)+'</td>'+*/
 				'<td class="center">'+validateUser(value)+'</td>'+
 				'<td class="center">'+
 				oprateButton+
@@ -113,6 +113,21 @@ function validate(value){
 		return '';
 	}else{
 		return value;
+	}
+}
+function validateGps(value){
+	if(value==null||value==undefined){
+		return '';
+	}else{
+		var latitude = value.latitude;
+		var longitude = value.longitude;
+		if( value.latitude==null|| value.latitude==undefined){
+			latitude = "";
+		}
+		if( value.longitude==null|| value.longitude==undefined){
+			longitude = "";
+		}
+		return latitude+','+longitude;
 	}
 }
 function validateUser(value){

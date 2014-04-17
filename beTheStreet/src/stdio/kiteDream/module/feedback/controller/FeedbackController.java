@@ -1,5 +1,7 @@
 package stdio.kiteDream.module.feedback.controller;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -53,6 +55,7 @@ public class FeedbackController {
 			Feedback feedback = new Feedback();
 			feedback.setInfo(info);
 			feedback.setUser(user);
+			feedback.setDate(new Date());
 			if(feedbackService.saveFeedback(feedback)){
 				json.setErrorcode(Constant.OK);
 			}

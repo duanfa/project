@@ -1,6 +1,7 @@
 package stdio.kiteDream.module.feedback.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,6 +30,8 @@ public class Feedback implements Serializable {
 	private User user;
 	
 	private boolean read;
+	
+	private Date date;
 
 	public int getId() {
 		return id;
@@ -60,6 +63,14 @@ public class Feedback implements Serializable {
 
 	public void setRead(boolean read) {
 		this.read = read;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 }
