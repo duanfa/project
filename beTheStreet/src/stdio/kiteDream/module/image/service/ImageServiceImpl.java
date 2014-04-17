@@ -59,15 +59,18 @@ public class ImageServiceImpl implements ImageService {
 		}
 		image.setUser(user);
 		if(Type.STREET.equals(image.getLevelType())){
-			Level level = levelService.getLevelById(image.getLevel());
-			if(image.getLevel_stage()>=level.getRegular_stage()){
+			Level level = levelService.getLevel(image.getLevel());
+			if(image.getLevel_stage()>=level.getRegular_stage()){//升级下一个level
 				user.setHigh_level(level.getLevel()+1);
 				user.setHigh_level_stage(1);
 				Level level_next = levelService.getLevel((image.getLevel()+1));
 				if(level_next!=null){
 					user.setHigh_level_all(level_next.getRegular_stage());
 				}
-			}else{
+				//完成数加1
+				level.setCompleteNum(level.getCompleteNum()+1);
+				levelService.saveLevel(level);
+			}else{//本level
 				user.setHigh_level_stage(image.getLevel_stage()+1);
 				user.setHigh_level_all(level.getRegular_stage());
 			}
@@ -75,40 +78,6 @@ public class ImageServiceImpl implements ImageService {
 		user.setImages(images);
 		userDao.saveUser(user);
 		return imageDao.saveImage(image);
-	}
-
-	@Override
-	public boolean deleteImage(String bulkImageId) {
-		try {
-			for (String imageId : bulkImageId.split(",")) {
-				if (StringUtils.isNotBlank(imageId.trim())) {
-					Image image = imageDao.getImage(imageId);
-					if (imageDao.delImage(imageId)) {
-							String dir = this.getClass().getClassLoader().getResource("/").getPath() + "../../";
-							File img = new File(dir + image.getPath());
-							if (img.exists()) {
-								img.delete();
-								System.out.println("file:" + dir + image.getPath() + "   deleted!!!");
-							}
-							img = new File(dir + image.getThumbnail_path());
-							if (img.exists()) {
-								img.delete();
-							}
-							Message message = new Message();
-							message.setDescription("image " + image.getId() + " been deleted");
-							message.setTitle("new image delete");
-							message.setType(MessageType.NOTICE);
-							messageService.saveMessage(message, image.getUser().getId() + "");
-					}
-	
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-		return true;
-
 	}
 
 	@Override
@@ -165,9 +134,40 @@ public class ImageServiceImpl implements ImageService {
 		}
 		return false;
 	}
-	public static void main(String[] args) {
-	 	System.out.println((2|4));
-	 	
+	
+
+	@Override
+	public boolean deleteImage(String bulkImageId) {
+		try {
+			for (String imageId : bulkImageId.split(",")) {
+				if (StringUtils.isNotBlank(imageId.trim())) {
+					Image image = imageDao.getImage(imageId);
+					if (imageDao.delImage(imageId)) {
+							String dir = this.getClass().getClassLoader().getResource("/").getPath() + "../../";
+							File img = new File(dir + image.getPath());
+							if (img.exists()) {
+								img.delete();
+								System.out.println("file:" + dir + image.getPath() + "   deleted!!!");
+							}
+							img = new File(dir + image.getThumbnail_path());
+							if (img.exists()) {
+								img.delete();
+							}
+							Message message = new Message();
+							message.setDescription("image " + image.getId() + " been deleted");
+							message.setTitle("new image delete");
+							message.setType(MessageType.NOTICE);
+							messageService.saveMessage(message, image.getUser().getId() + "");
+					}
+	
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+
 	}
 	@Override
 	public Integer getUserImageCount(int userId) {

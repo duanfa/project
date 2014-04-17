@@ -59,7 +59,7 @@ function addItems(page,size){
 				'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
 				'<td class="center">'+validatecoins(value.coins)+'</td>'+
 				'<td class="center">'+validate(value.high_level)+'</td>'+
-				'<td class="center">'+validate(value.high_level+"/"+value.high_level_all)+'</td>'+
+				'<td class="center">'+validate(value.high_level_stage+"/"+value.high_level_all)+'</td>'+
 				'<td class="center">'+validate("23")+'</td>'+
 				'<td class="center">'+validate("46:23:12")+'</td>'+
 				'<td class="center">'+validateGrouCategory(value)+'</td>'+
@@ -234,8 +234,8 @@ function searchUser(){
 			'<td>'+validate(value.nickname)+'</td>'+
 			'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
 			'<td class="center">'+validatecoins(value.coins)+'</td>'+
-			'<td class="center">'+validate("1")+'</td>'+
-			'<td class="center">'+validate("4/10")+'</td>'+
+			'<td class="center">'+validate(value.high_level)+'</td>'+
+			'<td class="center">'+validate(value.high_level_stage+"/"+value.high_level_all)+'</td>'+
 			'<td class="center">'+validate("23")+'</td>'+
 			'<td class="center">'+validate("46:23:12")+'</td>'+
 			'<td class="center">'+validateGrouCategory(value)+'</td>'+
@@ -244,8 +244,10 @@ function searchUser(){
 			'<td class="center">'+validateGroupCreater(value)+'</td>'+
 			'<td class="center">'+
 				'<a class="btn btn-info" href="image.html?userid='+value.id+'"><i class="icon-picture icon-white"></i>Image</a>&nbsp;'+
+				'<a class="btn btn-warning" href="message.html?userid='+value.id+'"><i class="icon-envelope icon-white"></i>message</a>&nbsp;'+
+				'<a class="btn btn-primary" href="feedback.html?userid='+value.id+'"><i class="icon-bullhorn icon-white"></i>feedback</a>'+
 			'</td>'+
-			'</tr>';
+		'</tr>';
 			result = result+content;
 		});
 		$("#user_tbody").html(result);
