@@ -149,7 +149,7 @@ public class PrizeServiceImpl implements PrizeService {
 					message.setDescription("product " + prize.getTitle()
 							+ " returned success");
 					message.setTitle("new product returned approve");
-					message.setType(MessageType.BROADCAST);
+					message.setType(MessageType.NOTICE);
 					messageService.saveMessage(message, user.getId() + "");
 				}
 				break;
@@ -158,7 +158,7 @@ public class PrizeServiceImpl implements PrizeService {
 				message.setDescription("product " + order.getPrize().getTitle()
 						+ " had been posted .");
 				message.setTitle("product post");
-				message.setType(MessageType.BROADCAST);
+				message.setType(MessageType.NOTICE);
 				messageService.saveMessage(message, order.getUser().getId()
 						+ "");
 				break;

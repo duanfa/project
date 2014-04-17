@@ -181,7 +181,7 @@ public class LevelServiceImpl implements LevelService {
 					message.setCreate_time(new Date());
 					message.setDescription("please wait 1 day,administrator will check you image!!!");
 					message.setTitle("please waiting!!!");
-					message.setType(MessageType.BROADCAST);
+					message.setType(MessageType.NOTICE);
 					messageService.saveMessage(message, userid+"");
 					return "wait";
 				}

@@ -107,7 +107,7 @@ public class ImageServiceImpl implements ImageService {
 							Message message = new Message();
 							message.setDescription("new image " + image.getId() + " been deny ");
 							message.setTitle("new image pass");
-							message.setType(MessageType.BROADCAST);
+							message.setType(MessageType.NOTICE);
 							messageService.saveMessage(message, user.getId() + "");
 						}
 					}
@@ -159,7 +159,7 @@ public class ImageServiceImpl implements ImageService {
 							Message message = new Message();
 							message.setDescription("image " + image.getId() + " been deleted");
 							message.setTitle("new image delete");
-							message.setType(MessageType.BROADCAST);
+							message.setType(MessageType.NOTICE);
 							messageService.saveMessage(message, image.getUser().getId() + "");
 					}
 	

@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
 				message.setCreate_time(new Date());
 				message.setDescription("This inbox is where you¡¯ll hear from us, be notified about coins earned after your submitted challenge photos are verified, and be invited to take on new challenges. Good luck!");
 				message.setTitle("Welcome to Be the Street!");
-				message.setType(MessageType.BROADCAST);
+				message.setType(MessageType.NOTICE);
 				messageService.saveMessage(message, user.getId() + "");
 			}
 		} catch (Exception e) {
