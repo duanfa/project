@@ -2,7 +2,7 @@ $(function() {
 	addItems(1,30);
 	$("#dialog-form").dialog({
 		autoOpen : false,
-		height : 300,
+		height : 350,
 		width : 330,
 		modal : true,
 		buttons : {
@@ -10,6 +10,7 @@ $(function() {
 				$("#dialog-form").dialog("close");
 				$("#coreIframe").contents().find("#addForm").submit();
 				$('#coreIframe').load(function(){
+							alert("send success!");
 							addItems(pageNo,pageSize);
 				   });
 			},
@@ -19,7 +20,7 @@ $(function() {
 	});
 	
 	$("#create-category").click(function() {
-		$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="message_upload.html" frameborder="0" style="height: 150px;"></iframe>');
+		$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="message_upload.html" frameborder="0" style="height: 250px;"></iframe>');
 		$("#dialog-form").dialog("open");
 	});
 	

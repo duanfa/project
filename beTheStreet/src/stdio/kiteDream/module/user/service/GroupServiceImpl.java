@@ -174,13 +174,13 @@ public class GroupServiceImpl implements GroupService {
 			User user = userDao.getUser(userid+"");
 			if(group!=null){
 				List<User> users = group.getUsers();
-				group.setUsers(users);
-				group.setMenberNum(users.size());
 				if(users!=null){
 					users.remove(user);
 				}else{
 					group.setUsers(new ArrayList<User>());
 				}
+				group.setUsers(users);
+				group.setMenberNum(users.size());
 				groupDao.saveGroup(group);
 			}
 			user.setGroup(null);

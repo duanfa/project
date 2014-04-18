@@ -174,6 +174,7 @@ public class LevelServiceImpl implements LevelService {
 					message.setDescription("you can play you challenge level!!!");
 					message.setTitle("unlocl challenge!");
 					message.setType(MessageType.CHALLENGE);
+					message.setLevel(levelDao.getLevel(6).getLevel());
 					messageService.saveMessage(message, userid+"");
 					return Constant.OK;
 				}else{
@@ -192,6 +193,5 @@ public class LevelServiceImpl implements LevelService {
 			return "join";
 		}
 	}
-
 
 }

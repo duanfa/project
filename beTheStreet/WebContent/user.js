@@ -3,7 +3,7 @@ $(function() {
 	addItems(1,30);
 	$("#dialog-form").dialog({
 		autoOpen : false,
-		height : 300,
+		height : 350,
 		width : 330,
 		modal : true,
 		buttons : {
@@ -11,6 +11,7 @@ $(function() {
 				$("#dialog-form").dialog("close");
 				$("#coreIframe").contents().find("#addForm").submit();
 				$('#coreIframe').load(function(){
+					alert("send success");
 				 });
 			},
 		},
@@ -25,7 +26,7 @@ $(function() {
 				userids+=$(this).val()+",";  
 			}
 		});  
-		$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="user_message_upload.html?userids='+userids+'" frameborder="0" style="height: 150px;"></iframe>');
+		$("#dialog-form").html('<iframe id="coreIframe" name="coreIframe" scrolling="no" src="user_message_upload.html?userids='+userids+'" frameborder="0" style="height: 250px;"></iframe>');
 		$("#dialog-form").dialog("open");
 	});
 	
