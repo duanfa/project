@@ -9,11 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+import stdio.kiteDream.module.coins.bean.Coins;
 import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
 import stdio.kiteDream.module.user.bean.User;
 
@@ -67,6 +69,10 @@ public class Image implements Serializable {
 	private User user;
 
 	private Check statu;
+	
+	@OneToOne
+	@JoinColumn
+	private Coins coins;
 
 	public int getId() {
 		return id;
@@ -198,6 +204,14 @@ public class Image implements Serializable {
 
 	public void setLevel_stage(int level_stage) {
 		this.level_stage = level_stage;
+	}
+
+	public Coins getCoins() {
+		return coins;
+	}
+
+	public void setCoins(Coins coins) {
+		this.coins = coins;
 	}
 
 }

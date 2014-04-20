@@ -19,7 +19,7 @@ public Level getPrizeRule(String id);
 
 	public boolean saveLevel(Level level);
 	
-	public boolean managePrize(int level,String userid);
+	public boolean managePrize(String imageId,String userid);
 
 	public boolean deleteLevel(String id,String realContextPath);
 

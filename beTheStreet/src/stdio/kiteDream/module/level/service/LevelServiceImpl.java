@@ -12,6 +12,7 @@ import stdio.kiteDream.module.coins.dao.CoinsDao;
 import stdio.kiteDream.module.image.bean.Image;
 import stdio.kiteDream.module.image.bean.Image.Check;
 import stdio.kiteDream.module.image.dao.ImageDao;
+import stdio.kiteDream.module.image.service.ImageService;
 import stdio.kiteDream.module.level.bean.Level;
 import stdio.kiteDream.module.level.bean.Level.LevelState;
 import stdio.kiteDream.module.level.dao.LevelDao;
@@ -92,21 +93,22 @@ public class LevelServiceImpl implements LevelService {
 	}
 
 	@Override
-	public boolean managePrize(int level, String userid) {
+	public boolean managePrize(String imageId, String userid) {
 		try {
-			Level rule = levelDao.getLevel(level);
-			if(rule!=null){
+			Image image = imageDao.getImage(imageId);
+			if(image==null||image.getCoins()==null){
+				return false;
+			}
 				User user = userDao.getUser(userid);
-				int[] realCoins = rule.getRandomCoin();
 				if(user.getCoins()!=null){
-					user.getCoins().setGreenNum(user.getCoins().getGreenNum()+realCoins[0]);
-					user.getCoins().setYellowNum(user.getCoins().getYellowNum()+realCoins[1]);
-					user.getCoins().setRedNum(user.getCoins().getRedNum()+realCoins[2]);
+					user.getCoins().setGreenNum(user.getCoins().getGreenNum()+image.getCoins().getGreenNum());
+					user.getCoins().setYellowNum(user.getCoins().getYellowNum()+image.getCoins().getYellowNum());
+					user.getCoins().setRedNum(user.getCoins().getRedNum()+image.getCoins().getRedNum());
 				}else{
 					Coins coins = new Coins();
-					coins.setGreenNum(realCoins[0]);
-					coins.setYellowNum(realCoins[1]);
-					coins.setRedNum(realCoins[2]);
+					coins.setGreenNum(image.getCoins().getGreenNum());
+					coins.setYellowNum(image.getCoins().getYellowNum());
+					coins.setRedNum(image.getCoins().getRedNum());
 					coinsDao.saveCoins(coins);
 					user.setCoins(coins);
 				}
@@ -114,23 +116,20 @@ public class LevelServiceImpl implements LevelService {
 				if(group!=null){
 					Coins coins = group.getCoins();
 					if(coins!=null){
-						coins.setGreenNum(coins.getGreenNum()+realCoins[0]);
-						coins.setYellowNum(coins.getYellowNum()+realCoins[1]);
-						coins.setRedNum(coins.getRedNum()+realCoins[2]);
+						coins.setGreenNum(coins.getGreenNum()+image.getCoins().getGreenNum());
+						coins.setYellowNum(coins.getYellowNum()+image.getCoins().getYellowNum());
+						coins.setRedNum(coins.getRedNum()+image.getCoins().getRedNum());
 					}else{
 						coins = new Coins();
-						coins.setGreenNum(realCoins[0]);
-						coins.setYellowNum(realCoins[1]);
-						coins.setRedNum(realCoins[2]);
+						coins.setGreenNum(image.getCoins().getGreenNum());
+						coins.setYellowNum(image.getCoins().getYellowNum());
+						coins.setRedNum(image.getCoins().getRedNum());
 						group.setCoins(coins);
 					}
 					coinsDao.saveCoins(coins);
 					groupDao.saveGroup(group);
 				}
 				userDao.saveUser(user);
-			}else{
-				System.out.println("no such rule of level:"+level);
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;

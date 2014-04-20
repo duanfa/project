@@ -7,10 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.type.ImageType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import stdio.kiteDream.module.coins.bean.Coins;
+import stdio.kiteDream.module.coins.dao.CoinsDao;
 import stdio.kiteDream.module.image.bean.Image;
 import stdio.kiteDream.module.image.bean.Image.Check;
 import stdio.kiteDream.module.image.bean.Image.Type;
@@ -38,6 +39,9 @@ public class ImageServiceImpl implements ImageService {
 	
 	@Autowired
 	LevelDao levelDao;
+	
+	@Autowired
+	CoinsDao coinsDao;
 
 	@Autowired
 	MessageService messageService;
@@ -53,7 +57,19 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public boolean saveImage(Image image, int userid) {
+	public List<Coins> saveImage(Image image, int userid) {
+		List<Coins> coinsList =  new ArrayList<Coins>();
+		Level level = levelService.getLevel(image.getLevel());
+		if(!Type.STREET.equals(image.getLevelType())){
+			int[] realCoins = level.getRandomCoin();
+			Coins coins = new Coins();
+			coins.setGreenNum(realCoins[0]);
+			coins.setYellowNum(realCoins[1]);
+			coins.setRedNum(realCoins[2]);
+			coinsDao.saveCoins(coins);
+			image.setCoins(coins);
+			coinsList.add(coins);
+		}
 		User user = userDao.getUser(userid + "");
 		List<Image> images = user.getImages();
 		if (images == null) {
@@ -63,7 +79,6 @@ public class ImageServiceImpl implements ImageService {
 			images.add(image);
 		}
 		image.setUser(user);
-		Level level = levelService.getLevel(image.getLevel());
 		if(Type.STREET.equals(image.getLevelType())){
 			if(image.getLevel_stage()>=level.getRegular_stage()){//升级下一个level
 				user.setHigh_level(level.getLevel()+1);
@@ -85,7 +100,8 @@ public class ImageServiceImpl implements ImageService {
 		}
 		user.setImages(images);
 		userDao.saveUser(user);
-		return imageDao.saveImage(image);
+		imageDao.saveImage(image);
+		return coinsList;
 	}
 
 	@Override
@@ -99,7 +115,7 @@ public class ImageServiceImpl implements ImageService {
 					image.setUpdate_time(new Date());
 					if (imageDao.saveImage(image)) {
 						if (Image.Check.PASS.equals(statu)) {
-							levelService.managePrize(image.getLevel(), user.getId() + "");
+							levelService.managePrize(id, user.getId() + "");
 							Message message = new Message();
 							message.setDescription("new image " + image.getId() + " passed and coins is added ");
 							message.setCreate_time(new Date());

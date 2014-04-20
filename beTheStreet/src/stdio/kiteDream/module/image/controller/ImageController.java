@@ -26,6 +26,7 @@ import stdio.kiteDream.module.comic.bean.BasePathJsonParser;
 import stdio.kiteDream.module.image.bean.Image;
 import stdio.kiteDream.module.image.bean.Image.Check;
 import stdio.kiteDream.module.image.service.ImageService;
+import stdio.kiteDream.module.level.service.LevelService;
 import stdio.kiteDream.module.user.service.UserService;
 import stdio.kiteDream.module.userEvent.service.UserEventService;
 import stdio.kiteDream.module.vo.JsonVO;
@@ -87,8 +88,10 @@ public class ImageController {
 				image.setCreate_time(new Date());
 				image.setStatu(Image.Check.UNREAD);
 				image.setIp(request.getRemoteAddr());
+				
 				System.out.println("userid is :"+userid);
-				imageService.saveImage(image,userid);
+				json.setResult(imageService.saveImage(image,userid));
+				
 			}
 			json.setErrorcode(Constant.OK);
 			json.setUser_events(userEventService.checkEvent(userid));
