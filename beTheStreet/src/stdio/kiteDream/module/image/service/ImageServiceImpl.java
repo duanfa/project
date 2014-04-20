@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.type.ImageType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import stdio.kiteDream.module.image.bean.Image.Check;
 import stdio.kiteDream.module.image.bean.Image.Type;
 import stdio.kiteDream.module.image.dao.ImageDao;
 import stdio.kiteDream.module.level.bean.Level;
+import stdio.kiteDream.module.level.dao.LevelDao;
 import stdio.kiteDream.module.level.service.LevelService;
 import stdio.kiteDream.module.message.bean.Message;
 import stdio.kiteDream.module.message.bean.MessageType;
@@ -33,6 +35,9 @@ public class ImageServiceImpl implements ImageService {
 
 	@Autowired
 	LevelService levelService;
+	
+	@Autowired
+	LevelDao levelDao;
 
 	@Autowired
 	MessageService messageService;
@@ -97,9 +102,26 @@ public class ImageServiceImpl implements ImageService {
 							levelService.managePrize(image.getLevel(), user.getId() + "");
 							Message message = new Message();
 							message.setDescription("new image " + image.getId() + " passed and coins is added ");
+							message.setCreate_time(new Date());
 							message.setTitle("new image pass");
 							message.setType(MessageType.CHA_CHING);
 							messageService.saveMessage(message, user.getId() + "");
+							if(Image.Type.CHALLENGE.equals(image.getLevelType())){
+								Level nextChanllenge = levelDao.getLevel(image.getLevel()+1);
+								Message messageChallenge = new Message();
+								messageChallenge.setCreate_time(new Date());
+								if(nextChanllenge!=null){
+									messageChallenge.setDescription("you can play you challenge level!!!");
+									messageChallenge.setTitle("unlocl challenge!");
+									messageChallenge.setType(MessageType.CHALLENGE);
+									messageChallenge.setLevel(nextChanllenge.getLevel());
+								}else{
+									messageChallenge.setDescription("No more challenges, please wait, we will inform you;");
+									messageChallenge.setTitle("the end");
+									messageChallenge.setType(MessageType.CHALLENGE);
+								}
+								messageService.saveMessage(messageChallenge, user.getId() + "");
+							}
 							updateBounsStatu(user,image.getLevel(),image.getLevel_stage());
 							userDao.saveUser(user);
 							levelService.getChallenge(user.getId());

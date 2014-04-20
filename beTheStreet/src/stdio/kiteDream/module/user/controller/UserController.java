@@ -1,5 +1,8 @@
 package stdio.kiteDream.module.user.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +26,7 @@ import stdio.kiteDream.module.userEvent.service.UserEventService;
 import stdio.kiteDream.module.vo.JsonVO;
 import stdio.kiteDream.module.vo.PageVO;
 import stdio.kiteDream.util.Constant;
+import stdio.kiteDream.util.CreateXL;
 
 @Controller
 @RequestMapping("/api/user")
@@ -203,6 +208,36 @@ public class UserController {
 			json.setErrorcode(Constant.FAIL);
 		}
 		return json;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/xls", method = RequestMethod.GET)
+	public void xls(HttpServletResponse res, @RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
+		OutputStream os = null;
+		File xls = null;
+	    try {  
+	    	os = res.getOutputStream();  
+	        res.reset();  
+	        res.setHeader("Content-Disposition", "attachment; filename=user"+"_"+page+"_"+size+".xls");  
+	        res.setContentType("application/octet-stream; charset=utf-8");  
+			List<User> users = userService.getUsers(page, size,-1);
+			xls = CreateXL.createUserExcel(users);
+	        os.write(FileUtils.readFileToByteArray(xls));  
+	        os.flush();  
+	    } catch (IOException e) {
+			e.printStackTrace();
+		} finally {  
+	        if (os != null) {  
+	            try {
+					os.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}  
+	        }
+	        if(xls.exists()){
+	        	xls.delete();
+	        }
+	    }  
 	}
 
 }

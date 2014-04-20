@@ -59,6 +59,7 @@ public class MessageServiceImpl implements MessageService {
 					newMessage.setUser(userDao.getUser(id));
 					newMessage.setCreate_time(new Date());
 					newMessage.setType(message.getType());
+					newMessage.setLevel(message.getLevel());
 					if(MessageType.BROADCAST.equals(message.getType())){
 						userEventService.updateAllUserEvent("new_message_num", 1);
 					}else{

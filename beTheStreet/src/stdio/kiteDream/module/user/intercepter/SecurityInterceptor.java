@@ -25,7 +25,7 @@ public class SecurityInterceptor  extends HttpServlet implements Filter {
            String user= (String)session.getAttribute("user");//µÇÂ¼ÈË½ÇÉ«
            String url=request.getRequestURI();  
            if(StringUtils.isBlank(user)) {     
-                if(url!=null && !url.equals("") && ( url.indexOf("Login")<0 && url.indexOf("login")<0 )) {  
+                if(url!=null && !url.equals("") && ( url.indexOf("Login")<0 && url.indexOf("login")<0 ) && ( url.indexOf("policy")<0)) {  
                     response.sendRedirect(request.getContextPath() + "/login.html");  
                     return ; 
                 }

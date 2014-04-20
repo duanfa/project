@@ -1,3 +1,4 @@
+var pageVal,sizeVal;
 $(function() {
 	onReady();
 	addItems(1,30);
@@ -19,6 +20,9 @@ $(function() {
 		}
 	});
 	
+	$("#xls").click(function() {
+		window.location.href = "api/user/xls?page="+pageVal+"&size="+sizeVal;
+	});
 	$("#bulk_message").click(function() {
 		var userids="";  
 		$("[type='checkbox']").each(function(){
@@ -44,6 +48,8 @@ $(function() {
 });
 
 function addItems(page,size){
+	 pageVal=page;
+	 sizeVal=size;
 	var url ="api/user/list/page?page="+page+"&size="+size;
 	var groupid = $.getUrlParam("groupid");
 	if(groupid==null){
