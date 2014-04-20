@@ -3,6 +3,7 @@ package stdio.kiteDream.module.level.bean;
 import java.io.Serializable;
 import java.util.Random;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -46,6 +47,7 @@ public class Level implements Serializable {
 	
 	private String shortdesc;
 	
+	@Column(name="description")
 	private String desc;
 	
 	

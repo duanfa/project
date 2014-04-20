@@ -10,6 +10,7 @@ $(function() {
 				$("#coreIframe").contents().find("#addComicForm").submit();
 				$('#coreIframe').load(function(){  
 					try{
+						alert("uplaod success!!!");
 						addItems();
 					}catch(e){
 						console.log(e);

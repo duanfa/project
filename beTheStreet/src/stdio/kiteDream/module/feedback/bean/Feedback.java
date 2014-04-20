@@ -3,6 +3,7 @@ package stdio.kiteDream.module.feedback.bean;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,8 +30,10 @@ public class Feedback implements Serializable {
 	@JoinColumn(name="userid")
 	private User user;
 	
+	@Column(name="isread")
 	private boolean read;
 	
+	@Column(name="date_time")
 	private Date date;
 
 	public int getId() {
