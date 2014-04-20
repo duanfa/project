@@ -10,10 +10,7 @@ $(function() {
 				$("#coreIframe").contents().find("#addComicForm").submit();
 				$('#coreIframe').load(function(){  
 					try{
-						var uploadResult = JSON.parse($('#coreIframe').contents().find('body').html());
-						if('success'==uploadResult.result.toLowerCase()){
-							addItems();
-						}
+						addItems();
 					}catch(e){
 						console.log(e);
 					}
