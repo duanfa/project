@@ -73,7 +73,7 @@ public class ImageController {
 							return json;
 						}
 						Calendar now = Calendar.getInstance();
-						imgPre = Constant.COMIC_PATH_PRE+"/"+(now.get(Calendar.MONTH) + 1)+"/"+now.get(Calendar.DAY_OF_MONTH)+"/"+now.get(Calendar.HOUR_OF_DAY)+"/"+now.get(Calendar.MINUTE);
+						imgPre = Constant.COMIC_PATH_PRE+(now.get(Calendar.MONTH) + 1)+"/"+now.get(Calendar.DAY_OF_MONTH)+"/"+now.get(Calendar.HOUR_OF_DAY)+"/"+now.get(Calendar.MINUTE);
 						File dir = new File(realContextPath+"/"+imgPre);
 						if(!dir.exists()){
 							dir.mkdirs();
