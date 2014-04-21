@@ -195,17 +195,13 @@ function pagination(page,size,count){
 function deleteImg(imgId){
 	$.get("api/image/delete/" + imgId, function(data) {
 	}).done(function(data) {
-		if(data.errorcode=='ok'){
 			addItems(pageNo,pageSize);
-		}
 	});
 }
 function check(imgId,statu){
 	$("#statu"+imgId).html('<img src="img/ajax-loaders/ajax-loader-1.gif"/>');
 	$.get("api/image/check/" + imgId+'?statu='+statu, function(data) {
 	}).done(function(data) {
-		if(data.errorcode=='ok'){
 			addItems(pageNo,pageSize);
-		}
 	});
 }
