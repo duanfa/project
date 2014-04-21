@@ -30,10 +30,10 @@ public class Feedback implements Serializable {
 	@JoinColumn(name="userid")
 	private User user;
 	
-	//@Column(name="isread")
+	@Column(name="isread")
 	private boolean read;
 	
-	//@Column(name="date_time")
+	@Column(name="date_time")
 	private Date date;
 
 	public int getId() {

@@ -42,14 +42,14 @@
 		</property>
 	</bean>
 
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="org.sqlite.JDBC"></property>
 		<property name="url" value="jdbc:sqlite:bets.db"></property>
 		<property name="username" value=""></property>
 		<property name="password" value=""></property>
-	</bean>
-	<!-- <bean id="dataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource">
+	</bean> -->
+	<bean id="dataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource">
 		<property name="driver">
 			<value>com.mysql.jdbc.Driver</value>
 		</property>
@@ -62,7 +62,7 @@
 		<property name="password">
 			<value>bethestreet</value>
 		</property>
-	</bean> -->
+	</bean>
 	<!-- 配置事务的传播特性 -->
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
@@ -86,8 +86,8 @@
 		<property name="packagesToScan" value="stdio.kiteDream.module" />
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.dialect">stdio.kiteDream.util.SQLiteDialect</prop>
-				<!-- <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop> -->
+				<!-- <prop key="hibernate.dialect">stdio.kiteDream.util.SQLiteDialect</prop> -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.format_sql">false</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>

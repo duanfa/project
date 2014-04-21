@@ -9,6 +9,7 @@ public class Constant {
 	public static SimpleDateFormat TIME = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	public static String COMIC_PATH_PRE = "comicDir/";
+	public static String REAL_PATH_PRE = "/root";
 	
 	public static String OK = "ok";
 	public static String FAIL = "fail";

@@ -47,7 +47,7 @@ public class Level implements Serializable {
 	
 	private String shortdesc;
 	
-	//@Column(name="description")
+	@Column(name="description")
 	private String desc;
 	
 	

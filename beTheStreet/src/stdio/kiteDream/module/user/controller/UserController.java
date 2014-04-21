@@ -110,9 +110,12 @@ public class UserController {
 
 	@ResponseBody
 	@RequestMapping(value = "/login", method = {RequestMethod.GET,RequestMethod.POST})
-	public void login(HttpServletRequest request,HttpServletResponse response, @RequestParam(value = "nickname") String nickname, @RequestParam(value = "password") String password) {
+	public void login(HttpServletRequest request,HttpServletResponse response, @RequestParam(value = "nickname",required=false) String nickname, @RequestParam(value = "password",required=false) String password) {
 		try {
-			User user = userService.manageLogin(nickname, password);
+			if(nickname==null||nickname==null){
+				response.sendRedirect(request.getContextPath() + "/login.html");
+			}
+			User user = userService.manageLogin(nickname, nickname);
 			if (user != null) {
 				HttpSession session = request.getSession(true);
 				session.setAttribute("user", nickname);
