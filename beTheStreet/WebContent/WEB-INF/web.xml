@@ -47,6 +47,9 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath*:/applicationContext-*.xml</param-value>
   </context-param>
+  <session-config>    
+        <session-timeout>30</session-timeout>    
+    </session-config>  
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
     <welcome-file>index.html</welcome-file>

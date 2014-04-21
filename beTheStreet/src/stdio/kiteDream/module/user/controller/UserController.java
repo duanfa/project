@@ -119,6 +119,10 @@ public class UserController {
 				response.sendRedirect(request.getContextPath() + "/index.html");
 				return ;
 			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
 			response.sendRedirect(request.getContextPath() + "/login.html");
 		} catch (Exception e) {
 			e.printStackTrace();
