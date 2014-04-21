@@ -158,7 +158,8 @@ public class ProductController {
 			@RequestParam("categoryid") String categoryid, @RequestParam("price") float price, @RequestParam("num") int num, @RequestParam("info") String info, @RequestParam("type") Product.Type type) {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
 		ServletContext context = session.getServletContext();
-		String realContextPath = context.getRealPath("/");
+//		String realContextPath = context.getRealPath("/");
+		String realContextPath = Constant.REAL_PATH_PRE;
 		try {
 			String imgPre_path = "";
 			String fileName_path = "";

@@ -54,7 +54,8 @@ public class ComicController {
 		try {
 			CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
 			ServletContext context = session.getServletContext();
-			String realContextPath = context.getRealPath("/");
+//			String realContextPath = context.getRealPath("/");
+			String realContextPath = Constant.REAL_PATH_PRE;
 
 			String imgPre = "";
 			String fileName = "";
