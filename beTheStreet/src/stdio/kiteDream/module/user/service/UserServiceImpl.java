@@ -69,6 +69,12 @@ public class UserServiceImpl implements UserService {
 				message.setTitle("Welcome to Be the Street!");
 				message.setType(MessageType.NOTICE);
 				messageService.saveMessage(message, user.getId() + "");
+				message = new Message();
+				message.setCreate_time(new Date());
+				message.setDescription("We need your help in creating the best game we can. Please use the \"Write to Us\" feature in Settings to send us comments, bugs, and suggestions - we need you!");
+				message.setTitle("Thanks for Beta Testing");
+				message.setType(MessageType.NOTICE);
+				messageService.saveMessage(message, user.getId() + "");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
