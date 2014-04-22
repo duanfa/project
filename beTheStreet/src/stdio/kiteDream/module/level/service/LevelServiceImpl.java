@@ -168,19 +168,20 @@ public class LevelServiceImpl implements LevelService {
 				}
 				if(count>=2){
 					//send message;
+					Level level = levelDao.getLevel(6);
 					Message message = new Message();
 					message.setCreate_time(new Date());
-					message.setDescription("you can play you challenge level!!!");
-					message.setTitle("unlocl challenge!");
+					message.setDescription(level.getTitle()+":"+level.getTitle2()+"   "+level.getDesc());
+					message.setTitle(level.getTitle()+" Unlocked!");
 					message.setType(MessageType.CHALLENGE);
-					message.setLevel(levelDao.getLevel(6).getLevel());
+					message.setLevel(level.getLevel());
 					messageService.saveMessage(message, userid+"");
 					return Constant.OK;
 				}else{
 					Message message = new Message();
 					message.setCreate_time(new Date());
 					message.setDescription("please wait 1 day,administrator will check you image!!!");
-					message.setTitle("please waiting!!!");
+					message.setTitle("please Waiting!!!");
 					message.setType(MessageType.NOTICE);
 					messageService.saveMessage(message, userid+"");
 					return "wait";

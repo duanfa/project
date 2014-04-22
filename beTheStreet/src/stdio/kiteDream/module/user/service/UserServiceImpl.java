@@ -200,4 +200,11 @@ public class UserServiceImpl implements UserService {
 		}
 		return false;
 	}
+
+	@Override
+	public void manageOpenapp(int userid) {
+		User user = userDao.getUser(userid+"");
+		user.setLogins(user.getLogins()+1);
+		userDao.saveUser(user);
+	}
 }

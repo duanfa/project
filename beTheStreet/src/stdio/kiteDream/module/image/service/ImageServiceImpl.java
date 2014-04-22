@@ -110,6 +110,7 @@ public class ImageServiceImpl implements ImageService {
 			for (String id : imageId.split(",")) {
 				if (StringUtils.isNotBlank(id.trim())) {
 					Image image = imageDao.getImage(id);
+					Level level = levelService.getLevel(image.getLevel());
 					User user = image.getUser();
 					image.setStatu(statu);
 					image.setUpdate_time(new Date());
@@ -117,9 +118,9 @@ public class ImageServiceImpl implements ImageService {
 						if (Image.Check.PASS.equals(statu)) {
 							levelService.managePrize(id, user.getId() + "");
 							Message message = new Message();
-							message.setDescription("new image " + image.getId() + " passed and coins is added ");
+							message.setDescription("Your image from "+level.getTitle()+" has been verified. Coins earned have been added to your account. Don't spend them all in one place!");
 							message.setCreate_time(new Date());
-							message.setTitle("new image pass");
+							message.setTitle("Image Verified");
 							message.setType(MessageType.CHA_CHING);
 							messageService.saveMessage(message, user.getId() + "");
 							if(Image.Type.CHALLENGE.equals(image.getLevelType())){
@@ -127,13 +128,13 @@ public class ImageServiceImpl implements ImageService {
 								Message messageChallenge = new Message();
 								messageChallenge.setCreate_time(new Date());
 								if(nextChanllenge!=null){
-									messageChallenge.setDescription("you can play you challenge level!!!");
-									messageChallenge.setTitle("unlocl challenge!");
+									messageChallenge.setDescription(nextChanllenge.getTitle()+":"+nextChanllenge.getTitle2()+"   "+nextChanllenge.getDesc());
+									messageChallenge.setTitle(nextChanllenge.getTitle()+" Unlocked!");
 									messageChallenge.setType(MessageType.CHALLENGE);
 									messageChallenge.setLevel(nextChanllenge.getLevel());
 								}else{
 									messageChallenge.setDescription("No more challenges, please wait, we will inform you;");
-									messageChallenge.setTitle("the end");
+									messageChallenge.setTitle("the End");
 									messageChallenge.setType(MessageType.CHALLENGE);
 								}
 								messageService.saveMessage(messageChallenge, user.getId() + "");

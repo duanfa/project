@@ -67,8 +67,8 @@ function addItems(page,size){
 				'<td class="center">'+validatecoins(value.coins)+'</td>'+
 				'<td class="center">'+validate(value.high_level)+'</td>'+
 				'<td class="center">'+validate(value.high_level_stage+"/"+value.high_level_all)+'</td>'+
-				'<td class="center">'+validate("23")+'</td>'+
-				'<td class="center">'+validate("46:23:12")+'</td>'+
+				'<td class="center">'+validate(value.logins)+'</td>'+
+				'<td class="center">'+validate(value.totaltime)+'</td>'+
 				'<td class="center">'+validateGrouCategory(value)+'</td>'+
 				'<td class="center">'+validateGrouOrg(value)+'</td>'+
 				'<td class="center">'+validateGroup(value)+'</td>'+

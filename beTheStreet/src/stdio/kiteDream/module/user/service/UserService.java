@@ -49,4 +49,6 @@ public interface UserService {
 	public List<Group> manageSearchGroup(String keyword);
 
 	public boolean manageChangepwd(String nickname, String password);
+	
+	public void manageOpenapp(int userid);
 }

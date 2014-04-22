@@ -131,6 +131,21 @@ public class UserController {
 			e.printStackTrace();
 		}
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/openapp", method = {RequestMethod.GET,RequestMethod.POST})
+	public JsonVO openapp(@RequestParam("userid") int userid) {
+		JsonVO json = new JsonVO();
+		try {
+			userService.manageOpenapp(userid);
+			json.setUser_events(userEventService.checkEvent(userid));
+			json.setErrorcode(Constant.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/logout", method = {RequestMethod.GET,RequestMethod.POST})
 	public void logout(HttpServletRequest request,HttpServletResponse response) {

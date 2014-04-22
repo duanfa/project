@@ -66,6 +66,11 @@ public class User implements Serializable {
 	
 	private boolean readyChallenge;
 	
+	private int logins;
+	
+	//×ÜÊ±¼ä
+	private int totaltime;
+	
 	private int high_level=1;
 	
 	private int high_level_stage=1;
@@ -282,6 +287,22 @@ public class User implements Serializable {
 
 	public void setIsadmin(boolean isadmin) {
 		this.isadmin = isadmin;
+	}
+
+	public int getLogins() {
+		return logins;
+	}
+
+	public void setLogins(int logins) {
+		this.logins = logins;
+	}
+
+	public int getTotaltime() {
+		return totaltime;
+	}
+
+	public void setTotaltime(int totaltime) {
+		this.totaltime = totaltime;
 	}
 
 }

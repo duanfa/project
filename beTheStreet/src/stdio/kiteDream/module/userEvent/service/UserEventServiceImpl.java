@@ -2,6 +2,7 @@ package stdio.kiteDream.module.userEvent.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,11 +20,12 @@ import stdio.kiteDream.module.user.dao.UserDao;
 import stdio.kiteDream.module.user.service.UserService;
 import stdio.kiteDream.module.userEvent.bean.UserEvent;
 import stdio.kiteDream.module.userEvent.bean.UserEventRecord;
+import stdio.kiteDream.module.userEvent.bean.UserLoginStatu;
 import stdio.kiteDream.module.userEvent.dao.UserEventRecordDao;
 
 @Service
 public class UserEventServiceImpl implements UserEventService,
-		ApplicationListener {
+		ApplicationListener,Runnable {
 
 	@Autowired
 	UserDao userDao;
@@ -31,8 +33,11 @@ public class UserEventServiceImpl implements UserEventService,
 	UserEventRecordDao userEventRecordDao;
 	@Autowired
 	UserService userService;
+	
+	static Thread loginTimeDemon;
 
 	public static Map<Integer, Map<String, Object>> events = new ConcurrentHashMap<Integer, Map<String, Object>>();
+	public static Map<Integer, UserLoginStatu> userLoginStatus = new ConcurrentHashMap<Integer, UserLoginStatu>();
 
 	@Override
 	public UserEvent checkEvent(int userId) {
@@ -47,7 +52,20 @@ public class UserEventServiceImpl implements UserEventService,
 		}else{
 			addUserId(userId);
 		}
+		updateVisitStatu(userId);
 		return userEvetn;
+	}
+	
+	private void updateVisitStatu(int userId){
+		UserLoginStatu statu = userLoginStatus.get(userId);
+		Date now = new Date();
+		if(statu==null){
+			statu = new UserLoginStatu();
+			statu.setUserid(userId);
+			statu.setLoginDate(now);
+			userLoginStatus.put(userId, statu);
+		}
+		statu.setVisitDate(new Date());
 	}
 	
 	@Override
@@ -147,11 +165,39 @@ public class UserEventServiceImpl implements UserEventService,
 		if (event instanceof ContextClosedEvent) {
 			userService.saveUserEventRecord();
 		}
+		synchronized (userLoginStatus) {
+			if (loginTimeDemon == null) {
+				loginTimeDemon = new Thread(this);
+				loginTimeDemon.start();
+			}
+		}
 	}
 
 	@Override
 	public Map getEvents() {
 		return events;
+	}
+
+	@Override
+	public void run() {
+		while(true){
+			try {
+				Date now = new Date();
+				for(UserLoginStatu statu:userLoginStatus.values()){
+					if(now.getTime()-statu.getVisitDate().getTime()>900000){
+						System.out.println(statu.getUserid()+":"+statu.getLoginDate()+":"+statu.getVisitDate());
+						User user = userService.getUser(statu.getUserid()+"");
+						long past = statu.getVisitDate().getTime()-statu.getLoginDate().getTime();
+						user.setTotaltime((int) (user.getTotaltime()+past/60000));
+						userService.saveUser(user);
+						userLoginStatus.remove(statu.getUserid());
+					}
+				}
+				Thread.currentThread().sleep(60000);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 

@@ -148,6 +148,14 @@ public class GroupServiceImpl implements GroupService {
 			user.setGroup(group);
 			group.setUsers(users);
 			group.setMenberNum(users.size());
+			Coins userCoins = user.getCoins();
+			if(userCoins!=null){
+				Coins coins = group.getCoins();
+				coins.setGreenNum(coins.getGreenNum()+userCoins.getGreenNum());
+				coins.setYellowNum(coins.getYellowNum()+userCoins.getYellowNum());
+				coins.setRedNum(coins.getRedNum()+userCoins.getRedNum());
+				coinsDao.saveCoins(coins);
+			}
 			user.setIngroup(true);
 			groupDao.saveGroup(group);
 			userDao.saveUser(user);
@@ -184,6 +192,14 @@ public class GroupServiceImpl implements GroupService {
 				group.setUsers(users);
 				group.setMenberNum(users.size());
 				groupDao.saveGroup(group);
+			}
+			Coins userCoins = user.getCoins();
+			if(userCoins!=null){
+				Coins coins = group.getCoins();
+				coins.setGreenNum(coins.getGreenNum()-userCoins.getGreenNum()<0?0:coins.getGreenNum()-userCoins.getGreenNum());
+				coins.setYellowNum(coins.getYellowNum()-userCoins.getYellowNum()<0?0:coins.getYellowNum()-userCoins.getYellowNum());
+				coins.setRedNum(coins.getRedNum()-userCoins.getRedNum()<0?0:coins.getRedNum()-userCoins.getRedNum());
+				coinsDao.saveCoins(coins);
 			}
 			user.setGroup(null);
 			user.setIngroup(false);
