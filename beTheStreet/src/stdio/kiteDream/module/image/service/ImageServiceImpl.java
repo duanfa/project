@@ -118,17 +118,17 @@ public class ImageServiceImpl implements ImageService {
 						if (Image.Check.PASS.equals(statu)) {
 							levelService.managePrize(id, user.getId() + "");
 							Message message = new Message();
-							message.setDescription("Your image from "+level.getTitle()+" has been verified. Coins earned have been added to your account. Don't spend them all in one place!");
+							message.setDescription("Your image from "+level.getTitle2()+" has been verified. Coins earned have been added to your account. Don't spend them all in one place!");
 							message.setCreate_time(new Date());
 							message.setTitle("Image Verified");
 							message.setType(MessageType.CHA_CHING);
-							messageService.saveMessage(message, user.getId() + "");
 							if(Image.Type.CHALLENGE.equals(image.getLevelType())){
+								message.setDescription("Your image from "+level.getTitle()+" has been verified. Coins earned have been added to your account. Don't spend them all in one place!");
 								Level nextChanllenge = levelDao.getLevel(image.getLevel()+1);
 								Message messageChallenge = new Message();
 								messageChallenge.setCreate_time(new Date());
 								if(nextChanllenge!=null){
-									messageChallenge.setDescription(nextChanllenge.getTitle()+":"+nextChanllenge.getTitle2()+"   "+nextChanllenge.getDesc());
+									messageChallenge.setDescription(nextChanllenge.getTitle()+":"+nextChanllenge.getShortdesc()+"   "+nextChanllenge.getDesc());
 									messageChallenge.setTitle(nextChanllenge.getTitle()+" Unlocked!");
 									messageChallenge.setType(MessageType.CHALLENGE);
 									messageChallenge.setLevel(nextChanllenge.getLevel());
@@ -139,6 +139,7 @@ public class ImageServiceImpl implements ImageService {
 								}
 								messageService.saveMessage(messageChallenge, user.getId() + "");
 							}
+							messageService.saveMessage(message, user.getId() + "");
 							updateBounsStatu(user,image.getLevel(),image.getLevel_stage());
 							userDao.saveUser(user);
 							levelService.getChallenge(user.getId());

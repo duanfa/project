@@ -171,7 +171,7 @@ public class LevelServiceImpl implements LevelService {
 					Level level = levelDao.getLevel(6);
 					Message message = new Message();
 					message.setCreate_time(new Date());
-					message.setDescription(level.getTitle()+":"+level.getTitle2()+"   "+level.getDesc());
+					message.setDescription(level.getTitle()+":"+level.getShortdesc()+"   "+level.getDesc());
 					message.setTitle(level.getTitle()+" Unlocked!");
 					message.setType(MessageType.CHALLENGE);
 					message.setLevel(level.getLevel());
