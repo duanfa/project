@@ -136,7 +136,7 @@ function validatecoins(coins){
 function validateGrouCategory(value){
 		try {
 			if (value.ingroup) {
-				return value.group.groupOrg.category.name;
+				return value.group.category.name;
 			}
 		} catch (e) {
 			console.log(e);
