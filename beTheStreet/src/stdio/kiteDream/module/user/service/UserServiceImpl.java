@@ -62,7 +62,11 @@ public class UserServiceImpl implements UserService {
 		try {
 			user.setCreate_time(new Date());
 			user.setHigh_level_all(levelDao.getLevel(1).getRegular_stage());
-			if (userDao.saveUser(user)) {
+			boolean isRegister = false;
+			if(user.getId()<1){
+				isRegister = true;
+			}
+			if (userDao.saveUser(user)&&isRegister) {
 				Message message = new Message();
 				message.setCreate_time(new Date());
 				message.setDescription("This inbox is where you'll hear from us, be notified about coins earned after your submitted challenge photos are verified, and be invited to take on new challenges. Good luck!");
