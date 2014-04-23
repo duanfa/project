@@ -67,6 +67,7 @@ public class UserServiceImpl implements UserService {
 				isRegister = true;
 			}
 			if (userDao.saveUser(user)&&isRegister) {
+				manageOpenapp(user.getId());
 				Message message = new Message();
 				message.setCreate_time(new Date());
 				message.setDescription("This inbox is where you'll hear from us, be notified about coins earned after your submitted challenge photos are verified, and be invited to take on new challenges. Good luck!");
