@@ -76,7 +76,8 @@ function addItems(page,size){
 				'<td class="center">'+
 					'<a class="btn btn-info" href="image.html?userid='+value.id+'"><i class="icon-picture icon-white"></i>Image</a>&nbsp;'+
 					'<a class="btn btn-warning" href="message.html?userid='+value.id+'"><i class="icon-envelope icon-white"></i>message</a>&nbsp;'+
-					'<a class="btn btn-primary" href="feedback.html?userid='+value.id+'"><i class="icon-bullhorn icon-white"></i>feedback</a>'+
+					'<a class="btn btn-primary" href="feedback.html?userid='+value.id+'"><i class="icon-bullhorn icon-white"></i>feedback</a>&nbsp;'+
+					'<a class="btn btn-danger" onclick="deleteUser('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
 				'</td>'+
 			'</tr>';
 			result = result+content;
@@ -252,7 +253,8 @@ function searchUser(){
 			'<td class="center">'+
 				'<a class="btn btn-info" href="image.html?userid='+value.id+'"><i class="icon-picture icon-white"></i>Image</a>&nbsp;'+
 				'<a class="btn btn-warning" href="message.html?userid='+value.id+'"><i class="icon-envelope icon-white"></i>message</a>&nbsp;'+
-				'<a class="btn btn-primary" href="feedback.html?userid='+value.id+'"><i class="icon-bullhorn icon-white"></i>feedback</a>'+
+				'<a class="btn btn-primary" href="feedback.html?userid='+value.id+'"><i class="icon-bullhorn icon-white"></i>feedback</a>&nbsp;'+
+				'<a class="btn btn-danger" onclick="deleteUser('+value.id+')" href="#"><i class="icon icon-black icon-trash"></i>Delete</a>'+
 			'</td>'+
 		'</tr>';
 			result = result+content;
@@ -260,6 +262,13 @@ function searchUser(){
 		$("#user_tbody").html(result);
 		pagination(0,0);
 		$("#close_search").click();
+	});
+}
+
+function deleteUser(id){
+	$.get("api/user/delete/" + id, function(data) {
+	}).done(function(data) {
+			addItems(pageVal,sizeVal);
 	});
 }
 

@@ -188,6 +188,23 @@ public class UserController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value = "/delete/{userid}", method = RequestMethod.GET)
+	public PageVO delete(@PathVariable("userid") int userid) {
+		PageVO json = new PageVO();
+		try {
+			if(userService.deleteUser(userid+"")){
+				json.setErrorcode(Constant.OK);
+			}else{
+				json.setErrorcode(Constant.FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			json.setErrorcode(Constant.FAIL);
+		}
+		return json;
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = "/save/record", method = RequestMethod.GET)
 	public JsonVO saveRecord(HttpServletRequest request) {
 		JsonVO json = new JsonVO();
