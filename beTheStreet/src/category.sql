@@ -18,4 +18,4 @@ insert into group_category(id,name) values(3,"Volunteering");
 insert into group_category(id,name) values(2,"Workplace");
 insert into group_category(id,name) values(1,"Other");
 update group_category set alias = name;
-update group_category set alias = "xxxxxxxx" where name="Other";
+update group_category set alias = "xxxxx" where name="Other";

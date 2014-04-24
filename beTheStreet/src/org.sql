@@ -326,4 +326,4 @@ insert into group_org(name) values("Yerba Buena High");
 insert into group_org(name) values("Zaytuna College");
 
 update group_org set alias = name;
-update group_org set alias = "AAAAAAA" where name="Other - Not Listed or Not School Affiliated";
+update group_org set alias = "AAAAA" where name="Other - Not Listed or Not School Affiliated";
