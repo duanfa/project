@@ -36,8 +36,13 @@ function addItems(page,size){
 			}else{
 				statu = '<span id="statu'+value.id+'"><span class="label label-success">'+value.statu+'</span><span>';
 			}
+			var thumbnail_path="";
+			if(value.prize==null||value.prize==undefined){
+			}else{
+				thumbnail_path = value.prize.thumbnail_path;
+			}
 			var content = '<tr>'+
-				'<td class="center"><span class="thumbnail" style="width: 100px;margin-bottom:0px !important"><a title="'+value.prize.desc+'" href="'+value.prize.headPhoto+'"><img src="'+value.prize.thumbnail_path+'"/></a><span></td>'+
+				'<td class="center"><span class="thumbnail" style="width: 100px;margin-bottom:0px !important"><a href="#"><img src="'+thumbnail_path+'"/></a><span></td>'+
 				'<td class="center">'+validatecoins(value)+'</td>'+
 				'<td class="center">'+validate(value.user.nickname)+'</td>'+
 				'<td class="center">'+validate(value.name)+'</td>'+
