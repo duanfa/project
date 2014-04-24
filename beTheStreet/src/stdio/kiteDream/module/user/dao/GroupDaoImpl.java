@@ -65,10 +65,11 @@ public class GroupDaoImpl implements GroupDao {
 	@Override
 	public List<User> getGroupUsers(int pageNo, int pageSize, int groupid) {
 		List<User> list = null;
-		String hql = "from User user ";
+		String hql = "from User user where 1=1 ";
 		if(groupid>0){
-			hql = hql + " where user.group.id="+groupid;
+			hql = hql + " and user.group.id="+groupid;
 		}
+		hql = hql + " order by user.create_time desc ";
 		try {
 			Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 			if (pageNo > 0 && pageSize > 0) {
