@@ -187,6 +187,9 @@ public class UserEventServiceImpl implements UserEventService,
 					if(now.getTime()-statu.getVisitDate().getTime()>900000){
 						System.out.println(statu.getUserid()+":"+statu.getLoginDate()+":"+statu.getVisitDate());
 						User user = userService.getUser(statu.getUserid()+"");
+						if(user==null){
+							continue;
+						}
 						long past = statu.getVisitDate().getTime()-statu.getLoginDate().getTime();
 						user.setTotaltime((int) (user.getTotaltime()+past/60000));
 						userService.saveUser(user);
