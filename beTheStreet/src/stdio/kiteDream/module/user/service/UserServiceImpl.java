@@ -90,7 +90,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean deleteUser(String userId) {
-		return userDao.delUser(userId);
+		User user = userDao.getUser(userId);
+		user.setActive(false);
+		return userDao.saveUser(user);
 	}
 
 	@Override

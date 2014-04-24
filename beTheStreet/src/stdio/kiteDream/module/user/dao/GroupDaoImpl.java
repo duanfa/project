@@ -65,7 +65,7 @@ public class GroupDaoImpl implements GroupDao {
 	@Override
 	public List<User> getGroupUsers(int pageNo, int pageSize, int groupid) {
 		List<User> list = null;
-		String hql = "from User user where 1=1 ";
+		String hql = "from User user where user.active=true ";
 		if(groupid>0){
 			hql = hql + " and user.group.id="+groupid;
 		}

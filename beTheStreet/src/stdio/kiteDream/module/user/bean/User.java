@@ -47,6 +47,10 @@ public class User implements Serializable {
 	private String gender;
 
 	private String birthday;
+	
+	private String latitude;
+	
+	private String  longitude;
 
 	private String headPhoto;
 
@@ -303,6 +307,22 @@ public class User implements Serializable {
 
 	public void setTotaltime(int totaltime) {
 		this.totaltime = totaltime;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
 	}
 
 }

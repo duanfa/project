@@ -91,9 +91,9 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public Integer getUserCount(int groupid) {
 		Integer count;
-		String sql = "select count(1) from user";
+		String sql = "select count(1) from user where active=1 ";
 		if(groupid>0){
-			sql = sql +" where groupid="+groupid;
+			sql = sql +" and groupid="+groupid;
 		}
 		try {
 			BigInteger countRaw = (BigInteger) getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();

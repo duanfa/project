@@ -140,7 +140,6 @@ public class ImageServiceImpl implements ImageService {
 								messageService.saveMessage(messageChallenge, user.getId() + "");
 							}
 							messageService.saveMessage(message, user.getId() + "");
-							updateBounsStatu(user,image.getLevel(),image.getLevel_stage());
 							userDao.saveUser(user);
 							levelService.getChallenge(user.getId());
 						} else if (Image.Check.FAIL.equals(statu)) {
@@ -159,23 +158,6 @@ public class ImageServiceImpl implements ImageService {
 			return false;
 		}
 		return true;
-	}
-	
-	private boolean updateBounsStatu(User user,int level,int level_stage){
-		try {
-			Map<Integer,Integer> bonusStatu = user.getBonusStatu();
-			Integer levelStatu = bonusStatu.get(level);
-			if(levelStatu!=null){
-				String s = (int)Math.pow(10,level_stage-1)+"";
-			 	int display = Integer.valueOf(s,2);
-				levelStatu = levelStatu|display;
-				bonusStatu.put(level, levelStatu);
-			}
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
 	}
 	
 
