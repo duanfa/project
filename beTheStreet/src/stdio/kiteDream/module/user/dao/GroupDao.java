@@ -27,6 +27,8 @@ public interface GroupDao {
 	public List<User> getGroupUsers(int pageNo,int pageSize,int groupid);
 	public Integer getGroupUserCount(int groupid);
 	
+	public GroupCategory getGroupCategory(int id);
+	public GroupOrg getGroupOrg(int id);
 	public Group getGroup(int id);
 	
 	public Group getUserGroup(int userid);

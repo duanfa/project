@@ -37,9 +37,17 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public boolean saveGroupCategory(GroupCategory groupCategory) {
-		if(!"xxxxx".equals(groupCategory.getAlias())){
-			groupCategory.setAlias(groupCategory.getName());
+		String name =groupCategory.getName();
+		String info =groupCategory.getInfo();
+		groupCategory = groupDao.getGroupCategory(groupCategory.getId());
+		if(groupCategory==null){
+			groupCategory = new GroupCategory();
 		}
+		if(!"xxxxx".equals(groupCategory.getAlias())){
+			groupCategory.setAlias(name);
+		}
+		groupCategory.setName(name);
+		groupCategory.setInfo(info);
 		return groupDao.saveGroupCategory(groupCategory);
 	}
 
@@ -60,9 +68,17 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public boolean saveGroupOrg(GroupOrg groupOrg) {
-		if(!"AAAAA".equals(groupOrg.getAlias())){
-			groupOrg.setAlias(groupOrg.getName());
+		String name =groupOrg.getName();
+		String info =groupOrg.getInfo();
+		groupOrg = groupDao.getGroupOrg(groupOrg.getId());
+		if(groupOrg==null){
+			groupOrg = new GroupOrg();
 		}
+		if(!"AAAAA".equals(groupOrg.getAlias())){
+			groupOrg.setAlias(name);
+		}
+		groupOrg.setName(name);
+		groupOrg.setInfo(info);
 		return groupDao.saveGroupOrg(groupOrg);
 	}
 

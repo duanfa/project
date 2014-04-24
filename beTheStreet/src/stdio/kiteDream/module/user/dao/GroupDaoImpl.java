@@ -299,4 +299,14 @@ public class GroupDaoImpl implements GroupDao {
 		return list;
 	}
 
+	@Override
+	public GroupCategory getGroupCategory(int id) {
+		return (GroupCategory) getSessionFactory().getCurrentSession().get(GroupCategory.class, id);
+	}
+
+	@Override
+	public GroupOrg getGroupOrg(int id) {
+		return (GroupOrg) getSessionFactory().getCurrentSession().get(GroupOrg.class, id);
+	}
+
 }
