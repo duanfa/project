@@ -50,7 +50,7 @@ function addItems(page,size){
 					'<td class="center">'+formatDate(new Date(value.date))+'</td>'+
 					'<td class="center">'+
 						read+
-						'<a class="btn  btn-success edite-user" onclick="reply('+this.id+')" href="#"> <i class="icon-envelope icon-white"></i> reply </a>&nbsp;'+
+						'<a class="btn  btn-success edite-user" onclick="reply('+this.user.id+')" href="#"> <i class="icon-envelope icon-white"></i> reply </a>&nbsp;'+
 						'<a class="btn btn-danger" onclick="deleteFeedback('+this.id+')" href="#"> <i class="icon-trash icon-white"></i> Delete </a>'+
 					'</td>'+
 				'</tr>';
