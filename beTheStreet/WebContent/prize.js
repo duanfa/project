@@ -41,7 +41,7 @@ function addItems(page,size){
 				statu = '<span id="statu'+value.id+'"><span class="label label-important">SOLD OUT</span><span>';
 			}
 			var content = '<tr>'+
-				'<td class="center"><span class="thumbnail" style="width: 100px;margin-bottom:0px !important"><a title="'+value.desc+'" href="'+value.headPhoto+'"><img src="'+value.thumbnail_path+'"/></a><span></td>'+
+				'<td class="center"><span class="thumbnail" style="width: 100px;margin-bottom:0px !important"><a class="cboxElement" title="'+value.desc+'" href="'+value.headPhoto+'"><img src="'+value.thumbnail_path+'"/></a><span></td>'+
 				'<td class="center">'+validate(value.title)+'</td>'+
 				'<td class="center">'+validate(value.description)+'</td>'+
 				'<td class="center">'+validate(value.num)+'</td>'+
