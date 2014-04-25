@@ -109,7 +109,7 @@ public class UserDaoImpl implements UserDao {
 	public List<User> manageSearch(String keyword) {
 		keyword = "%" + keyword + "%";
 		@SuppressWarnings("unchecked")
-		List<User> list = getSessionFactory().getCurrentSession().createQuery("from User user where user.active=true and user.name like '"+keyword+"' or user.nickname like '"+keyword+"'").list();
+		List<User> list = getSessionFactory().getCurrentSession().createQuery("from User user where user.active=true and (user.name like '"+keyword+"' or user.nickname like '"+keyword+"') ").list();
 		if (list == null) {
 			return new ArrayList<User>();
 		}

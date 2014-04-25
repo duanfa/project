@@ -63,7 +63,9 @@ function addItems(page,size){
 			var content = '<tr>'+
 				'<td><input type="checkbox" id="inlineCheckbox1" value="'+value.id+'"></td>'+
 				'<td>'+validate(value.nickname)+'</td>'+
+				'<td class="center">'+validateAge(value.birthday)+'</td>'+
 				'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
+				'<td class="center">'+validateGps(value)+'</td>'+
 				'<td class="center">'+validatecoins(value.coins)+'</td>'+
 				'<td class="center">'+validate(value.high_level)+'</td>'+
 				'<td class="center">'+validate(value.high_level_stage+"/"+value.high_level_all)+'</td>'+
@@ -92,6 +94,31 @@ function validate(value){
 		return '';
 	}else{
 		return value;
+	}
+}
+function validateAge(value){
+	if(value==null||value==undefined){
+		return '';
+	}else{
+		var myDate = new Date();
+	    var year = myDate.getFullYear();
+	    var birthyear = parseInt(value);
+		return year-birthyear;
+	}
+}
+function validateGps(value){
+	if(value==null||value==undefined){
+		return '';
+	}else{
+		var latitude = value.latitude;
+		var longitude = value.longitude;
+		if( value.latitude==null|| value.latitude==undefined){
+			latitude = "";
+		}
+		if( value.longitude==null|| value.longitude==undefined){
+			longitude = "";
+		}
+		return latitude+',</br>'+longitude;
 	}
 }
 function validatecoins(coins){
@@ -240,12 +267,14 @@ function searchUser(){
 			var content = '<tr>'+
 			'<td><input type="checkbox" id="inlineCheckbox1" value="'+value.id+'"></td>'+
 			'<td>'+validate(value.nickname)+'</td>'+
+			'<td class="center">'+validateAge(value.birthday)+'</td>'+
 			'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
+			'<td class="center">'+validateGps(value)+'</td>'+
 			'<td class="center">'+validatecoins(value.coins)+'</td>'+
 			'<td class="center">'+validate(value.high_level)+'</td>'+
 			'<td class="center">'+validate(value.high_level_stage+"/"+value.high_level_all)+'</td>'+
-			'<td class="center">'+validate("23")+'</td>'+
-			'<td class="center">'+validate("46:23:12")+'</td>'+
+			'<td class="center">'+validate(value.logins)+'</td>'+
+			'<td class="center">'+validate(value.totaltime)+'</td>'+
 			'<td class="center">'+validateGrouCategory(value)+'</td>'+
 			'<td class="center">'+validateGrouOrg(value)+'</td>'+
 			'<td class="center">'+validateGroup(value)+'</td>'+

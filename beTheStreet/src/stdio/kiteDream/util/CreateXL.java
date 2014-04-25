@@ -2,6 +2,7 @@ package stdio.kiteDream.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,9 @@ public class CreateXL {
 	/** Excel 文件要存放的位置 */
 
 	public static File createUserExcel(List<User> users) {
-		String outputFile = new Date().getTime()+"";
+		String outputFile = new Date().getTime() + "";
+		Calendar c = Calendar.getInstance();// 可以对每个时间域单独修改
+		int year = c.get(Calendar.YEAR);
 		try {
 			HSSFWorkbook workbook = new HSSFWorkbook();
 			HSSFSheet sheet = workbook.createSheet("Sheet1");
@@ -27,42 +30,48 @@ public class CreateXL {
 			cell.setCellValue("Nickname");
 			cell = row.createCell(1);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-			cell.setCellValue("register time");
+			cell.setCellValue("Age");
 			cell = row.createCell(2);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-			cell.setCellValue("green coin");
+			cell.setCellValue("Register time");
 			cell = row.createCell(3);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-			cell.setCellValue("yellow coin");
+			cell.setCellValue("Init location");
 			cell = row.createCell(4);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-			cell.setCellValue("red coin");
+			cell.setCellValue("green coin");
 			cell = row.createCell(5);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-			cell.setCellValue("level");
+			cell.setCellValue("yellow coin");
 			cell = row.createCell(6);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-			cell.setCellValue("score");
+			cell.setCellValue("red coin");
 			cell = row.createCell(7);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-			cell.setCellValue("logins");
+			cell.setCellValue("level");
 			cell = row.createCell(8);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-			cell.setCellValue("total time");
+			cell.setCellValue("score");
 			cell = row.createCell(9);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-			cell.setCellValue("group type");
+			cell.setCellValue("logins");
 			cell = row.createCell(10);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-			cell.setCellValue("group org");
+			cell.setCellValue("total time");
 			cell = row.createCell(11);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-			cell.setCellValue("group name");
+			cell.setCellValue("group type");
 			cell = row.createCell(12);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+			cell.setCellValue("group org");
+			cell = row.createCell(13);
+			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+			cell.setCellValue("group name");
+			cell = row.createCell(14);
+			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			cell.setCellValue("group creater");
-			int rowIndex= 1;
-			for(User user: users){
+			int rowIndex = 1;
+			for (User user : users) {
 				try {
 					row = sheet.createRow(rowIndex++);
 					cell = row.createCell(0);
@@ -70,40 +79,60 @@ public class CreateXL {
 					cell.setCellValue(user.getNickname());
 					cell = row.createCell(1);
 					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-					cell.setCellValue(user.getCreate_time()==null?"":Constant.TIME.format(user.getCreate_time()));
+					try {
+						cell.setCellValue(year-Integer.parseInt(user.getBirthday()));
+					} catch (Exception e) {
+						cell.setCellValue("");
+					}
 					cell = row.createCell(2);
 					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-					cell.setCellValue(user.getCoins()==null?0:user.getCoins().getGreenNum());
+					cell.setCellValue(user.getCreate_time() == null ? ""
+							: Constant.TIME.format(user.getCreate_time()));
 					cell = row.createCell(3);
 					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-					cell.setCellValue(user.getCoins()==null?0:user.getCoins().getYellowNum());
+					cell.setCellValue(user.getLatitude()+","+user.getLongitude());
 					cell = row.createCell(4);
 					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-					cell.setCellValue(user.getCoins()==null?0:user.getCoins().getRedNum());
+					cell.setCellValue(user.getCoins() == null ? 0 : user
+							.getCoins().getGreenNum());
 					cell = row.createCell(5);
 					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-					cell.setCellValue(user.getHigh_level());
+					cell.setCellValue(user.getCoins() == null ? 0 : user
+							.getCoins().getYellowNum());
 					cell = row.createCell(6);
 					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-					cell.setCellValue(user.getHigh_level_stage()+"/"+user.getHigh_level_all());
+					cell.setCellValue(user.getCoins() == null ? 0 : user
+							.getCoins().getRedNum());
 					cell = row.createCell(7);
 					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-					cell.setCellValue("logins");
+					cell.setCellValue(user.getHigh_level());
 					cell = row.createCell(8);
 					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-					cell.setCellValue("total time");
+					cell.setCellValue(user.getHigh_level_stage() + "/"
+							+ user.getHigh_level_all());
 					cell = row.createCell(9);
 					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-					cell.setCellValue(user.getGroup()==null?"":user.getGroup().getCategory().getName());
+					cell.setCellValue("logins");
 					cell = row.createCell(10);
 					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-					cell.setCellValue(user.getGroup()==null?"":user.getGroup().getGroupOrg().getName());
+					cell.setCellValue("total time");
 					cell = row.createCell(11);
 					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-					cell.setCellValue(user.getGroup()==null?"":user.getGroup().getName());
+					cell.setCellValue(user.getGroup() == null ? "" : user
+							.getGroup().getCategory().getName());
 					cell = row.createCell(12);
 					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-					cell.setCellValue(user.getGroup()==null?false:user.getGroup().getCreatername().equals(user.getNickname()));
+					cell.setCellValue(user.getGroup() == null ? "" : user
+							.getGroup().getGroupOrg().getName());
+					cell = row.createCell(13);
+					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+					cell.setCellValue(user.getGroup() == null ? "" : user
+							.getGroup().getName());
+					cell = row.createCell(14);
+					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+					cell.setCellValue(user.getGroup() == null ? false : user
+							.getGroup().getCreatername()
+							.equals(user.getNickname()));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -116,5 +145,9 @@ public class CreateXL {
 			e.printStackTrace();
 		}
 		return new File(outputFile);
+	}
+
+	public static void main(String[] args) {
+		
 	}
 }
