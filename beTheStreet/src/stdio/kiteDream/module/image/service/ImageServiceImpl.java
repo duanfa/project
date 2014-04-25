@@ -118,12 +118,11 @@ public class ImageServiceImpl implements ImageService {
 						if (Image.Check.PASS.equals(statu)) {
 							levelService.managePrize(id, user.getId() + "");
 							Message message = new Message();
-							message.setDescription("Your image from "+level.getTitle2()+" has been verified. Coins earned have been added to your account. Don't spend them all in one place!");
+							message.setDescription("Your photo from "+(level.isChallenge()?level.getTitle():level.getTitle2())+" has been verified. Coins earned have been added to your account. Don't spend them all in one place!");
 							message.setCreate_time(new Date());
 							message.setTitle("Image Verified");
 							message.setType(MessageType.CHA_CHING);
 							if(Image.Type.CHALLENGE.equals(image.getLevelType())){
-								message.setDescription("Your image from "+level.getTitle()+" has been verified. Coins earned have been added to your account. Don't spend them all in one place!");
 								Level nextChanllenge = levelDao.getLevel(image.getLevel()+1);
 								Message messageChallenge = new Message();
 								messageChallenge.setCreate_time(new Date());
@@ -144,8 +143,8 @@ public class ImageServiceImpl implements ImageService {
 							levelService.getChallenge(user.getId());
 						} else if (Image.Check.FAIL.equals(statu)) {
 							Message message = new Message();
-							message.setDescription("new image " + image.getId() + " been deny ");
-							message.setTitle("new image pass");
+							message.setDescription("Your photo from "+(level.isChallenge()?level.getTitle():level.getTitle2())+" has been denied. Doesn¡¯t look like you fulfilled the mission. Try again! ");
+							message.setTitle("Photo Denied");
 							message.setType(MessageType.NOTICE);
 							messageService.saveMessage(message, user.getId() + "");
 						}
@@ -167,6 +166,7 @@ public class ImageServiceImpl implements ImageService {
 			for (String imageId : bulkImageId.split(",")) {
 				if (StringUtils.isNotBlank(imageId.trim())) {
 					Image image = imageDao.getImage(imageId);
+					Level level = levelService.getLevel(image.getLevel());
 					if (imageDao.delImage(imageId)) {
 							String dir = this.getClass().getClassLoader().getResource("/").getPath() + "../../";
 							File img = new File(dir + image.getPath());
@@ -179,8 +179,8 @@ public class ImageServiceImpl implements ImageService {
 								img.delete();
 							}
 							Message message = new Message();
-							message.setDescription("image " + image.getId() + " been deleted");
-							message.setTitle("new image delete");
+							message.setDescription("Your photo from "+(level.isChallenge()?level.getTitle():level.getTitle2())+" has been deleted.Doesn¡¯t look like you fulfilled the mission. Try again!");
+							message.setTitle("Photo deleted");
 							message.setType(MessageType.NOTICE);
 							messageService.saveMessage(message, image.getUser().getId() + "");
 					}
