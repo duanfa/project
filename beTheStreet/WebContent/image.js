@@ -127,7 +127,7 @@ function validateGps(value){
 		if( value.longitude==null|| value.longitude==undefined){
 			longitude = "";
 		}
-		return latitude+','+longitude;
+		return latitude+',<br/>'+longitude;
 	}
 }
 function validateUser(value){
