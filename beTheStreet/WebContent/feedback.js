@@ -11,6 +11,7 @@ $(function() {
 				$("#dialog-form").dialog("close");
 				$("#coreIframe").contents().find("#addForm").submit();
 				$('#coreIframe').load(function(){
+					alert("send success!!!");
 				 });
 			},
 		},
