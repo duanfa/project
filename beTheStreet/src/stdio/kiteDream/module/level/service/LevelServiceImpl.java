@@ -153,7 +153,7 @@ public class LevelServiceImpl implements LevelService {
 	}
 
 	@Override
-	public String getChallenge(int userid) {
+	public String manageAccessChallenge(int userid) {
 		User user = userDao.getUser(userid+"");
 		user.setReadyChallenge(true);
 		userDao.saveUser(user);

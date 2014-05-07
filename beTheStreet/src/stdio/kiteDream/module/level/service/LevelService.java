@@ -25,6 +25,6 @@ public Level getPrizeRule(String id);
 
 	public int getCount();
 
-	public String getChallenge(int userid);
+	public String manageAccessChallenge(int userid);
 
 }

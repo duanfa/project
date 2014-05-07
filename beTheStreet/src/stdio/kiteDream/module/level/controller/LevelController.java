@@ -241,7 +241,7 @@ public class LevelController {
 	public JsonVO getChallenge(HttpServletRequest request, @PathVariable("userid") int userid) {
 		JsonVO json = new JsonVO();
 		try {
-			json.setErrorcode(levelService.getChallenge(userid));
+			json.setErrorcode(levelService.manageAccessChallenge(userid));
 			json.setUser_events(userEventService.checkEvent(userid));
 		} catch (Exception e) {
 			e.printStackTrace();

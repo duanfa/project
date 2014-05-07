@@ -80,17 +80,17 @@ public class ImageServiceImpl implements ImageService {
 		}
 		image.setUser(user);
 		if(Type.STREET.equals(image.getLevelType())){
-			if(image.getLevel_stage()>=level.getRegular_stage()){//Éý¼¶ÏÂÒ»¸ölevel
+			if(image.getLevel_stage()>=level.getRegular_stage()){//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½level
 				user.setHigh_level(level.getLevel()+1);
 				user.setHigh_level_stage(1);
 				Level level_next = levelService.getLevel((image.getLevel()+1));
 				if(level_next!=null){
 					user.setHigh_level_all(level_next.getRegular_stage());
 				}
-				//Íê³ÉÊý¼Ó1
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1
 				level.setCompleteNum(level.getCompleteNum()+1);
 				levelService.saveLevel(level);
-			}else{//±¾level
+			}else{//ï¿½ï¿½level
 				user.setHigh_level_stage(image.getLevel_stage()+1);
 				user.setHigh_level_all(level.getRegular_stage());
 			}
@@ -140,10 +140,10 @@ public class ImageServiceImpl implements ImageService {
 							}
 							messageService.saveMessage(message, user.getId() + "");
 							userDao.saveUser(user);
-							levelService.getChallenge(user.getId());
+							levelService.manageAccessChallenge(user.getId());
 						} else if (Image.Check.FAIL.equals(statu)) {
 							Message message = new Message();
-							message.setDescription("Your photo from "+(level.isChallenge()?level.getTitle():level.getTitle2())+" has been denied. Doesn¡¯t look like you fulfilled the mission. Try again! ");
+							message.setDescription("Your photo from "+(level.isChallenge()?level.getTitle():level.getTitle2())+" has been denied. Doesnï¿½ï¿½t look like you fulfilled the mission. Try again! ");
 							message.setTitle("Photo Denied");
 							message.setType(MessageType.NOTICE);
 							messageService.saveMessage(message, user.getId() + "");
@@ -179,7 +179,7 @@ public class ImageServiceImpl implements ImageService {
 								img.delete();
 							}
 							Message message = new Message();
-							message.setDescription("Your photo from "+(level.isChallenge()?level.getTitle():level.getTitle2())+" has been deleted.Doesn¡¯t look like you fulfilled the mission. Try again!");
+							message.setDescription("Your photo from "+(level.isChallenge()?level.getTitle():level.getTitle2())+" has been deleted.Doesnï¿½ï¿½t look like you fulfilled the mission. Try again!");
 							message.setTitle("Photo deleted");
 							message.setType(MessageType.NOTICE);
 							messageService.saveMessage(message, image.getUser().getId() + "");
