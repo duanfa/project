@@ -90,7 +90,7 @@ function addItems(page,size){
 				'<td class="center"><span class="thumbnail" style="width: 100px;margin-bottom:0px !important"><a class="cboxElement" title="'+value.desc+'" href='+value.path+'><img src="'+value.thumbnail_path+'"/></a><span></td>'+
 				'<td>'+validate(value.level)+'</td>'+
 				'<td>'+validate(value.level_stage)+'</td>'+
-				'<td>'+validate(value.captions)+'</td>'+
+				'<td>'+validate(value.descrip)+'</td>'+
 				'<td class="center">'+formatDate(new Date(value.create_time))+'</td>'+
 				'<td class="center">'+validateGps(value)+'</td>'+
 				/*'<td class="center">'+validate(value.address)+'</td>'+*/

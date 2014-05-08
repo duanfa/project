@@ -40,7 +40,7 @@ public class Image implements Serializable {
 
 	private String name;
 
-	private String describ;
+	private String descrip;
 	
 	private String latitude;
 	
@@ -90,13 +90,12 @@ public class Image implements Serializable {
 		this.name = name;
 	}
 
-
-	public String getDescrib() {
-		return describ;
+	public String getDescrip() {
+		return descrip;
 	}
 
-	public void setDescrib(String describe) {
-		this.describ = describe;
+	public void setDescrip(String descrip) {
+		this.descrip = descrip;
 	}
 
 	public int getLevel() {
