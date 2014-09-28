@@ -1,5 +1,8 @@
 $(function() {
 	addItems(1,30);
+	$("#xls").click(function() {
+		window.location.href = "api/image/xls?page="+pageNo+"&size="+pageSize;
+	});
 });
 
 $("#allCheck").click(function(){
