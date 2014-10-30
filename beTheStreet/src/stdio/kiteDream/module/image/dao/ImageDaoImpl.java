@@ -92,8 +92,10 @@ public class ImageDaoImpl implements ImageDao {
 		List<Image> list = null;
 		try {
 			Query query = getSessionFactory().getCurrentSession().createQuery("from Image image order by image.create_time desc");
-			query.setFirstResult((page - 1) * size);
-			query.setMaxResults(size);
+			if (page > 0 && size > 0) {
+				query.setFirstResult((page - 1) * size);
+				query.setMaxResults(size);
+			}
 			list = query.list();
 		} catch (Exception e) {
 			e.printStackTrace();

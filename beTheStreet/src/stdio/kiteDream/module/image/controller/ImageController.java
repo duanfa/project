@@ -213,9 +213,11 @@ public class ImageController {
 	    try {  
 	    	os = res.getOutputStream();  
 	        res.reset();  
-	        res.setHeader("Content-Disposition", "attachment; filename=user"+"_"+page+"_"+size+".xls");  
+	        res.setHeader("Content-Disposition", "attachment; filename=image_all.xls");  
+//	        res.setHeader("Content-Disposition", "attachment; filename=user"+"_"+page+"_"+size+".xls");  
 	        res.setContentType("application/octet-stream; charset=utf-8");  
-			List<Image> images = imageService.getImages(page, size);
+//			List<Image> images = imageService.getImages(page, size);
+			List<Image> images = imageService.getImages(-1, -1);
 			xls = CreateXL.createImageExcel(images);
 	        os.write(FileUtils.readFileToByteArray(xls));  
 	        os.flush();  

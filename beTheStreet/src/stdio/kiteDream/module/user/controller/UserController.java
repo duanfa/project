@@ -40,7 +40,7 @@ public class UserController {
 		@RequestMapping(value = "/register", method = { RequestMethod.POST, RequestMethod.GET })
 		public JsonVO register(HttpServletRequest request, HttpSession session,
 				User user) {
-		// 璁剧疆涓婁笅鏂规枃
+		// 设置上下方文
 		JsonVO json = new JsonVO();
 		try {
 			List<User> users = userService.getUserByParam("nickname", user.getNickname());
@@ -71,7 +71,7 @@ public class UserController {
 			@RequestParam(value = "email", required = false) String email, 
 			@RequestParam(value = "address", required = false) String address,
 			@RequestParam(value = "cellphone", required = false) String cellphone) {
-		// 璁剧疆涓婁笅鏂规枃
+		// 设置上下方文
 		JsonVO json = new JsonVO();
 		try {
 			User user = userService.getUser(userid);
@@ -257,9 +257,11 @@ public class UserController {
 	    try {  
 	    	os = res.getOutputStream();  
 	        res.reset();  
-	        res.setHeader("Content-Disposition", "attachment; filename=user"+"_"+page+"_"+size+".xls");  
+	        res.setHeader("Content-Disposition", "attachment; filename=user_all.xls");  
+//	        res.setHeader("Content-Disposition", "attachment; filename=user"+"_"+page+"_"+size+".xls");  
 	        res.setContentType("application/octet-stream; charset=utf-8");  
-			List<User> users = userService.getUsers(page, size,-1);
+//			List<User> users = userService.getUsers(page, size,-1);
+			List<User> users = userService.getUsers(-1, -1,-1);
 			xls = CreateXL.createUserExcel(users);
 	        os.write(FileUtils.readFileToByteArray(xls));  
 	        os.flush();  
